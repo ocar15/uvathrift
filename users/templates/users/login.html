@@ -1,0 +1,42 @@
+{%load static%}
+<html>
+    <head>
+        <link rel="stylesheet" type='text/css' href="{%static 'users/login.css'%}">
+    </head>
+    <body>
+        <div class='background'>
+        <h1 class='login-header'>Sustainability Marketplace</h1>
+        <div class='container login'>
+            <section class='login-box'>
+            {% comment %} <h1>Login</h1> {% endcomment %}
+            <div class='select-buttons'>
+                <a href="{% url 'login' %}" class="{%if mode == 'login'%}active{%endif%}">Login</a>
+                <a href="{% url 'signup' %}" class="{%if mode == 'signup'%}active{%endif%}">Sign Up</a>
+            </div>
+
+            {% if mode == 'login' %}
+            <form class='login-form' method="">
+                <input type="text" placeholder="Email"/> <br/>
+                <input type="password" placeholder="Password"/><br/>
+                <input type="Submit" value='Sign In' method='POST'/> <br/>
+                <hr/>
+                <button>Sign In With Google</button>
+            </form>
+            {% elif mode == 'signup' %}
+            <form class='login-form' method="">
+                <input type="text" placeholder="Email"/> <br/>
+                <input type="password" placeholder="Password"/><br/>
+                <input type="password" placeholder="Confirm Password"/><br/>
+                <input type="Submit" value='Create Account' method='POST'/> <br/>
+            </form>
+            {% endif %}
+        </section>
+    </div>
+</div>
+        <footer class='footer'>
+            <p>Footer</p>
+        </footer>
+    </body>
+
+
+</html>
