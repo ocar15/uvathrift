@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}UVA Thrift{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block css %}{% endblock %}
+</head>
+<body>
+    <header>
+        {% block header %}
+        <nav class="navbar">
+
+        </nav>
+        {% endblock %}
+    </header>
+
+    <main>
+        {% block content %}
+
+        {% endblock content %}
+    </main>
+
+    <footer>
+        {% block footer %}
+        
+        {% endblock footer %}
+    </footer>
+</body>
+</html>

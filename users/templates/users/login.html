@@ -1,13 +1,18 @@
-{%load static%}
-<html>
-    <head>
-        <link rel="stylesheet" type='text/css' href="{%static 'users/login.css'%}">
-    </head>
-    <body>
-        <div class='background'>
-        <h1 class='login-header'>Sustainability Marketplace</h1>
-        <div class='container login'>
-            <section class='login-box'>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - UVA Thrift{% endblock %}
+
+
+{% block css %}
+    <link rel="stylesheet" type='text/css' href="{%static 'users/login.css'%}">
+{% endblock %}
+
+{% block content %}
+<div class='background'>
+    <h1 class='login-header'>Sustainability Marketplace</h1>
+    <div class='container login'>
+        <section class='login-box'>
             {% comment %} <h1>Login</h1> {% endcomment %}
             <div class='select-buttons'>
                 <a href="{% url 'login' %}" class="{%if mode == 'login'%}active{%endif%}">Login</a>
@@ -33,10 +38,4 @@
         </section>
     </div>
 </div>
-        <footer class='footer'>
-            <p>Footer</p>
-        </footer>
-    </body>
-
-
-</html>
+{% endblock %}

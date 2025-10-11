@@ -100,18 +100,7 @@ input[type='submit']:hover {
     cursor: pointer;
 }
 
-.footer {
-    margin: 0 0 0 0;
-    background-color: gray;
-    height: 2vh;
-}
-
-.footer p {
-    display: flex;
-    margin: 0 0 0 0;
-}
-
-body{
+body {
     display: flex;
     flex-direction: column;
     height: 100vh;
