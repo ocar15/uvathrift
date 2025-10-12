@@ -1,13 +1,3 @@
-html {
-   box-sizing: border-box;
-}
-
-html, body {
-    min-height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
 *, *::before, *::after {
    box-sizing: inherit;
 }
@@ -43,13 +33,14 @@ html, body {
     background-image: url("./images/login-backdrop2.png");
     background-repeat: no-repeat;
     background-size: cover;
+    height: var(--min-content-height);
 }
 
 
-.login-header{
+.login-header {
     text-align: center; 
     margin: 80px 0 0 0;
-    font-size: 100px;
+    color: var(--background-dark);
 }
 
 .login-box{
@@ -62,7 +53,7 @@ html, body {
     /* background-color: black; */
 }
 
-.login-form input, .login-form button{
+.login-form input {
     position: relative;
     padding: 10px;
     background: rgba(255, 255, 255, 0.2);
@@ -74,10 +65,25 @@ html, body {
     margin-bottom: 20px;
     width: 80%;
     cursor: pointer;
+    color: var(--background-dark);
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-form button {
+    position: relative;
+    padding: 10px 5px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(10px);
+    margin-top: 15px;
+    margin-bottom: 20px;
+    width: 80%;
 }
 
 .login-form input::placeholder {
-    color: black;
+    color: var(--background-dark);
 }
 
 input[type="submit"]{
@@ -89,15 +95,16 @@ input[type="submit"]{
 }
 
 input[type='submit']:hover {
-    outline: inset red 2px;
+    transform: scale(1.025);
+    box-shadow: 0 4px 16px var(--accent-green);
 }
 
 .login-form button {
-    border-radius: 10px;
+    /* border-radius: 10px;
     width: 50%;
     margin-bottom: 15px;
     margin-top: 10px;
-    cursor: pointer;
+    cursor: pointer; */
 }
 
 body {
@@ -107,7 +114,7 @@ body {
     margin: 0;
 }
 
-.select-buttons{
+.select-buttons {
     display: flex;
     justify-content: center;
 }
@@ -116,32 +123,43 @@ body {
 box-sizing: border-box;
 position: relative;
 padding: 10px;
-background: rgba(255, 255, 255, 0.2);
 border-radius: 15px;
 box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-border: 1px solid rgba(255, 255, 255, 0.18);
 backdrop-filter: blur(10px);
+margin-bottom: 20px;
 margin-top: 15px;
-margin-bottom: 100px;
 margin-right: 10px;
 width: 80%;
 cursor: pointer;
 text-decoration: none;
 }
 
-.select-buttons a.active{
-    background-color: rgb(31, 82, 31);
-    color: white;
+.select-buttons a.active {
+    background-color: var(--accent-green);
+    color: var(--white);
 }
 
-a:visited{
+a:visited {
     color: inherit;
 }
 
-a:hover{
-    outline: inset red 2px;
+/* .select-buttons > a:hover {
+    outline: inset var(--error-red) 2px;
 }
 
-.login-form button:hover{
-    outline: inset red 2px;
+.login-form button:hover {
+    outline: inset var(--error-red) 2px;
+} */
+
+.login-lnk-btn {
+    border: 3px solid var(--accent-green);
+    font-weight: bold;
+}
+
+.signup-lnk-btn {
+    border: 3px solid var(--accent-green);
+    font-weight: bold;
+    
+    background-color: var(--accent-green);
+    color: var(--background-light);
 }
