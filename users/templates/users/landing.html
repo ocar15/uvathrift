@@ -16,10 +16,50 @@
         <section class='login-box'>
             {% comment %} <h1>Login</h1> {% endcomment %}
             <div class='select-buttons'>
-                <a class="login-lnk-btn" href="{% url 'login' %}">Login</a>
-                <a class="signup-lnk-btn" href="{% url 'signup' %}">Sign Up</a>
+                <div id="g_id_onload"
+                    data-client_id="873931188877-iefa71430ipacco7t8mp163hmvm1fce2.apps.googleusercontent.com"
+                    data-context="signin"
+                    data-ux_mode="popup"
+                    data-callback="handleCredentialResponse"
+                    data-auto_prompt="false">
+                </div>
+
+                <div class="g_id_signin"></div>
             </div>
         </section>
     </div>
 </div>
+
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script>
+    function decodeJWT(token) {
+
+    let base64Url = token.split(".")[1];
+    let base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    let jsonPayload = decodeURIComponent(
+        atob(base64)
+        .split("")
+        .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+    }
+
+    function handleCredentialResponse(response) {
+
+    console.log("Encoded JWT ID token: " + response.credential);
+
+    const responsePayload = decodeJWT(response.credential);
+
+    console.log("Decoded JWT ID token fields:");
+    console.log("  Full Name: " + responsePayload.name);
+    console.log("  Given Name: " + responsePayload.given_name);
+    console.log("  Family Name: " + responsePayload.family_name);
+    console.log("  Unique ID: " + responsePayload.sub);
+    console.log("  Profile image URL: " + responsePayload.picture);
+    console.log("  Email: " + responsePayload.email);
+    }
+</script>
 {% endblock %}
