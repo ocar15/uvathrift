@@ -1,0 +1,35 @@
+{% load static %}
+{% load socialaccount %}
+
+{% block css %}
+    <link rel="stylesheet" type='text/css' href="{%static 'css/base.css'%}">
+    <link rel="stylesheet" type='text/css' href="{%static 'css/login.css'%}">
+    <link rel="stylesheet" type='text/css' href="{%static 'css/dashboard.css'%}">
+{% endblock %}
+
+<body>
+    <header>
+        {% block header %}
+        <nav class="navbar">
+            <div class="navbar-left">
+                <a href="{% url 'dashboard'%}">
+                    <h3>UVA Thrift</h3>
+                </a>
+            </div>
+            <div class="navbar-right">
+                <a href="{% url 'dashboard'%}">
+                    <button class="messages-btn">Messages</button>
+                </a>
+                <div class="username-display">{{ user }}</div>
+            </div>
+        </nav>
+        {% endblock %}
+    </header>
+
+    <main>
+        <p>current mode: {{mode}}</p>
+        {% block content %}
+        
+        {% endblock content %}
+    </main>
+</body>

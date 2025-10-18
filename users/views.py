@@ -14,7 +14,7 @@ def signup(request):
     return render(request, 'users/login.html', {'mode': 'signup'})
 
 def dashboard(request):
-    return HttpResponse(f"<h1>Dashboard</h1><p>User: {request.user.username}</p>")
+    return render(request, 'users/dashboard.html', {'mode': 'user'})
 
 def in_group(user, group_name):
     return user.is_authenticated and user.groups.filter(name=group_name).exists()

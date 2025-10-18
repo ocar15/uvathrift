@@ -120,7 +120,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend', # all auth backend
 ]
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/dashboard'
 LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET = True
 

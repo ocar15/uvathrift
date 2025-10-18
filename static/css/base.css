@@ -86,6 +86,12 @@ span {
     justify-content: flex-start;
 }
 
+.navbar-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 .nav-login-btn {
     font-size: large;
     padding: 12px 25px;
