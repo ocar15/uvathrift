@@ -18,14 +18,15 @@
             </div>
             <div class="navbar-right">
                 <a href="{% url 'dashboard'%}">
-                    <button class="messages-btn">Messages</button>
+                    <button class="nav-btn">Messages</button>
                 </a>
                 {% if mode == 'admin' %}
                 <a href="{% url 'admin_only' %}">
-                    <button class='admin-btn'>Admin Panel</button>
+                    <button class='nav-btn admin-btn'>Admin Panel</button>
                 </a> 
                 {% endif %}
-                <div class="username-display">{{ user }}</div>
+                <a href="{% url 'logout' %}"> <button class='nav-btn'>Logout</button> </a>
+                <div class="username-display">{{ user }} <span style='color: red;'>({{ mode }})</span></div>
             </div>
         </nav>
         {% endblock %}

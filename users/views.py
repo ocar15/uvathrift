@@ -2,6 +2,7 @@ from django.shortcuts import *
 from django.http import HttpResponse
 from django.contrib.auth.decorators import *
 from django.contrib.auth.models import User
+from django.contrib.auth import logout as user_logout
 
 
 
@@ -14,6 +15,10 @@ def landing_page(request):
 
 def login(request):
     return render(request, 'users/login.html', {'mode': 'login'})
+
+def logout(request):
+    user_logout(request)
+    return redirect('/')
 
 def signup(request):
     return render(request, 'users/login.html', {'mode': 'signup'})

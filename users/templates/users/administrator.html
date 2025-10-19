@@ -12,7 +12,11 @@
                 </a>
             </div>
             <div class="navbar-right">
-                <div class="username-display">{{ user }} (Admin)</div>
+                <a href="{% url 'dashboard'%}">
+                <button class="nav-btn">Messages</button>
+                </a>
+                <a href="{% url 'logout' %}"> <button class='nav-btn'>Logout</button> </a>
+                <div class="username-display">{{ user }} <span style='color: red;'>(Admin)</span></div>
             </div>
         </nav>
         {% endblock %}

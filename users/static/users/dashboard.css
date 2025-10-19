@@ -3,6 +3,11 @@
     padding: 12px 25px;
 }
 
+.nav-btn{
+    width: 100px;
+    margin: 0px 10px;
+}
+
 .admin-btn{
     background-color: red;
 }

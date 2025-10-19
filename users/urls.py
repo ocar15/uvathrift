@@ -3,8 +3,9 @@ from . import views
 
 urlpatterns = [
     path("", views.landing_page, name="landing"),
-    path('login/', views.login, name='login'),
-    path('signup/', views.signup, name='signup'),
+    # path('login/', views.login, name='login'),
+    path('logout', views.logout, name='logout'),
+    # path('signup/', views.signup, name='signup'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('user/', views.user_only, name='user_only'),
     path('administrator/', views.admin_only, name='admin_only'),

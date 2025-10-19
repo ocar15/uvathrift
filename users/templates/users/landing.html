@@ -5,7 +5,15 @@
 {% block css %}
     <link rel="stylesheet" type='text/css' href="{%static 'users/login.css'%}">
 {% endblock %}
-
+{% block header%}
+<nav class="navbar">
+            <div class="navbar-left">
+                <a href="/">
+                    <h3>UVA Thrift</h3>
+                </a>
+            </div>
+        </nav>
+{% endblock %}
 {% block content %}
 <div class='background'>
     <h1 class='login-header'>
