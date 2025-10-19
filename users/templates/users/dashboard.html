@@ -3,8 +3,8 @@
 
 {% block css %}
     <link rel="stylesheet" type='text/css' href="{%static 'css/base.css'%}">
-    <link rel="stylesheet" type='text/css' href="{%static 'css/login.css'%}">
-    <link rel="stylesheet" type='text/css' href="{%static 'css/dashboard.css'%}">
+    <link rel="stylesheet" type='text/css' href="{%static 'users/login.css'%}">
+    <link rel="stylesheet" type='text/css' href="{%static 'users/dashboard.css'%}">
 {% endblock %}
 
 <body>
@@ -20,6 +20,11 @@
                 <a href="{% url 'dashboard'%}">
                     <button class="messages-btn">Messages</button>
                 </a>
+                {% if mode == 'admin' %}
+                <a href="{% url 'admin_only' %}">
+                    <button class='admin-btn'>Admin Panel</button>
+                </a> 
+                {% endif %}
                 <div class="username-display">{{ user }}</div>
             </div>
         </nav>

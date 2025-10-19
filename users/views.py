@@ -1,7 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import *
 from django.http import HttpResponse
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import *
 from django.contrib.auth.models import User
+
+
+
+def super_user_required(func):
+    return user_passes_test(lambda u: u.is_superuser, login_url='dashboard')(func)
 
 # Create your views here.
 def landing_page(request):
@@ -13,8 +18,13 @@ def login(request):
 def signup(request):
     return render(request, 'users/login.html', {'mode': 'signup'})
 
+@login_required
 def dashboard(request):
-    return render(request, 'users/dashboard.html', {'mode': 'user'})
+    if request.user.is_superuser:
+        mode = 'admin'
+    else:
+        mode = 'user'
+    return render(request, 'users/dashboard.html', {'mode': mode})
 
 def in_group(user, group_name):
     return user.is_authenticated and user.groups.filter(name=group_name).exists()
@@ -23,9 +33,40 @@ def in_group(user, group_name):
 def user_only(request):
     return HttpResponse("<h1>User Area</h1>")
 
-@user_passes_test(lambda u: in_group(u, "admin"))
+@login_required
+@super_user_required
 def admin_only(request):
-    return HttpResponse("<h1>Admin Area</h1>")
+    return render(request, 'users/administrator.html')
+
+@super_user_required
+def manage_users(request):
+    users = User.objects.all()
+    return render(request, 'users/manage_users.html', {'users': users})
+
+@super_user_required
+def edit_user(request):
+    action = request.POST.get("action")
+    if request.method == "POST":
+        cur_userid = request.POST.get("user_id")
+        if not cur_userid:
+            return redirect("manage_users")
+        try:
+            cur_user = User.objects.get(id=cur_userid)
+        except User.DoesNotExist:
+            return redirect("manage_users")
+        
+        if action == 'edit':
+            return render(request, 'users/edit_user.html', {'user': cur_user})
+        
+        elif action == 'save':            
+            cur_user.username = request.POST.get("username", cur_user.username)
+            cur_user.email = request.POST.get("email", cur_user.email)
+            cur_user.is_superuser = bool(request.POST.get("is_superuser"))
+            cur_user.save()
+            return redirect("manage_users")
+        
+    return redirect("manage_users")
+
 
 def my_profile(request):
     # Minimal profile page using built-in User fields

@@ -1,0 +1,21 @@
+.username-display{
+    font-size: large;
+    padding: 12px 25px;
+}
+
+.admin-btn-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-btn{
+    width: 200px;
+    margin: 5px auto; 
+    padding: 10px 20px;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}

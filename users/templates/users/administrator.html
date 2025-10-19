@@ -4,4 +4,24 @@
     <link rel="stylesheet" type='text/css' href="{%static 'users/administrator.css'%}">
 {% endblock %}
 
+  {% block header %}
+        <nav class="navbar">
+            <div class="navbar-left">
+                <a href="{% url 'dashboard'%}">
+                    <h3>UVA Thrift <span style='color: red; font-weight: bold;'>Admin</span></h3>
+                </a>
+            </div>
+            <div class="navbar-right">
+                <div class="username-display">{{ user }} (Admin)</div>
+            </div>
+        </nav>
+        {% endblock %}
+
 {% block content %}
+<h1 style='text-align: center;'>UVA Thrift Administrator Dashboard</h1>
+<div class='admin-btn-container'>
+<a href="{% url 'manage_users' %}" class='admin-btn'>Manage Users</a>
+<a href="{% url 'manage_users' %}" class='admin-btn'>Manage Posts</a>
+<a href="{% url 'manage_users' %}" class='admin-btn'>Analytics</a>
+</div>
+{% endblock %}
