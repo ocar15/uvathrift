@@ -26,7 +26,7 @@
                 </a> 
                 {% endif %}
                 <a href="{% url 'logout' %}"> <button class='nav-btn'>Logout</button> </a>
-                <div class="username-display">{{ user }} <span style='color: red;'>({{ mode }})</span></div>
+                <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">{{ user }} <span style='color: red;'>({{ mode }})</span></a>
             </div>
         </nav>
         {% endblock %}

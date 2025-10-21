@@ -12,7 +12,7 @@
                 </a>
             </div>
             <div class="navbar-right">
-                <div class="username-display">{{ user }}</div>
+                <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">{{ user }} <span style='color: red;'>({{ mode }})</span></a>
             </div>
         </nav>
         {% endblock %}

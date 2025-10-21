@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import *
 from django.contrib.auth.models import User
 from django.contrib.auth import logout as user_logout
+from allauth.socialaccount.models import *
 
 
 
@@ -41,7 +42,7 @@ def user_only(request):
 @login_required
 @super_user_required
 def admin_only(request):
-    return render(request, 'users/administrator.html')
+    return render(request, 'users/administrator.html', {'mode': 'admin' if request.user.is_superuser else 'user'})
 
 @super_user_required
 def manage_users(request):
@@ -72,10 +73,19 @@ def edit_user(request):
         
     return redirect("manage_users")
 
-
+@login_required
 def my_profile(request):
     # Minimal profile page using built-in User fields
-    return HttpResponse(f"<h1>My Profile</h1><p>{request.user.username}</p>")
+    # return HttpResponse(f"<h1>My Profile</h1><p>{request.user.username}</p>")
+    user_data = None
+
+    try:
+        user = SocialAccount.objects.get(user=request.user)
+        user_data = user.extra_data
+    except SocialAccount.DoesNotExist:
+        user_data = "Invalid User"
+
+    return render(request, 'users/profile.html', {'user_data': user_data, 'mode': 'admin' if request.user.is_superuser else 'user'})
 
 def user_profile(request, username):
     try:
