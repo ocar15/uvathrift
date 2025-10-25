@@ -21,7 +21,7 @@
 }
 
 .nav-btn{
-    width: 100px;
+    width: auto;
     margin: 0px 10px;
 }
 
@@ -29,4 +29,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.user-view-btn{
+    background-color: red;
 }

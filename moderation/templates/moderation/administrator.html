@@ -1,19 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block css %}
-    <link rel="stylesheet" type='text/css' href="{%static 'users/administrator.css'%}">
+    <link rel="stylesheet" type='text/css' href="{%static 'moderation/administrator.css'%}">
 {% endblock %}
 
   {% block header %}
         <nav class="navbar">
             <div class="navbar-left">
-                <a href="{% url 'dashboard'%}">
+                <a href="{% url 'admin_only'%}">
                     <h3>UVA Thrift <span style='color: red; font-weight: bold;'>Admin</span></h3>
                 </a>
             </div>
             <div class="navbar-right">
                 <a href="{% url 'dashboard'%}">
                 <button class="nav-btn">Messages</button>
+                </a>
+                <a href={% url 'dashboard' %}>
+                    <button class='nav-btn user-view-btn'>User View</button>
                 </a>
                 <a href="{% url 'logout' %}"> <button class='nav-btn'>Logout</button> </a>
                 <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">{{ user }} <span style='color: red;'>({{ mode }})</span></a>
@@ -25,7 +28,7 @@
 <h1 style='text-align: center;'>UVA Thrift Administrator Dashboard</h1>
 <div class='admin-btn-container'>
 <a href="{% url 'manage_users' %}" class='admin-btn'>Manage Users</a>
-<a href="{% url 'manage_users' %}" class='admin-btn'>Manage Posts</a>
-<a href="{% url 'manage_users' %}" class='admin-btn'>Analytics</a>
+<a href="{% url 'manage_posts' %}" class='admin-btn'>Manage Posts</a>
+<a href="{% url 'analytics' %}" class='admin-btn'>Analytics</a>
 </div>
 {% endblock %}

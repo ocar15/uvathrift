@@ -3,8 +3,7 @@
 
 {% block css %}
     <link rel="stylesheet" type='text/css' href="{%static 'css/base.css'%}">
-    <link rel="stylesheet" type='text/css' href="{%static 'users/login.css'%}">
-    <link rel="stylesheet" type='text/css' href="{%static 'users/dashboard.css'%}">
+    <link rel="stylesheet" type='text/css' href="{%static 'messaging/message_overview.css'%}">
 {% endblock %}
 
 <body>
@@ -33,9 +32,8 @@
     </header>
 
     <main>
-        <p>current mode: {{mode}}</p>
         {% block content %}
-        
+        <p>Here will have a nice overview of all messages</p>
         {% endblock content %}
     </main>
 </body>
