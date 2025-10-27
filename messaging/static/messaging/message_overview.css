@@ -3,6 +3,10 @@
     margin: 0px 10px;
 }
 
+body {
+    margin: 0;
+}
+
 .admin-btn{
     background-color: red;
 }

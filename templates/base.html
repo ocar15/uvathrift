@@ -10,20 +10,18 @@
 </head>
 <body>
     <header>
-        {% block header %}
         <nav class="navbar">
             <div class="navbar-left">
-                <a href="/">
-                    <h3>UVA Thrift</h3>
+                {% block navbar-left %}
+                <a class="home-link" href="{% url 'dashboard' %}">
+                    <img class="logo" src="{% static 'images/UVA2.png' %}" alt="UVA Thrift logo" />
                 </a>
+                {% endblock %}
             </div>
             <div class="navbar-right">
-                <a href="{% url 'login'%}">
-                    <button class="nav-login-btn">Login</button>
-                </a>
+                {% block navbar-right %}{% endblock %}
             </div>
         </nav>
-        {% endblock %}
     </header>
 
     <main>
