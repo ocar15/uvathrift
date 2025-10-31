@@ -1,6 +1,9 @@
 from django.urls import path, include
-from .views import inbox
+from . import views
 
 urlpatterns = [
-    path("", inbox, name="inbox"),  
+    path("", views.inbox, name="inbox"),
+    path("", views.sent, name="sent"),
+    path("", views.view, name="view"),
+    path("", views.write, name="write"),
 ]
