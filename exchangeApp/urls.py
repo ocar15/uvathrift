@@ -19,5 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("messages/", include("postman.urls", namespace="postman")),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("messages/", include("postman.urls", namespace="postman")), 
 ]
