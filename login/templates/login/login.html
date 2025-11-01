@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - UVA Thrift{% endblock %}
+
+
+{% block css %}
+    <link rel="stylesheet" type='text/css' href="{%static 'login/login.css'%}">
+{% endblock %}
+
+{% block content %}
+<div class='background'>
+    <h1 class='login-header'>{% if mode == 'login'%} Welcome back. {% else %} Let's get started. {% endif %}</h1>
+    <div class='container login'>
+        <section class='login-box'>
+            {% comment %} <h1>Login</h1> {% endcomment %}
+            <div class='select-buttons'>
+                <a href="{% url 'login' %}" class="login-lnk-btn {%if mode == 'login'%}active{%endif%}">Login</a>
+                <a href="{% url 'signup' %}" class=" login-lnk-btn {%if mode == 'signup'%}active{%endif%}">Sign Up</a>
+            </div>
+
+            {% if mode == 'login' %}
+            <form class='login-form' method="">
+                <input type="text" placeholder="Email"/> <br/>
+                <input type="password" placeholder="Password"/><br/>
+                <input type="Submit" value='Sign In' method='POST'/> <br/>
+                <hr/>
+                <button>Sign In With <span>Google</span></button>
+            </form>
+            {% elif mode == 'signup' %}
+            <form class='login-form' method="">
+                <input type="text" placeholder="Email"/> <br/>
+                <input type="password" placeholder="Password"/><br/>
+                <input type="password" placeholder="Confirm Password"/><br/>
+                <input type="Submit" value='Create Account' method='POST'/> <br/>
+            </form>
+            {% endif %}
+        </section>
+    </div>
+</div>
+{% endblock %}

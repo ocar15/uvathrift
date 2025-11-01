@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block css %}
+    <link rel="stylesheet" type='text/css' href="{%static 'login/login.css'%}">
+{% endblock %}
+
+{% block content %}
+<div class='landing-page'>
+    <div class="login-hero-div">
+        <h1 class='login-header'>
+            Welcome to
+        </h1>
+        <img class="logo-landing" src="{% static 'images/UVA2.png' %}" alt="UVA Thrift" />
+    </div>
+    <!-- <h3>Get ready for the best deals of your life.</h3> -->
+    <h4>Ready to get started? Sign up or login below.</h4>
+    <a href="{% provider_login_url 'google' %}">
+        <button type="button" class="login-with-google-btn">
+            <b>Sign in with Google</b>
+        </button>
+    </a>
+</div>
+{% endblock %}

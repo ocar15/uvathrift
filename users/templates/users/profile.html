@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" type='text/css' href="{%static 'users/profile.css'%}">
+    <link rel='stylesheet' type='text/css' href="{%static 'users/dashboard.css'%}">
+{% endblock %}
+{% block navbar-right %}
+    <a href="{% url 'dashboard'%}">
+        <button class="nav-btn">Messages</button>
+    </a>
+    {% if mode == 'admin' %}
+        <a href="{% url 'admin_only' %}">
+            <button class='nav-btn admin-btn'>Admin Panel</button>
+        </a> 
+    {% endif %}
+    <a href="{% url 'logout' %}"> <button class='nav-btn'>Logout</button> </a>
+    <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">{{ user }} <span style='color: red;'>({{ mode }})</span></a>
+{% endblock %}
+
+{% block content %}
+<h1 style='text-align: center;'>Your Profile</h1>
+<div class='profile-container'>
+    <img class="profile-picture" src={{ user.socialaccount_set.all.0.get_avatar_url}} />
+    <p>{{user.socialaccount_set.all.0.extra_data.name}}</p>
+    <p><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>
+    <p><span style='font-weight: bold;'>Total Donations: </span>0</p>
+</div>
+{% endblock %}

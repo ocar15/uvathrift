@@ -1,0 +1,134 @@
+/* STYLE VARIABLES */
+:root {
+    --background-light: #edede9;
+    --background-dark: #283618;
+    --white: #ffffff;
+    --accent-green: #6A994E;
+    --secondary-green: #606C38;
+    --error-red: #BC4749;
+
+    --min-content-height: calc(100vh - 160px); /* -80px for the navbar and footer */
+    --border-radius: 15px;
+}
+
+/* default element styles */
+body {
+    background-color: var(--background-light);
+    color: var(--background-dark);
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+h1 {
+    font-size: 100px;
+}
+
+h2 {
+    font-size: 55px;
+}
+
+h3 {
+    font-size: 35px;
+}
+
+h4 {
+    font-size: 20px;
+}
+
+h5 {
+    font-size: 15px;
+    color: var(--secondary-green);
+}
+
+button {
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    border: none;
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    background-color: var(--background-dark);
+    color: var(--white);
+    margin: 0;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+    transform: scale(1.025);
+    box-shadow: 0 4px 16px var(--background-dark);
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--accent-green);
+    margin: 0;
+    padding: 0;
+}
+
+span {
+    color: var(--secondary-green);
+    font-weight: bold;
+}
+
+/* default navbar styles */
+.navbar {
+    height: 80px;
+    background-color: var(--background-light);
+    box-shadow: 0 1px 8px var(--background-dark);
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.nav-login-btn {
+    font-size: large;
+    padding: 12px 25px;
+}
+
+.home-link {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+}
+
+.logo {
+    height: 70px;
+    width: 325px;
+}
+
+/* default main content styles */
+
+main {
+    min-height: var(--min-content-height);
+}
+
+/* default footer styles */
+.footer {
+    background-color: var(--background-dark);
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+

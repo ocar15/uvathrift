@@ -1,0 +1,17 @@
+.username-display{
+    font-size: large;
+    padding: 12px 25px;
+}
+
+body {
+    margin: 0;
+}
+
+.nav-btn{
+    width: auto;
+    margin: 0px;
+}
+
+.admin-btn{
+    background-color: red;
+}
