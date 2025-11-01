@@ -1,0 +1,75 @@
+*, *::before, *::after {
+   box-sizing: inherit;
+}
+
+[class*="col-"] {
+    border: 2px solid red;
+    float: left;
+}
+.container{
+    flex: 1;
+    /* height: 95vh; */
+    /* margin: 0px 0px 22px 0px; */
+    /* margin-bottom: 0px; */
+    /* padding: 0% 0% 1% 0%; */
+    /* width: 100%; */
+    /* border: 2px solid blue; */
+}
+
+.login {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.landing-page {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* background-color: var(--background-light); */
+    height: var(--min-content-height);
+}
+
+
+.login-hero-div {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-landing {
+    height: 108;
+    width: 500px;
+}
+
+.login-header {
+    text-align: center; 
+    margin: 80px 0 0 0;
+    color: var(--background-dark);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+}
+
+.select-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+a:visited {
+    color: inherit;
+}
+
+.logo-img {
+    height: 100px;
+    width: 100px;
+}

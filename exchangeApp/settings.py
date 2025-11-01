@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,9 +40,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
+    'login',
+    'dashboard',
+    'moderation',
+    'messaging',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
+    'allauth.account.middleware.AccountMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,7 +68,7 @@ ROOT_URLCONF = 'exchangeApp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +78,12 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+# allows for global static files 
+# https://stackoverflow.com/questions/16827754/in-django-how-can-i-use-project-wide-static-files
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
 ]
 
 WSGI_APPLICATION = 'exchangeApp.wsgi.application'
@@ -81,6 +99,7 @@ DATABASES = {
     }
 }
 
+SITE_ID = 1
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -100,6 +119,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend', # standard django backend
+    'allauth.account.auth_backends.AuthenticationBackend', # all auth backend
+]
+
+LOGIN_REDIRECT_URL = '/dashboard'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = "/"
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
