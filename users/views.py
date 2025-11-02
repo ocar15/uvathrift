@@ -52,23 +52,24 @@ def user_profile(request, username):
     return HttpResponse(f"<h1>Profile: {u.username}</h1>")
 
 def edit_profile(request):
-    user_data = None
+    action = request.POST.get("action")
+    print(f'action: ', action)
+    if request.method == "POST":
+        cur_userid = request.POST.get("user_id")
+        print(f'id: ', cur_userid)
+        if not cur_userid:
+            return redirect("my_profile")
+        try:
+            cur_user = User.objects.get(id=cur_userid)
+        except User.DoesNotExist:
+            return redirect("my_profile")
 
-    try:
-        user = SocialAccount.objects.get(user=request.user)
-        user_data = user.extra_data
-    except SocialAccount.DoesNotExist:
-        user_data = "Invalid User"
+        if action == 'edit':
+            return render(request, 'users/edit_profile.html', {'user': cur_user, 'mode': get_mode(request)})
 
-    return render(request, 'users/edit-profile.html', {'user_data': user_data, 'mode': get_mode(request)})
-
-
-@api_view(('GET',))
-def save_file(request):
-    file_name = "test.txt"
-    file_content = b"this is a test"
-    file_content_io = BytesIO(file_content)
-
-    default_storage.save(file_name, file_content_io)
-
-    return Response({"message": "File successfully saved"})
+        elif action == 'save':       
+            cur_user.username = request.POST.get("username", cur_user.username)
+            cur_user.email = request.POST.get("email", cur_user.email)
+            cur_user.save()
+            return redirect("my_profile")
+    return redirect('my_profile')

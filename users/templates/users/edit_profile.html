@@ -21,32 +21,23 @@
 <h1 style='text-align: center;'>Your Profile</h1>
 <div class='profile-container'>
     <img class="profile-picture" src={{ user.socialaccount_set.all.0.get_avatar_url}} />
-    <p>{{user.socialaccount_set.all.0.extra_data.name}}</p>
-    <form method="POST">
+    <p>{{ user.username }}</p>
+
+    <form method="POST" action="{% url 'edit_profile' %}">
         {% csrf_token %}
+        <input type='hidden' name='action' value='save'>
+        <input type='hidden' name='user_id' value="{{ user.id }}">
         <div>
-            <label>USERNAME</label>
-            <input type="text" placeholder="" name="profile_username" required/>
+            <label>Username: </label>
+            <input type="text" placeholder="{{ user.username }}" name="username"/>
         </div><br>
         <div>
-            <label>NAME</label>
-            <input type="text" placeholder="" name="profile_name" required/>
-        </div><br>
-        <div>
-            <label>EMAIL</label>
-            <input type="email" placeholder="" name="profile_email" required/>
-        </div><br>
-        <div>
-            <label>Password</label>
-            <input type="password" placeholder="" name="profile_password" required/>
-        </div><br>
-        <div>
-            <label>DOB</label>
-            <input type="date" placeholder="" name="profile_dob" required/>
+            <label>Email: </label>
+            <input type="text" placeholder="{{ user.email }}" name="email"/>
         </div><br>
         <div>
             <label>Profile Picture</label>
-            <input type="file" placeholder="" name="profile_picture" required/>
+            <input type="file" placeholder="" name="picture"/>
         </div><br>
         <button type="submit">submit</button>
     </form>
