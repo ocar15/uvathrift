@@ -8,4 +8,4 @@ class UsersConfig(AppConfig):
     # create ready method
     def ready(self):
         # import signals
-        import users.signals
+        import login.signals
