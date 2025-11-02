@@ -48,7 +48,9 @@ def edit_user(request):
             cur_user.username = request.POST.get("username", cur_user.username)
             cur_user.email = request.POST.get("email", cur_user.email)
             cur_user.is_superuser = bool(request.POST.get("is_superuser"))
+            cur_user.profile.is_suspended = bool(request.POST.get("is_suspended"))
             cur_user.save()
+            cur_user.profile.save()
             return redirect("manage_users")
         
     return redirect("manage_users")

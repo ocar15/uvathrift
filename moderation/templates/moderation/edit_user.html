@@ -32,6 +32,9 @@
 
   <label>Is Superuser:</label>
   <input type="checkbox" name="is_superuser" {% if user.is_superuser %}checked{% endif %}><br>
+  
+  <label>Is Suspended:</label>
+  <input type="checkbox" name="is_suspended" {% if user.profile.is_suspended %}checked{% endif %}><br>
 
   <button type="submit">Save</button>
 </form>
