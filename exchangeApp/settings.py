@@ -111,9 +111,7 @@ AWS_STORAGE_BUCKET_NAME = 'uva-thrift'
 AWS_S3_REGION_NAME = 'us-east-2'
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
-# AWS_S3_URL_PROTOCOL = 'https'
-# AWS_S3_USE_SSL = True
-# AWS_S3_VERIFY = True
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
 
 STORAGES = {
     # Media file management

@@ -5,8 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout as user_logout
 from allauth.socialaccount.models import *
 
-from io import BytesIO
-
 from django.core.files.storage import default_storage
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -53,10 +51,8 @@ def user_profile(request, username):
 
 def edit_profile(request):
     action = request.POST.get("action")
-    print(f'action: ', action)
     if request.method == "POST":
         cur_userid = request.POST.get("user_id")
-        print(f'id: ', cur_userid)
         if not cur_userid:
             return redirect("my_profile")
         try:
@@ -67,9 +63,16 @@ def edit_profile(request):
         if action == 'edit':
             return render(request, 'users/edit_profile.html', {'user': cur_user, 'mode': get_mode(request)})
 
-        elif action == 'save':       
-            cur_user.username = request.POST.get("username", cur_user.username)
-            cur_user.email = request.POST.get("email", cur_user.email)
+        elif action == 'save':
+            if(request.POST.get("username", cur_user.username)):       
+                cur_user.username = request.POST.get("username", cur_user.username)
+            if(request.POST.get("email", cur_user.email)):
+                cur_user.email = request.POST.get("email", cur_user.email)
+            # save photo if user has Profile class
+            if(request.FILES.get('profile_photo')):
+                cur_user.profile.image = request.FILES.get('profile_photo')
+                cur_user.profile.save()
             cur_user.save()
+            print('image: ', cur_user.profile.image)
             return redirect("my_profile")
     return redirect('my_profile')

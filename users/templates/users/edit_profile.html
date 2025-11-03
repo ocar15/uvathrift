@@ -20,10 +20,10 @@
 {% block content %}
 <h1 style='text-align: center;'>Your Profile</h1>
 <div class='profile-container'>
-    <img class="profile-picture" src={{ user.socialaccount_set.all.0.get_avatar_url}} />
+    <img class="profile-picture" src={{ user.profile.image.url }} />
     <p>{{ user.username }}</p>
 
-    <form method="POST" action="{% url 'edit_profile' %}">
+    <form method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data"">
         {% csrf_token %}
         <input type='hidden' name='action' value='save'>
         <input type='hidden' name='user_id' value="{{ user.id }}">
@@ -36,8 +36,8 @@
             <input type="text" placeholder="{{ user.email }}" name="email"/>
         </div><br>
         <div>
-            <label>Profile Picture</label>
-            <input type="file" placeholder="" name="picture"/>
+            <label>Profile Photo</label>
+            <input type="file" placeholder="" name="profile_photo"/>
         </div><br>
         <button type="submit">submit</button>
     </form>

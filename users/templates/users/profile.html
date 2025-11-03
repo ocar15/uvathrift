@@ -28,7 +28,7 @@
 <br>
 <br>
 <div class='profile-container'>
-    <img class="profile-picture" src={{ user.socialaccount_set.all.0.get_avatar_url}} />
+    <img class="profile-picture" src={{ user.profile.image.url }} />
     <p>{{ user.username }}</p>
     <p>{{ user.email }}</p>
     <p><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>

@@ -1,13 +1,10 @@
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-from allauth.account.signals import user_signed_up
 
-# reads that a new user has signed up, processes them
-@receiver(user_signed_up)
-def handle_user_signed_up(request, sociallogin, user, **kwargs):
-
-    # grab the user's data
-    new_user_data = sociallogin.account.extra_data
-    
-    print(new_user_data)
-
-    # perform tasks/processing on data
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    else:
+        instance.profile.save()
