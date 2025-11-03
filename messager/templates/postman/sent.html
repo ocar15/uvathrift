@@ -1,0 +1,32 @@
+{% extends 'postman/base_folder.html' %}
+{% load static %}
+{% load postman_tags %}
+{% load i18n %}
+
+{% block css %}
+    <link rel="stylesheet" type='text/css' href="{%static 'sent.css'%}"> 
+    <link rel="stylesheet" href="{% static 'sidebar.css' %}">
+    <link rel="stylesheet" type='text/css' href="{%static 'messages.css'%}"> 
+{% endblock css %}
+
+{% block navbar-right %}
+    <a href="{% url 'dashboard'%}">
+        <button class="nav-btn">Back</button>
+    </a>
+{% endblock %}
+
+{% block content %}
+    <div class = "layout">
+        <div class = "page">
+            <div class = "page-toolbar">
+                <a href = "{% url 'postman:write' %}">
+                <button class = "comp-btn">Compose</button>
+                </a>
+            </div>
+            {% include 'postman/sidebar.html' %}
+        </div>
+        {% block pm_folder %}
+            {% include "postman/rows.html" %}
+        {% endblock %}
+    </div>
+{% endblock %}
