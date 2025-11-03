@@ -17,3 +17,6 @@ def login(request):
 
 def signup(request):
     return render(request, 'login/login.html', {'mode': 'signup'})
+
+def suspended(request):
+    return render(request, 'login/suspended.html', {'mode': None})
