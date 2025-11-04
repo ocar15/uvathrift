@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block navbar-right %}
-    <a href="{% url 'messages_overview'%}">
+    <a href="{% url 'postman:inbox'%}">
         <button class="nav-btn">Messages</button>
     </a>
     {% if mode == 'admin' %}

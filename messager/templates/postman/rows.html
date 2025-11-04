@@ -1,0 +1,42 @@
+{% load i18n %}
+{% load postman_tags %}
+
+<div class="msg-list">
+  {% for m in pm_messages %}
+    {# Build the row link: conversation view when available, else single message #}
+    <a
+      class="msg-row {% if not m.read_at %}unread{% endif %}"
+      href="{% if by_conversation and m.thread_id %}{% url 'postman:view_conversation' m.thread_id %}{% else %}{% url 'postman:view' m.pk %}{% endif %}?next={{ current_url|urlencode }}"
+    >
+      {# Checkbox column #}
+      <label class="cb">
+        <input type="checkbox" name="pks" value="{{ m.pk }}" />
+      </label>
+
+      {# From/To column #}
+      <span class="party">
+        {% if folder_name == 'sent' %}
+          {{ m.recipient|or_me:user }}
+        {% else %}
+          {{ m.sender|or_me:user }}
+        {% endif %}
+      </span>
+
+      <span class="subject">
+           {{ m.subject|default:_("(no subject)") }}
+      </span>
+
+      {# Snippet from message body #}
+      <span class="snippet">
+        {{ m.body|striptags|truncatechars:90 }}
+      </span>
+
+      {# Right-aligned date #}
+      <time class="date" datetime="{{ m.sent_at|date:'c' }}">
+        {{ m.sent_at|date:"M j, g:i A" }}
+      </time>
+    </a>
+  {% empty %}
+    <div class="empty">{% trans "No messages." %}</div>
+  {% endfor %}
+</div>

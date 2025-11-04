@@ -23,5 +23,7 @@ urlpatterns = [
     path("dashboard/", include('dashboard.urls')),
     path("users/", include("users.urls")),
     path('accounts/', include('allauth.urls')),
-    path('messages/', include('messaging.urls')),
+    # path('messages/', include('messaging.urls')),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("messages/", include("postman.urls", namespace="postman")), 
 ]
