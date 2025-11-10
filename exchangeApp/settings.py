@@ -89,9 +89,6 @@ TEMPLATES = [
 
 # allows for global static files 
 # https://stackoverflow.com/questions/16827754/in-django-how-can-i-use-project-wide-static-files
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
 
 WSGI_APPLICATION = 'exchangeApp.wsgi.application'
 
@@ -116,17 +113,22 @@ AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
 MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
 
-STORAGES = {
-    # Media file management
-    "default": {
-        "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
-    },
+if DEBUG:
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+else:
+    STORAGES = {
+        # Media file management
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
+        },
 
-    # CSS and JS file management
-    "staticfiles": {
-        "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
+        # CSS and JS file management
+        "staticfiles": {
+            "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
+        }
     }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

@@ -1,0 +1,62 @@
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 8px;
+}
+
+.page {  
+    background: #fff;
+}
+
+.comp-btn:hover {
+  background-color: #3c4a7d;
+}
+
+/* Message list */
+.msg-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Each message row */
+.msg-row {
+  display: grid;
+  grid-template-columns: 36px 220px minmax(160px, 28%) 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid #f1f5f9;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.2s ease;
+}
+
+.msg-row:hover {
+  background: #eef2ff;
+}
+
+.msg-row.unread .party,
+.msg-row.unread .subject {
+  font-weight: 700;
+}
+
+/* Columns */
+.cb { display: flex; justify-content: center; }
+.party, .subject, .snippet, .date {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.subject { color: #111; }
+.snippet { color: #6b7280; }
+.date { margin-left: 8px; color: #6b7280; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .msg-row { grid-template-columns: 28px 1fr auto; }
+  .snippet { display: none; }
+  .party { font-size: 0.9rem; }
+}
