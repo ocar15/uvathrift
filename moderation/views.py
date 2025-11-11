@@ -42,7 +42,7 @@ def edit_user(request):
             return redirect("manage_users")
         
         if action == 'edit':
-            return render(request, 'moderation/edit_user.html', {'user': cur_user, 'mode': get_mode(request)})
+            return render(request, 'moderation/edit_user.html', {'edit_user': cur_user, 'mode': get_mode(request)})
         
         elif action == 'save':            
             cur_user.username = request.POST.get("username", cur_user.username)
