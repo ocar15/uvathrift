@@ -4,7 +4,25 @@ main{
     align-items: center;
 }
 
+button{
+    width: 90px;
+    margin-right: 15px;
+}
+
+.profile-block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 50px;
+}
+
 .profile-picture{
-    width: 125px;
+    height: 100%;
+    border-radius: 50%;
+}
+
+#profile-picture-button:hover{
+    filter: brightness(70%);
     border-radius: 50%;
 }

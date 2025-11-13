@@ -72,9 +72,9 @@ def edit_profile(request):
             # save photo if user has Profile class
             if(request.FILES.get('profile_photo')):
                 cur_user.profile.image = request.FILES.get('profile_photo')
+                print('image: ', cur_user.profile.image)
                 cur_user.profile.save()
             cur_user.save()
-            print('image: ', cur_user.profile.image)
             return redirect("my_profile")
     return redirect('my_profile')
 

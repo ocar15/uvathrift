@@ -1,48 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'dashboard/dashboard.html' %}
 {% load static %}
+
 {% block css %}
     <link rel="stylesheet" type='text/css' href="{%static 'users/profile.css'%}">
-    <link rel='stylesheet' type='text/css' href="{%static 'users/dashboard.css'%}">
-{% endblock %}
-{% block navbar-right %}
-    <a href="{% url 'dashboard'%}">
-        <button class="nav-btn">Messages</button>
-    </a>
-    {% if mode == 'admin' %}
-        <a href="{% url 'admin_only' %}">
-            <button class='nav-btn admin-btn'>Admin Panel</button>
-        </a> 
-    {% endif %}
-    <a href="{% url 'logout' %}"> <button class='nav-btn'>Logout</button> </a>
-    <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">{{ user }} <span style='color: red;'>({{ mode }})</span></a>
+    <link rel="stylesheet" type='text/css' href="{%static 'dashboard/login.css'%}">
+    <link rel='stylesheet' type='text/css' href="{%static 'dashboard/dashboard.css'%}">
 {% endblock %}
 
 {% block content %}
-<h1 style='text-align: center;'>Your Profile</h1>
-<div class='profile-container'>
-    <img class="profile-picture" src={{ user.profile.image.url }} />
-    <p>{{ user.username }}</p>
-
-    <form method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data"">
-        {% csrf_token %}
+<form method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data" class="profile-block">
+    {% csrf_token %}
+    <div class="profile-block-left">
+        <label for="photoUpload">
+            <img id="profile-picture-button" class="profile-picture" src={{ user.profile.image.url }} />
+        </label>
+        <input type="file" id="photoUpload" name="profile_photo" style="display:none;"/>
+    </div>
+    <div class="profile-block-right">
         <input type='hidden' name='action' value='save'>
         <input type='hidden' name='user_id' value="{{ user.id }}">
-        <div>
-            <label>Username: </label>
-            <input type="text" placeholder="{{ user.username }}" name="username"/>
-        </div><br>
-        <div>
-            <label>Email: </label>
-            <input type="text" placeholder="{{ user.email }}" name="email"/>
-        </div><br>
-        <div>
-            <label>Profile Photo</label>
-            <input type="file" placeholder="" name="profile_photo"/>
-        </div><br>
-        <button type="submit">submit</button>
-    </form>
-    <a href="{% url 'delete_profile' %}">delete account</a>
-    <p><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>
-    <p><span style='font-weight: bold;'>Total Donations: </span>0</p>
-</div>
+        <h4><input type="text" placeholder="{{ user.username }}" name="username"></h4>
+        <p><span style='font-weight: bold;'>Email: </span><input type="text" placeholder="{% if user.email %}{{ user.email }}{% else %}n/a{% endif %}" name="email"/></p>
+        <p><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>
+        <p><span style='font-weight: bold;'>Total Donations: </span>0</p>
+        <button type="submit">Submit</button>
+        <a href="{% url 'delete_profile' %}"><span style='font-weight: normal; color: red;'>delete account</span></a>
+    </div>
+</form>
 {% endblock %}
