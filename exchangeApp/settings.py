@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rluu$u$@^cu^_=@t!8fqsu@3lvo=068^h_kyt)yjbv)(024tzg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '*'
@@ -118,18 +118,17 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-if not DEBUG:
-    STORAGES = {
-        # Media file management
-        "default": {
-            "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
-        },
+STORAGES = {
+    # Media file management
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
+    },
 
-        # CSS and JS file management
-        "staticfiles": {
-            "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
-        }
+    # CSS and JS file management
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
     }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
