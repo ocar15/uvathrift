@@ -8,20 +8,16 @@
 {% endblock %}
 
 {% block content %}
-<h1 style='text-align: center;'>Your Profile</h1>
-<form method="post" action="{% url 'edit_profile' %}"  style="display: flex; justify-content: center;">
-    {% csrf_token %}
-    <input type="hidden" name="user_id" value="{{ user.id }}">
-    <input type='hidden' name='action' value='edit'>
-    <button type="submit">Edit</button>
-</form>
-<br>
-<br>
-<div class='profile-container'>
+    <h2 style='text-align: center;'>Your Profile</h2>
     <img class="profile-picture" src={{ user.profile.image.url }} />
-    <p>{{ user.username }}</p>
-    <p>{{ user.email }}</p>
+    <h4>{{ user.username }}</h4>
+    <h4>{{ user.email }}</h4>
     <p><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>
     <p><span style='font-weight: bold;'>Total Donations: </span>0</p>
-</div>
+    <form method="post" action="{% url 'edit_profile' %}">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{ user.id }}">
+        <input type='hidden' name='action' value='edit'>
+        <button type="submit">Edit</button>
+    </form>
 {% endblock %}
