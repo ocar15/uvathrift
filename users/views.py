@@ -49,6 +49,7 @@ def user_profile(request, username):
         return HttpResponse("<h1>User not found</h1>", status=404)
     return HttpResponse(f"<h1>Profile: {u.username}</h1>")
 
+@login_required
 def edit_profile(request):
     action = request.POST.get("action")
     if request.method == "POST":
@@ -76,3 +77,10 @@ def edit_profile(request):
             print('image: ', cur_user.profile.image)
             return redirect("my_profile")
     return redirect('my_profile')
+
+@login_required
+def delete_profile(request):
+    user = request.user
+    user.delete()
+
+    return redirect("/")

@@ -41,6 +41,7 @@
         </div><br>
         <button type="submit">submit</button>
     </form>
+    <a href="{% url 'delete_profile' %}">delete account</a>
     <p><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>
     <p><span style='font-weight: bold;'>Total Donations: </span>0</p>
 </div>

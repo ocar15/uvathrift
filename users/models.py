@@ -8,9 +8,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     is_suspended = models.BooleanField(default=False)
     image = ProcessedImageField(upload_to='profile_pics',
-                                       processors=[ResizeToFill(200, 200)],
-                                       format='JPEG',
-                                       options={'quality': 60})
+                                default='profile_pics/default.jpg',
+                                processors=[ResizeToFill(200, 200)],
+                                format='JPEG',
+                                options={'quality': 60})
 
     def __str__(self):
         return self.user.username
