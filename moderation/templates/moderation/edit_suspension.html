@@ -18,30 +18,23 @@
         {% endblock %}
 
 {% block content %}
-<h1 style='text-align: center;'>Edit User</h1>
+<h1 style='text-align: center;'>Edit Suspesnsion For {{ user.username }}</h1>
 <div class='edit-container'>
 <form method="post" action="{% url 'edit_user' %}">
   {% csrf_token %}
   <input type='hidden' name='user_id' value="{{ user.id }}">
-  <label>Username:</label>
-  <input type="text" name="username" value="{{ user.username }}"><br>
-
-  <label>Email:</label>
-  <input type="email" name="email" value="{{ user.email }}"><br>
-
-  <label>Is Superuser:</label>
-  <input type="checkbox" name="is_superuser" {% if user.is_superuser %}checked{% endif %}><br>
   
-  <label>Is Suspended:</label>
-  <input type="checkbox" name="is_suspended" {% if user.profile.is_suspended %}checked{% endif %} disabled><br>
-  {% if user.profile.is_suspended %}
-  <p>Time Remaining on Suspension: {{ user.profile.remaining_time }}</p>
-  <button type='submit' name='action' value='suspend'>Edit Suspension</button>
-  {% endif %}
-
-  <button type="submit" name='action' value='save'>Save</button>
-<button type="submit" name='action' value='cancel'>Cancel</button>
-
+  <label for='suspension'>Enter Suspension End Date:
+  <input type='datetime-local' name='suspension_date' id='suspension' value="{{suspended_date}}" required>
+  </label>
+  
+  <button type="submit" name='action' value='suspend_save' style='background-color: red'>Suspend</button>
+</form>
+<form method='post' action="{% url 'edit_user' %}">
+    {% csrf_token %}
+    <input type='hidden' name='user_id' value="{{ user.id }}">
+    <button type='submit' name='action' value='end_suspension'>End Suspension</button>
+    <button type='submit' name='action' value='cancel'>Cancel</button>
 </form>
 </div>
 {% endblock %}

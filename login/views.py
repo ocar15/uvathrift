@@ -20,3 +20,6 @@ def signup(request):
 
 def suspended(request):
     return render(request, 'login/suspended.html', {'mode': None})
+
+def logout(request):
+    user_logout(request)

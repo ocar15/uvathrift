@@ -1,11 +1,30 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    is_suspended = models.BooleanField(default=False)
+    suspended_until = models.DateTimeField(null=True, blank=True)
+    def is_suspended(self):
+        return self.suspended_until is not None and timezone.now() < self.suspended_until
+    @property
+    def remaining_time(self):
+        if not self.suspended_until or timezone.now() >= self.suspended_until:
+            return None
+
+        time_left = self.suspended_until - timezone.now()
+        days = time_left.days
+        hours = time_left.seconds // 3600
+        minutes = (time_left.seconds % 3600) // 60
+
+        if days > 0:
+            return f"{days} day{'s' if days != 1 else ''} remaining"
+        elif hours > 0:
+            return f"{hours} hour{'s' if hours != 1 else ''} remaining"
+        else:
+            return f"{minutes} minute{'s' if minutes != 1 else ''} remaining"
 
     def __str__(self):
         return self.user.username
