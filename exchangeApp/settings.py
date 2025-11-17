@@ -118,18 +118,17 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-if not DEBUG:
-    STORAGES = {
-        # Media file management
-        "default": {
-            "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
-        },
+STORAGES = {
+    # Media file management
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
+    },
 
-        # CSS and JS file management
-        "staticfiles": {
-            "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
-        }
+    # CSS and JS file management
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
     }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -164,7 +163,7 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 

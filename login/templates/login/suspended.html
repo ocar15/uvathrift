@@ -12,12 +12,13 @@
         <h1 class='login-header'>
             Account Suspended
         </h1>
-        <br/>
-        <main>
-            If you believe this is a mistake, please reach out to uvathrift@gmail.com to appeal your suspension.
-        </main>
-        {% comment %} Maybe we can add a button to appeal request that notifies and sends to a 
-        certain view that allows us to review appeals? {% endcomment %}
+        <h2> Suspended Until: {{ request.user.profile.suspended_until }} </h2>
+        <h2> Time Remaining: {{ request.user.profile.remaining_time }} </h2>
+        <button>Appeal Suspension</button>
+        <form method='post' action="{% url 'logout' %}">
+            {% csrf_token %}
+        <button type='submit'>Logout</button>
+        </form>
     </div>
 </div>
 {% endblock %}
