@@ -1,5 +1,4 @@
 from django.shortcuts import redirect
-from django.contrib.auth import logout
 from django.urls import reverse
 from django.utils import timezone
 
@@ -17,7 +16,7 @@ class SuspendedMiddleware:
                 profile.save()
             
             if profile.is_suspended():
-                exclusions = [reverse('suspended'),reverse('logout')]
+                exclusions = [reverse('suspended'), reverse('logout')]
                 if request.path not in exclusions:
                     return redirect('suspended')
                 

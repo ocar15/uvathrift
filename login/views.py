@@ -23,3 +23,4 @@ def suspended(request):
 
 def logout(request):
     user_logout(request)
+    return redirect('/')

@@ -46,9 +46,9 @@
   <input type="checkbox" name="is_superuser" {% if edit_user.is_superuser %}checked{% endif %}><br>
   
   <label>Is Suspended:</label>
-  <input type="checkbox" name="is_suspended" {% if user.profile.is_suspended %}checked{% endif %} disabled><br>
-  {% if user.profile.is_suspended %}
-  <p>Time Remaining on Suspension: {{ user.profile.remaining_time }}</p>
+  <input type="checkbox" name="is_suspended" {% if edit_user.profile.is_suspended %}checked{% endif %} disabled><br>
+  {% if edit_user.profile.is_suspended %}
+  <p>Time Remaining on Suspension: {{ edit_user.profile.remaining_time }}</p>
   <button type='submit' name='action' value='suspend'>Edit Suspension</button>
   {% endif %}
 
