@@ -43,8 +43,8 @@
         <form method="post" action="{% url 'edit_user' %}">
       {% csrf_token %}
       <input type="hidden" name="user_id" value="{{ u.id }}">
-      <input type='hidden' name='action' value='edit'>
-      <button type="submit">Edit</button>
+      <button type="submit" name='action' value='edit'>Edit</button>
+      <button type='submit' name='action' value='suspend' style='background-color: red'>Suspend User</button> 
 </form>
 </td>
     </tr>
