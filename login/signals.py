@@ -1,18 +1,36 @@
+import requests
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-from allauth.account.signals import user_signed_up
-from .models import UserProfile
+from users.models import Profile
+from allauth.socialaccount.models import SocialAccount
+from django.core.files.base import ContentFile
 
-# reads that a new user has signed up, processes them
-@receiver(user_signed_up)
-def handle_user_signed_up(request, sociallogin, user, **kwargs):
-
-    # grab the user's data
-    new_user_data = sociallogin.account.extra_data
-    
-    print(new_user_data)
-
-    profile, created = UserProfile.objects.get_or_create(user=user)
-    profile.is_suspended = False
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    profile, created = Profile.objects.get_or_create(user=instance)
     profile.save()
 
-    # perform tasks/processing on data
+@receiver(post_save, sender=SocialAccount)
+def add_default_google_info(sender, instance, created, **kwargs):
+    if not created:
+        return
+
+    user = instance.user
+    name = instance.extra_data.get('name')
+    image_url = instance.extra_data.get('picture')
+
+    try:
+        response = requests.get(image_url)
+        response.raise_for_status()
+    except requests.RequestException:
+        return
+    
+    profile, created = Profile.objects.get_or_create(user=user)
+
+    file = f"{user.username}_google.jpg"
+    profile.image.save(file, ContentFile(response.content), save=True)
+    profile.save()
+
+    user.username = name
+    user.save()

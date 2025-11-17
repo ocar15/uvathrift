@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block navbar-right %}
-    <a href="{% url 'messages_overview'%}">
+    <a href="{% url 'postman:inbox'%}">
         <button class="nav-btn">Messages</button>
     </a>
     {% if mode == 'admin' %}
@@ -18,7 +18,10 @@
     </a> 
     {% endif %}
     <a href="{% url 'logout' %}"> <button class='nav-btn'>Logout</button> </a>
-    <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">{{ user }} <span style='color: red;'>({{ mode }})</span></a>
+    <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">
+        <img class='nav-pfp' src="{{ user.profile.image.url }}">
+        <span style="margin-left: 10px; margin-right: 5px;">{{ user }}</span>
+        <span style='color: red;'>({{ mode }})</span></a>
 {% endblock %}
 
 {% block content %}

@@ -1,6 +1,14 @@
+boto3==1.40.61
+cryptography==46.0.3
 django==5.2.6
-gunicorn==23
 django-allauth==65.12.1
+django-imagekit==6.0.0
+django-postman==4.5
+django-storages==1.14.6
+djangorestframework==3.16.1
+gunicorn==23
+pillow==11.2.1
+PyJWT==2.10.1
+python-dotenv==1.1.1
 requests==2.32.5
 requests-html==0.10.0
-PyJWT==2.10.1

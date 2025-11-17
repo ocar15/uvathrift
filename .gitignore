@@ -2,6 +2,9 @@
 *.venv
 # python
 *.py[cod]
+*/*/*/__pycache__/
+*/*/__pycache__/
+*/__pycache__/
 __pycache__/
 .Python
 
@@ -11,5 +14,6 @@ local_settings.py
 db.sqlite3
 
 # enironment
+*.venv
 venv/
 .env

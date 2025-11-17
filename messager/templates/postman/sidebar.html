@@ -1,0 +1,32 @@
+{% load static %}
+{% load postman_tags %}
+
+<aside class="mail-sidebar">
+  <nav class="mail-nav">
+    {% url 'postman:inbox'    as inbox_url %}
+    {% url 'postman:sent'     as sent_url %}
+    {% url 'postman:archives' as archives_url %}
+    {% url 'postman:trash'    as trash_url %}
+    {% url 'postman:write'    as compose_url %}
+
+    <a href="{{ inbox_url }}" class="item {% if request.path == inbox_url %}active{% endif %}">
+      <span class="icon">📥</span>
+      <span>Inbox</span>
+      {% with n=postman_unread %}
+        {% if n %}<span class="badge">{{ n }}</span>{% endif %}
+      {% endwith %}
+    </a>
+
+    <a href="{{ sent_url }}" class="item {% if request.path == sent_url %}active{% endif %}">
+      <span class="icon">📤</span><span>Sent</span>
+    </a>
+
+    <a href="{{ archives_url }}" class="item {% if request.path == archives_url %}active{% endif %}">
+      <span class="icon">🗂️</span><span>Archived</span>
+    </a>
+
+    <a href="{{ trash_url }}" class="item {% if request.path == trash_url %}active{% endif %}">
+      <span class="icon">🗑️</span><span>Trash</span>
+    </a>
+  </nav>
+</aside>
