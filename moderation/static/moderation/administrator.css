@@ -1,36 +1,139 @@
-.username-display{
-    font-size: large;
-    padding: 12px 25px;
-}
-
-.admin-btn-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.admin-btn{
-    width: 200px;
-    margin: 5px auto; 
-    padding: 10px 20px;
+.admin-title {
     text-align: center;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #111;
 }
 
-.nav-btn{
-    width: auto;
-    margin: 0px 10px;
+
+.user-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
-.edit-container{
+
+.user-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+.user-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+
+.user-header {
     display: flex;
-    justify-content: center;
     align-items: center;
+    margin-bottom: 12px;
 }
 
-.user-view-btn{
-    background-color: red;
+
+.user-avatar,
+.user-avatar-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+
+.user-avatar {
+    background: #2563eb;
+    color: white;
+}
+
+
+.user-info {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+
+.user-name {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0;
+}
+
+
+.user-email {
+    font-size: 13px;
+    margin: 3px 0 0;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.user-role {
+    padding: 2px 8px;
+    font-size: 12px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+
+.user-role.admin {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+
+.user-role.user {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+
+.user-actions {
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+}
+
+
+.card-btn {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+
+.card-btn.edit {
+    background: #3b82f6;
+}
+
+
+.card-btn.edit:hover {
+    background: #2563eb;
+}
+
+
+.card-btn.suspend {
+    background: #ef4444;
+}
+
+
+.card-btn.suspend:hover {
+    background: #dc2626;
 }
