@@ -6,6 +6,41 @@
     color: #111;
 }
 
+.admin-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; 
+    flex-wrap: wrap;
+    margin: 30px 0;
+}
+
+.admin-btn {
+    display: inline-block;
+    width: 200px;
+    padding: 12px 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    background-color: var(--accent-green);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.admin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    background-color: var(--secondary-green);
+}
+
+
+.user-view-btn{
+    background: #dc2626;
+}
+
 
 .user-grid {
     display: grid;
@@ -120,7 +155,7 @@
 
 
 .card-btn.edit {
-    background: #3b82f6;
+    background: var(--background-dark);
 }
 
 
@@ -136,4 +171,67 @@
 
 .card-btn.suspend:hover {
     background: #dc2626;
+}
+
+.edit-container {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.edit-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"] {
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.suspension-info {
+    font-size: 14px;
+    color: var(--error-red);
+    margin-bottom: 10px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.form-actions .card-btn {
+    flex: 1;
+}
+
+.edit-container input[type="datetime-local"] {
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+    font-size: 1rem;
 }
