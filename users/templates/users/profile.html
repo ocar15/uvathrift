@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="profile-page">
     <div class="profile-block">
         <div class="profile-block-left">
             <img class="profile-picture" src={{ user.profile.image.url }} />
@@ -26,4 +27,19 @@
             </form>
         </div>
     </div>
+    <div class="verify-student-email">
+        {% if user.profile.is_student_verified %}
+            <div class="verified-success">
+                <h3 class="left-text">Student Email Verified</h3>
+                <p class="left-text">Your student email has been successfully verified. Thank you for verifying your status as a UVA student!</p>
+            </div>
+        {% else %}
+            <h3 class="left-text">Student Email Verification</h3>
+            <p class="left-text">Verifying your student email allows you to show other users that you are an official UVA student, building trust within the community. Unverified accounts will and should be met with skepticism.</p>
+            <p class="left-text">To verify your email please enter a valid UVA email address ending in <span>@virginia.edu</span>. Then follow the instructions sent to your email to complete the verification process.</p>
+            <a href="{% url 'request_student_verification' %}"><button>Request verification now</button></a>
+        {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -9,6 +9,13 @@ button{
     margin-right: 15px;
 }
 
+.profile-page {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .profile-block{
     display: flex;
     flex-direction: row;
@@ -25,4 +32,17 @@ button{
 #profile-picture-button:hover{
     filter: brightness(70%);
     border-radius: 50%;
+}
+
+.verify-student-email {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid lightgray;
+    width: 80%;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.left-text {
+    text-align: left;
 }

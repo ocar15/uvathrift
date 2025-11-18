@@ -16,6 +16,8 @@ class Profile(models.Model):
                                 processors=[ResizeToFill(200, 200)],
                                 format='JPEG',
                                 options={'quality': 60})
+    student_email = models.EmailField(null=True, blank=True)
+    student_email_verified = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.nickname:
