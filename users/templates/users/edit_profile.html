@@ -1,0 +1,31 @@
+{% extends 'dashboard/dashboard.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type='text/css' href="{%static 'users/profile.css'%}">
+    <link rel="stylesheet" type='text/css' href="{%static 'dashboard/login.css'%}">
+    <link rel='stylesheet' type='text/css' href="{%static 'dashboard/dashboard.css'%}">
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data" class="profile-block">
+    {% csrf_token %}
+    <div class="profile-block-left">
+        <label for="photoUpload">
+            <img id="profile-picture-button" class="profile-picture" src={{ user.profile.image.url }} />
+        </label>
+        <input type="file" id="photoUpload" name="profile_photo" style="display:none;"/>
+    </div>
+    <div class="profile-block-right">
+        <input type='hidden' name='action' value='save'>
+        <input type='hidden' name='user_id' value="{{ user.id }}">
+        <h3 style="margin-bottom: 10px;">{{ user.username }}</h3>
+        <h4><input type="text" placeholder="{{ user.profile.nickname }}" name="nickname"></h4>
+        <p><span style='font-weight: bold;'>Email: </span><input type="text" placeholder="{% if user.email %}{{ user.email }}{% else %}n/a{% endif %}" name="email"/></p>
+        <p><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>
+        <p><span style='font-weight: bold;'>Total Donations: </span>0</p>
+        <button type="submit">Submit</button>
+        <a href="{% url 'delete_profile' %}"><span style='font-weight: normal; color: red;'>delete account</span></a>
+    </div>
+</form>
+{% endblock %}

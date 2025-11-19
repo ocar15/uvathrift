@@ -5,14 +5,29 @@
 {% endblock %}
 
 {% block navbar-left %}
-  <a href="{% url 'dashboard'%}">
-      <h3>UVA Thrift <span style='color: red; font-weight: bold;'>Admin</span></h3>
-  </a>
-{% endblock %}
-
-{% block navbar-right %}
-<a style='color: black;' class="username-display" href="{% url 'my_profile' %}">{{ user }} <span style='color: red;'>({{ mode }})</span></a>
-{% endblock %}
+        <nav class="navbar">
+            <div class="navbar-left">
+                <a class="home-link" href="{% url 'admin_only' %}">
+                    <img class="logo" src="{% static 'images/thrift.uva.jpg' %}" alt="UVA Thrift Logo" />
+                    <h2>
+                        <span>uva</span>.<span>thrift</span><span style='color: red; font-weight: bold; margin-left: 5px;'>Admin</span>
+                    </h2>
+                </a>
+            </div>
+            {% endblock %}
+            {% block navbar-right %}
+            <div class="navbar-right">
+                <a href="{% url 'postman:inbox'%}">
+                <button class="nav-btn">Messages</button>
+                </a>
+                <a href={% url 'dashboard' %}>
+                    <button class='nav-btn user-view-btn'>User View</button>
+                </a>
+                <a href="{% url 'logout' %}"> <button class='nav-btn'>Logout</button> </a>
+                <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">{{ user }} <span style='color: red;'>({{ mode }})</span></a>
+            </div>
+        </nav>
+        {% endblock %}
 
 {% block content %}
 <h1 style='text-align: center;'>Manage Users</h1>
@@ -28,8 +43,8 @@
         <form method="post" action="{% url 'edit_user' %}">
       {% csrf_token %}
       <input type="hidden" name="user_id" value="{{ u.id }}">
-      <input type='hidden' name='action' value='edit'>
-      <button type="submit">Edit</button>
+      <button type="submit" name='action' value='edit'>Edit</button>
+      <button type='submit' name='action' value='suspend' style='background-color: red'>Suspend User</button> 
 </form>
 </td>
     </tr>

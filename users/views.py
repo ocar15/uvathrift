@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout as user_logout
 from allauth.socialaccount.models import *
 
+from django.core.files.storage import default_storage
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 
 def get_mode(request):
     return 'admin' if request.user.is_superuser else 'user'
@@ -44,3 +48,39 @@ def user_profile(request, username):
     except User.DoesNotExist:
         return HttpResponse("<h1>User not found</h1>", status=404)
     return HttpResponse(f"<h1>Profile: {u.username}</h1>")
+
+@login_required
+def edit_profile(request):
+    action = request.POST.get("action")
+    if request.method == "POST":
+        cur_userid = request.POST.get("user_id")
+        if not cur_userid:
+            return redirect("my_profile")
+        try:
+            cur_user = User.objects.get(id=cur_userid)
+        except User.DoesNotExist:
+            return redirect("my_profile")
+
+        if action == 'edit':
+            return render(request, 'users/edit_profile.html', {'user': cur_user, 'mode': get_mode(request)})
+
+        elif action == 'save':
+            if(request.POST.get("nickname", cur_user.username)):       
+                cur_user.profile.nickname = request.POST.get("nickname", cur_user.profile.nickname)
+            if(request.POST.get("email", cur_user.email)):
+                cur_user.email = request.POST.get("email", cur_user.email)
+            # save photo if user has Profile class
+            if(request.FILES.get('profile_photo')):
+                cur_user.profile.image = request.FILES.get('profile_photo')
+                print('image: ', cur_user.profile.image)
+            cur_user.profile.save()
+            cur_user.save()
+            return redirect("my_profile")
+    return redirect('my_profile')
+
+@login_required
+def delete_profile(request):
+    user = request.user
+    user.delete()
+
+    return redirect("/")
