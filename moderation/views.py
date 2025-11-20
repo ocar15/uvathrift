@@ -2,6 +2,7 @@ from django.shortcuts import *
 from django.http import HttpResponse
 from django.contrib.auth.decorators import *
 from django.contrib.auth.models import User
+from .models import *
 from django.contrib.auth import logout as user_logout
 from allauth.socialaccount.models import *
 from datetime import datetime
@@ -95,6 +96,11 @@ def edit_user(request):
 
                 cur_user.profile.suspended_until = suspended_until
                 cur_user.profile.save()
+                try:
+                    appeal = Appeals.objects.get(user_id=cur_user.id)
+                    appeal.delete()
+                except:
+                    pass
             return redirect('manage_users')
         elif action == 'end_suspension':
             cur_user.profile.suspended_until = None
@@ -102,6 +108,64 @@ def edit_user(request):
             cur_user.profile.refresh_from_db()
        
     return redirect("manage_users")
+
+@super_user_required
+def manage_appeals(request):
+    appeals = Appeals.objects.all()
+    users = User.objects.all()
+    user_info = []
+    for u in appeals:
+        if u.status in ["Declined", "Approved"]:
+            continue
+        try:
+            social = SocialAccount.objects.get(user=u.user)
+            user_data = social.extra_data
+        except SocialAccount.DoesNotExist:
+            user_data = {}
+
+
+        user_info.append({
+            "user": u.user,
+            "data": user_data,
+        })
+    return render(request, 'moderation/manage_appeals.html', {'users': users, 'mode': get_mode(request), 'user_data': user_info})
+
+
+@super_user_required
+def view_appeal(request):
+    action = request.POST.get("action")
+    cur_userid = request.POST.get('user_id')
+    user_info = {}
+    if request.method == "POST":
+        cur_user = User.objects.get(id=cur_userid)
+        if action == 'viewAppeal':
+            try:
+                social = SocialAccount.objects.get(user=cur_user)
+                user_data = social.extra_data
+            except SocialAccount.DoesNotExist:
+                user_data = {}
+
+
+            user_info= {
+            "user": cur_user,
+            "data": user_data,
+            "appeal": Appeals.objects.get(user=cur_user).appeal,
+            }
+            return render(request, 'moderation/view_appeal.html', {'mode': get_mode(request), 'user_data': user_info})
+        if action == 'acceptAppeal':
+            appeal = Appeals.objects.get(user_id=cur_userid)
+            try:
+                appeal.delete()
+            except:
+                pass
+            cur_user.profile.suspended_until = None
+            cur_user.profile.save()
+            cur_user.profile.refresh_from_db()
+        if action == 'declineAppeal':
+            appeal = Appeals.objects.get(user_id=cur_userid)
+            appeal.status = "Declined"
+            appeal.save()
+    return redirect('manage_appeals')
 
 
 @super_user_required

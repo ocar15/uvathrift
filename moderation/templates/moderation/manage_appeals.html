@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'moderation/administrator.css' %}">
+{% endblock %}
+
+{% block navbar-left %}
+<nav class="navbar">
+    <div class="navbar-left">
+        <a class="home-link" href="{% url 'admin_only' %}">
+            <img class="logo" src="{% static 'images/thrift.uva.jpg' %}" alt="UVA Thrift Logo" />
+            <h2>
+                <span>uva</span>.<span>thrift</span>
+                <span style="color: red; font-weight: bold; margin-left: 5px;">Admin</span>
+            </h2>
+        </a>
+    </div>
+{% endblock %}
+
+
+{% block navbar-right %}
+    <div class="navbar-right">
+        <a href="{% url 'postman:inbox' %}">
+            <button class="nav-btn">Messages</button>
+        </a>
+        <a href="{% url 'dashboard' %}">
+            <button class="nav-btn user-view-btn">User View</button>
+        </a>
+        <a href="{% url 'logout' %}">
+            <button class="nav-btn">Logout</button>
+        </a>
+        <a style="color: black;" class="username-display" href="{% url 'my_profile' %}">
+            {{ user }} <span style="color: red;">({{ mode }})</span>
+        </a>
+    </div>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+    <h1 class="admin-title">Manage Appeals</h1>
+
+
+    <div class="user-grid">
+        {% for u in user_data %}
+        <div class="user-card">
+            
+            
+            <div class="user-header">
+                {% if u.data.picture %}
+                <img src="{{ u.data.picture }}" class="user-avatar-img">
+                {% else %}
+                    <div class="user-avatar">{{ u.user.username|first|upper }}</div>
+                    {% endif %}
+                    
+                    
+                    <div class="user-info">
+                        <p class="user-name">{{ u.user.username }}</p>
+                    <p class="user-email">{{ u.user.email }}</p>
+                </div>
+                
+                
+                {% if u.user.is_superuser %}
+                    <span class="user-role admin">Admin</span>
+                {% else %}
+                    <span class="user-role user">User</span>
+                    {% endif %}
+                </div>
+                
+                
+                <form method="post" action="{% url 'view_appeal' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ u.user.id }}">
+                    
+                    
+                    <div class="user-actions">
+                        <button type="submit" name="action" value="viewAppeal" class="card-btn edit">View Appeal</button>
+                    </div>
+                </form>
+                
+                
+            </div>
+            {%empty%}
+            <main style='text-align: center;'>No Current Pending Appeals</main>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+

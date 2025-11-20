@@ -19,7 +19,7 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.nickname:
-            self.nickname = self.user.username;
+            self.nickname = self.user.username
         super().save(*args, **kwargs)
     def is_suspended(self):
         return self.suspended_until is not None and timezone.now() < self.suspended_until

@@ -10,16 +10,11 @@
 <div class='landing-page'>
     <div class="login-hero-div">
         <h1 class='login-header'>
-            Appeal Account Suspension
+            You have already submitted an appeal.
         </h1>
-        <form method='post'>
-            {% csrf_token %}
-            <label for='appealText'><h4 style='text-align: center;'>Enter Appeal Below</h4></label>
-            <textarea type='text' required id='appealText' name="appeal" rows="10" cols="50"></textarea><br>
-            <button name='action' value='submitAppeal'>Appeal Suspension</button>
-        </form>
+        <h3>Current Status is: {{ status }}
         <form method='post' action="{% url 'logout' %}">
-        {% csrf_token %}
+            {% csrf_token %}
         <button type='submit'>Logout</button>
         </form>
     </div>
