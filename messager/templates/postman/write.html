@@ -25,6 +25,31 @@
     </div>
     {% include 'postman/sidebar.html' %}
   </div>
+    <main class="message-page" id="mail-main">
+    <h3 class="compose-title">New message</h3>
+
+    <form method="post" action="{% url 'postman:write' %}">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <div class="compose-row">
+        <label>To:</label>
+        {{ form.recipients }}
+      </div>
+
+      <div class="compose-row">
+        <label>Subject:</label>
+        {{ form.subject }}
+      </div>
+
+      <div class="compose-row compose-body-row">
+        {{ form.body }}
+      </div>
+
+      <button type="submit" class="send-btn">
+        {% trans "Send" %}
+      </button>
+    </form>
       <main class="message-page" id="mail-main">
     <div class="compose-card">
       <div class="compose-header">
