@@ -58,6 +58,11 @@
     color: #111827;
 }
 
+.page { 
+    padding: 16px;
+    height: 75vh;
+}
+
 .compose-header-actions {
     display: flex;
     gap: 12px;
