@@ -27,7 +27,7 @@ def dashboard(request):
     items = Item.objects.all().order_by("-created_at")
     
     return render(request, 'dashboard.html', {
-     'mode': get_mode(request)
+     'mode': get_mode(request),
      'user': request.user,
      'items': items,
      })
