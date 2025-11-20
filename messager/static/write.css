@@ -1,23 +1,187 @@
-.nav-btn{
-    width: auto;
-    margin: 0px;
-}
-/* compose button */
-.comp-btn {
-    height: 60px;
-    font-size: 30px;
-}
-
-.page-toolbar { 
-    padding: 16px 20px;  
-}
-
-/* sidebar */
-.layout { 
-    display: grid; grid-template-columns: 200px 1fr; gap: 8px; 
-}
-
-.page { 
-    padding: 16px;
+.message-page {
+    padding: 16px 24px;
     height: 75vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.compose-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.16);
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.compose-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: #f5f7fb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.compose-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.compose-header-actions {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.header-icon {
+    cursor: default;
+}
+
+/* Form rows */
+
+.compose-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.compose-row {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-bottom: 1px solid #eff0f3;
+    gap: 12px;
+}
+
+.compose-label {
+    width: 70px;
+    font-size: 14px;
+    color: #6b7280;
+    flex-shrink: 0;
+}
+
+.compose-input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Inputs and textarea look like Gmail fields */
+
+.compose-row input,
+.compose-row textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 6px 0;
+    font-size: 15px;
+    color: #111;
+    font-family: inherit;
+}
+
+.compose-row input::placeholder,
+.compose-row textarea::placeholder {
+    color: #9aa0a6;
+    opacity: 1;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.compose-row input:focus::placeholder,
+.compose-row textarea:focus::placeholder,
+.compose-row input:not(:placeholder-shown)::placeholder,
+.compose-row textarea:not(:placeholder-shown)::placeholder {
+    opacity: 0;
+}
+
+
+/* Footer with send button */
+
+.compose-footer {
+    padding: 10px 16px 12px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.send-btn {
+    border: none;
+    padding: 8px 24px;
+    border-radius: 999px;
+    background: #1a73e8;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.send-btn:hover {
+    background: #1557b0;
+}
+
+/* Whole compose area – only one border */
+.compose-box {
+    border: 1px solid #888;
+    background: #eff0ef;      /* not white, matches your page */
+    height: 100%;
+}
+
+/* Each row */
+.compose-row {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.compose-row.body-row {
+    align-items: flex-start;
+    height: 100%;
+    background: #eff0f3;
+}
+
+/* "To" / "Subject" text on the left */
+.compose-label {
+    width: 70px;
+    font-weight: 600;
+    color: #3b3b3b;
+    flex-shrink: 0;
+}
+
+/* Right side takes all remaining space */
+.compose-input-wrap {
+    flex: 1;
+}
+
+/* Make To + Subject same width as body */
+.compose-input,
+.compose-body {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;              /* no inner borders */
+    background: transparent;   /* so they blend into the box bg */
+    outline: none;
+    font-size: 14px;
+    font-family: inherit;
+    padding: 4px 0;
+}
+
+/* Placeholder style (Gmail-ish) */
+.compose-input::placeholder,
+.compose-body::placeholder {
+    color: #9aa0a6;
+}
+
+/* Big body area */
+.compose-body {
+    min-height: 350px;   /* control how tall the body is */
+    resize: vertical;    /* allow user to stretch if they want */
 }
