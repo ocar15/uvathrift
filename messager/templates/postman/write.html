@@ -4,12 +4,13 @@
 {% load i18n %}
 
 {% block css %}
-    <link rel="stylesheet" type='text/css' href="{%static 'message.css'%}"> 
+    <link rel="stylesheet" type='text/css' href="{%static 'write.css'%}"> 
     <link rel="stylesheet" type='text/css' href="{% static 'sidebar.css' %}">
+    <link rel="stylesheet" type='text/css' href="{%static 'message_list.css'%}"> 
 {% endblock css %}
 
 {% block navbar-right %}
-    <a href="{% url 'dashboard'%}">
+    <a href="{% url 'postman:inbox'%}">
         <button class="nav-btn">Back</button>
     </a>
 {% endblock %}
@@ -24,8 +25,31 @@
     </div>
     {% include 'postman/sidebar.html' %}
   </div>
-    {% block pm_folder %}
-        {% include "postman/base_write.html" %}
-    {% endblock %}
+    <main class="message-page" id="mail-main">
+    <h3 class="compose-title">New message</h3>
+
+    <form method="post" action="{% url 'postman:write' %}">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <div class="compose-row">
+        <label>To:</label>
+        {{ form.recipients }}
+      </div>
+
+      <div class="compose-row">
+        <label>Subject:</label>
+        {{ form.subject }}
+      </div>
+
+      <div class="compose-row compose-body-row">
+        {{ form.body }}
+      </div>
+
+      <button type="submit" class="send-btn">
+        {% trans "Send" %}
+      </button>
+    </form>
+  </main>
 </div>
 {% endblock %}

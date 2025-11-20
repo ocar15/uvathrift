@@ -19,7 +19,8 @@
     <div class="profile-block-right">
         <input type='hidden' name='action' value='save'>
         <input type='hidden' name='user_id' value="{{ user.id }}">
-        <h4><input type="text" placeholder="{{ user.username }}" name="username"></h4>
+        <h3 style="margin-bottom: 10px;">{{ user.username }}</h3>
+        <h4><input type="text" placeholder="{{ user.profile.nickname }}" name="nickname"></h4>
         <p><span style='font-weight: bold;'>Email: </span><input type="text" placeholder="{% if user.email %}{{ user.email }}{% else %}n/a{% endif %}" name="email"/></p>
         <p><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>
         <p><span style='font-weight: bold;'>Total Donations: </span>0</p>

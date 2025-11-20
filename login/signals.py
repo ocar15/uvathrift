@@ -30,7 +30,11 @@ def add_default_google_info(sender, instance, created, **kwargs):
 
     file = f"{user.username}_google.jpg"
     profile.image.save(file, ContentFile(response.content), save=True)
-    profile.save()
 
     user.username = name
+    user.profile.nickname = name
+
+    print("set nickname in signals")
+
     user.save()
+    user.profile.save()

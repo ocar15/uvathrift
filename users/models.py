@@ -8,6 +8,8 @@ from imagekit.processors import ResizeToFill
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    is_suspended = models.BooleanField(default=False)
+    nickname = models.CharField("nickname", max_length=50, blank=True)
     suspended_until = models.DateTimeField(null=True, blank=True)
     image = ProcessedImageField(upload_to='profile_pics',
                                 default='profile_pics/default.jpg',
@@ -15,6 +17,10 @@ class Profile(models.Model):
                                 format='JPEG',
                                 options={'quality': 60})
 
+    def save(self, *args, **kwargs):
+        if not self.nickname:
+            self.nickname = self.user.username;
+        super().save(*args, **kwargs)
     def is_suspended(self):
         return self.suspended_until is not None and timezone.now() < self.suspended_until
     @property
