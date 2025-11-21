@@ -3,24 +3,28 @@
 {% load socialaccount %}
 
 {% block css %}
-    <link rel="stylesheet" type='text/css' href="{%static 'login/login.css'%}">
+<link rel="stylesheet" href="{% static 'login/appeal.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class='landing-page'>
-    <div class="login-hero-div">
-        <h1 class='login-header'>
-            Appeal Account Suspension
-        </h1>
-        <form method='post'>
+<div class="appeals-page">
+    <div class="appeals-card">
+        <h2 class="admin-title" style='text-align: center;'>Appeal Account Suspension</h2>
+
+        <!-- Appeal Form -->
+        <form method="post">
             {% csrf_token %}
-            <label for='appealText'><h4 style='text-align: center;'>Enter Appeal Below</h4></label>
-            <textarea type='text' required id='appealText' name="appeal" rows="10" cols="50"></textarea><br>
-            <button name='action' value='submitAppeal'>Appeal Suspension</button>
+            <div class="form-group">
+                <label for="appealText">Enter Appeal Below:</label>
+                <textarea id="appealText" name="appeal" rows="10" required></textarea>
+            </div>
+            <button type="submit" name="action" value="submitAppeal" class="card-btn edit">Submit Appeal</button>
         </form>
-        <form method='post' action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type='submit'>Logout</button>
+
+        <!-- Logout Form -->
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="card-btn suspend">Logout</button>
         </form>
     </div>
 </div>
