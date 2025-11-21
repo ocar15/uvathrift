@@ -40,49 +40,50 @@
 
 
 {% block content %}
-    <h1 class="admin-title">Manage Users</h1>
+    <h1 class="admin-title">Manage Appeals</h1>
 
 
     <div class="user-grid">
         {% for u in user_data %}
         <div class="user-card">
-
-
+            
+            
             <div class="user-header">
                 {% if u.data.picture %}
-                    <img src="{{ u.data.picture }}" class="user-avatar-img">
+                <img src="{{ u.data.picture }}" class="user-avatar-img">
                 {% else %}
                     <div class="user-avatar">{{ u.user.username|first|upper }}</div>
-                {% endif %}
-
-
-                <div class="user-info">
-                    <p class="user-name">{{ u.user.username }}</p>
+                    {% endif %}
+                    
+                    
+                    <div class="user-info">
+                        <p class="user-name">{{ u.user.username }}</p>
                     <p class="user-email">{{ u.user.email }}</p>
                 </div>
-
-
+                
+                
                 {% if u.user.is_superuser %}
                     <span class="user-role admin">Admin</span>
                 {% else %}
                     <span class="user-role user">User</span>
-                {% endif %}
-            </div>
-
-
-            <form method="post" action="{% url 'edit_user' %}">
-                {% csrf_token %}
-                <input type="hidden" name="user_id" value="{{ u.user.id }}">
-
-
-                <div class="user-actions">
-                    <button type="submit" name="action" value="edit" class="card-btn edit">Edit</button>
-                    <button type="submit" name="action" value="suspend" class="card-btn suspend">Suspend</button>
+                    {% endif %}
                 </div>
-            </form>
-
-
-        </div>
+                
+                
+                <form method="post" action="{% url 'view_appeal' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" value="{{ u.user.id }}">
+                    
+                    
+                    <div class="user-actions">
+                        <button type="submit" name="action" value="viewAppeal" class="card-btn edit">View Appeal</button>
+                    </div>
+                </form>
+                
+                
+            </div>
+            {%empty%}
+            <main style='text-align: center;'>No Current Pending Appeals</main>
         {% endfor %}
     </div>
 {% endblock %}

@@ -1,40 +1,49 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block css %}
-    <link rel="stylesheet" type='text/css' href="{%static 'moderation/administrator.css'%}">
+<link rel="stylesheet" href="{% static 'moderation/administrator.css' %}">
 {% endblock %}
 
-  {% block header %}
-        <nav class="navbar">
-            <div class="navbar-left">
-                <a href="{% url 'dashboard'%}">
-                    <h3>UVA Thrift <span style='color: red; font-weight: bold;'>Admin</span></h3>
-                </a>
-            </div>
-            <div class="navbar-right">
-                <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">{{ user }} <span style='color: red;'>({{ mode }})</span></a>
-            </div>
-        </nav>
-        {% endblock %}
+{% block header %}
+<nav class="navbar">
+    <div class="navbar-left">
+        <a href="{% url 'dashboard' %}">
+            <h3>UVA Thrift <span style="color: red; font-weight: bold;">Admin</span></h3>
+        </a>
+    </div>
+    <div class="navbar-right">
+        <a class="username-display" style="color: black;" href="{% url 'my_profile' %}">
+            {{ user }} <span style="color: red;">({{ mode }})</span>
+        </a>
+    </div>
+</nav>
+{% endblock %}
 
 {% block content %}
-<h1 style='text-align: center;'>Edit Suspesnsion For {{ user.username }}</h1>
-<div class='edit-container'>
-<form method="post" action="{% url 'edit_user' %}">
-  {% csrf_token %}
-  <input type='hidden' name='user_id' value="{{ user.id }}">
-  
-  <label for='suspension'>Enter Suspension End Date:
-  <input type='datetime-local' name='suspension_date' id='suspension' value="{{suspended_date}}" required>
-  </label>
-  
-  <button type="submit" name='action' value='suspend_save' style='background-color: red'>Suspend</button>
-</form>
-<form method='post' action="{% url 'edit_user' %}">
-    {% csrf_token %}
-    <input type='hidden' name='user_id' value="{{ user.id }}">
-    <button type='submit' name='action' value='end_suspension'>End Suspension</button>
-    <button type='submit' name='action' value='cancel'>Cancel</button>
-</form>
+<h1 class="admin-title">Edit Suspension For {{ user.username }}</h1>
+
+<div class="edit-container">
+    <!-- Suspend User Form -->
+    <form method="post" action="{% url 'edit_user' %}" class="suspend-form">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{ user.id }}">
+
+        <div class="form-group">
+            <label for="suspension">Enter Suspension End Date:</label>
+            <input type="datetime-local" name="suspension_date" id="suspension" value="{{ suspended_date }}" required>
+        </div>
+
+        <button type="submit" name="action" value="suspend_save" class="card-btn suspend">Suspend</button>
+    </form>
+
+    <!-- End Suspension / Cancel Form -->
+    <form method="post" action="{% url 'edit_user' %}" class="form-actions">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{ user.id }}">
+
+        <button type="submit" name="action" value="end_suspension" class="card-btn edit">End Suspension</button>
+        <button type="submit" name="action" value="cancel" class="card-btn">Cancel</button>
+    </form>
 </div>
 {% endblock %}
