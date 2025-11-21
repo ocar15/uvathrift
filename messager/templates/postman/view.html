@@ -1,0 +1,83 @@
+{% extends "postman/base_folder.html" %}
+{% load static %}
+{% load postman_tags %}
+{% load i18n %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'view.css' %}">
+  <link rel="stylesheet" href="{% static 'sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'message_list.css' %}">
+{% endblock css %}
+
+{% block navbar-right %}
+  <a href="{% url 'postman:inbox' %}">
+    <button class="nav-btn">Back</button>
+  </a>
+{% endblock navbar-right %}
+
+{% block content %}
+<div class="layout">
+  <!-- LEFT: sidebar -->
+  <div class="page">
+    <div class = "page-toolbar">
+      <a href = "{% url 'postman:write' %}">
+      <button class = "comp-btn">Compose</button>
+      </a>
+    </div>
+    {% include 'postman/sidebar.html' %}
+  </div>
+    <!-- RIGHT: message view -->
+  <main class="message-view">
+    {% for message in pm_messages %}
+      <article class="msg-card {% if not forloop.last %}msg-card-older{% endif %}">
+        {% if forloop.first %}
+          <!-- subject -->
+          <header class="msg-header">
+            <h1 class="msg-subject">{{ message.subject }}</h1>
+            <div class="msg-header-meta">
+              <span class="msg-date">
+                {{ message.sent_at|date:"D, M j, g:i A" }}
+              </span>
+            </div>
+          </header>
+        {% endif %}
+
+        <!-- From / To row -->
+        <section class="msg-from-row">
+          <div class="msg-avatar">
+            {{ message.sender.username|slice:":1"|upper }}
+          </div>
+          <div class="msg-from-main">
+            <div class="from-top-line">
+              <span class="from-name">
+                {{ message.sender|or_me:user }}
+              </span>
+              <span class="from-to">
+                to {{ message.recipient|or_me:user }}
+              </span>
+            </div>
+            <div class="from-sub-line">
+              {{ message.sent_at|date:"M j, Y, g:i A" }}
+            </div>
+          </div>
+        </section>
+
+        <!-- Body -->
+        <section class="msg-body">
+          {{ message.body|linebreaksbr }}
+        </section>
+
+        {% if forloop.last %}
+        <!-- Actions only on the latest message -->
+        <footer class="msg-actions">
+          <a href="{% url 'postman:reply' message.id %}"
+             class="msg-btn msg-btn-primary">
+            {% trans "Reply" %}
+          </a>
+        </footer>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </main>
+</div>
+{% endblock content %}
