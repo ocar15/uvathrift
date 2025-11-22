@@ -3,7 +3,7 @@
 {% load socialaccount %}
 
 {% block css %}
-    <link rel="stylesheet" type='text/css' href="{%static 'css/base.css'%}">
+    <!-- <link rel="stylesheet" type='text/css' href="{%static 'css/base.css'%}"> -->
     <link rel="stylesheet" type='text/css' href="{%static 'dashboard/login.css'%}">
     <link rel="stylesheet" type='text/css' href="{%static 'dashboard/dashboard.css'%}">
 {% endblock %}
@@ -23,7 +23,7 @@
         <span style="margin-left: 10px; margin-right: 5px;">{{ user.profile.nickname }}</span>
         <span style='color: red;'>({{ mode }})</span>
         {% if user.profile.student_email_verified %}
-            <img class="verified-badge-icon" src="{% static 'users/images/verified_badge.png' %}" />
+            <img class="verified-badge-icon" id="verification-badge" src="{% static 'users/images/verified_badge.png' %}" />
         {% endif %}
     </a>
 {% endblock %}

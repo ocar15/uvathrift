@@ -94,12 +94,6 @@ span {
     font-weight: bold;
 }
 
-img.verified-badge-icon {
-    width: 30px;
-    height: 30px;
-    margin-left: 5px;
-}
-
 /* default navbar styles */
 .navbar {
     height: 80px;
