@@ -52,7 +52,7 @@ def create_item(request):
 def delete_item(request, pk):
     item = get_object_or_404(Item, pk=pk)
 
-    # only seller or staff can delete
+    #only seller or staff can delete
     if request.user != item.seller and not request.user.is_staff:
         return redirect("dashboard")
 
@@ -61,7 +61,7 @@ def delete_item(request, pk):
         return redirect("dashboard")
 
     return render(request, "dashboard/item_confirm_delete.html", {"item": item})
-    
+
 def items_list(request):
      return HttpResponse("")
 
