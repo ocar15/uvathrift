@@ -6,6 +6,7 @@ from django.contrib.auth import logout as user_logout
 from allauth.socialaccount.models import *
 from .models import Item
 from .forms import ItemForm
+from django.shortcuts import render, redirect
 
 
 def super_user_required(func):
@@ -60,6 +61,7 @@ def delete_item(request, pk):
         return redirect("dashboard")
 
     return render(request, "dashboard/item_confirm_delete.html", {"item": item})
+    
 def items_list(request):
      return HttpResponse("")
 

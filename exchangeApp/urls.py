@@ -22,10 +22,12 @@ def dashboard(request):
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include("dashboard.urls"))
     path('mod/', include('moderation.urls')),
     path("", include('login.urls')),
     path("dashboard/", include('dashboard.urls')),
     path("users/", include("users.urls")),
     path('accounts/', include('allauth.urls')),
     path("messages/", include("postman.urls", namespace="postman")), 
+    
 ]
