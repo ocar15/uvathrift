@@ -1,0 +1,40 @@
+.student-email-form-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid lightgray;
+    padding: 30px;
+    margin-top: 27vh;
+}
+
+.verification-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.verification-form input {
+    width: 300px;
+    height: 30px;
+    font-size: 18px;
+    padding: 20px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+ul.errorlist {
+    color: red;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.errorlist li {
+    margin: 0;
+    padding: 10px;
+    background-color: rgb(240, 186, 186);
+    border-radius: 12px;
+}
