@@ -49,9 +49,15 @@ button{
 }
 
 .verification-header {
-    
+
 }
 
 .left-text {
     text-align: left;
+}
+
+img.verified-badge-icon {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
 }
