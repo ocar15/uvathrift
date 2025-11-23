@@ -24,6 +24,10 @@ body {
     padding: 12px 25px 12px 10px;
 }
 
+.dashboard-page {
+    padding: 20px 40px;
+}
+
 .items-grid {
     display: flex;
     flex-wrap: wrap;

@@ -32,12 +32,8 @@
 {% endblock %}
 
 {% block content %}
-<p>current mode: {{mode}}</p>
-<main>
-    <p>current mode: {{ mode }}</p>
-  
+<div class="dashboard-page">
     <h2>Latest Listings</h2>
-  
     <div class="items-grid">
         {% for item in items %}
             <div class="item-card">
@@ -59,8 +55,7 @@
         {% empty %}
             <p>No items yet — be the first to list something!</p>
         {% endfor %}
-    </div>
-  </main>
-  
+    </div>  
+</div>
 {% endblock content %}
 
