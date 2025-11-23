@@ -212,3 +212,18 @@ form.item-form {
 form.item-form label {
     display: none;
 }
+
+
+ul.errorlist {
+    color: red;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.errorlist li {
+    margin: 0;
+    padding: 10px;
+    background-color: rgb(240, 186, 186);
+    border-radius: 12px;
+}
