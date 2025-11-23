@@ -167,6 +167,7 @@ a.item-user-profile {
 }
 
 .item-form-page {
+    padding: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -179,6 +180,10 @@ a.item-user-profile {
     width: 500px;
     background: white;
     margin-bottom: 15px;
+}
+
+.item-form-container > h4 {
+    margin-top: 0;
 }
 
 .post-btn {

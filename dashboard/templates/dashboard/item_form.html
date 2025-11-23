@@ -13,6 +13,13 @@
 
 {% block content %}
 <div class="item-form-page">
+
+    <div class="item-form-container">
+        <h4>New listing</h4>
+        <p>Fill out the form below to create a new item listing. To create a donation listing simply set the price field to $0.</p>
+        <p>Images are recommended but <span>not required</span>.</p>
+    </div>
+
     <div class="item-form-container">
         <form method="POST" class="item-form" id="create-item-form" enctype="multipart/form-data">
             {% csrf_token %}
