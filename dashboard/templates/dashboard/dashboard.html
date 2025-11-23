@@ -12,9 +12,6 @@
     <a href="{% url 'postman:inbox'%}">
         <button class="nav-btn">Messages</button>
     </a>
-    <a href="{% url 'item_create' %}">
-        <button class="nav-btn admin-btn">Make New Post</button>
-    </a>
     {% if mode == 'admin' %}
     <a href="{% url 'admin_only' %}">
         <button class='nav-btn admin-btn'>Admin Panel</button>
@@ -34,7 +31,9 @@
 {% block content %}
 <div class="dashboard-page">
     <div class="dashboard-left">
-
+        <a href="{% url 'item_create' %}" class="create-listing-lnk">
+            <button class="create-listing-btn">Create new listing +</button>
+        </a>
     </div>
     <div class="dashboard-center">
         <div class="items-grid">

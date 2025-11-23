@@ -30,8 +30,8 @@ body {
 }
 
 .dashboard-center {
-    flex: 2;
-    border: 1px solid #ccc;
+    flex: 3;
+    /* border: 1px solid #ccc; */
 }
 
 .items-grid {
@@ -40,7 +40,6 @@ body {
     align-items: center;
     justify-content: center;
     gap: 20px;
-    margin-top: 20px;
 }
 
 .item-card {
@@ -128,11 +127,27 @@ a.item-user-profile {
 }
 
 .dashboard-right {
-    flex: 1;
-    border: 1px solid #ccc;
+    flex: 2;
 }
 
 .dashboard-left {
-    flex: 1;
-    border: 1px solid #ccc;
+    flex: 2;
+    /* border: 1px solid #ccc; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.create-listing-btn {
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: medium;
+    align-self: flex-end;
+}
+
+.create-listing-lnk {
+    align-self: flex-end;
 }
