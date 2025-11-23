@@ -98,10 +98,11 @@ a.item-user-profile {
     background-color: #67705c;
     color: var(--white);
     border: 1px solid var(--background-dark);
-    border-radius: 20px;
+    border-radius: var(--border-radius);
     font-size: small;
     cursor: pointer;
     text-align: center;
+    padding: 5px 10px;
 }
 
 .item-and-price {
@@ -233,4 +234,20 @@ ul.errorlist li {
     justify-content: center;
     margin-top: 20px;
     gap: 10px;
+}
+
+form.dashboard-search {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.search-input {
+    padding: 8px;
+    font-size: medium;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Outfit', Helvetica, sans-serif;
+    min-width: 400px;
 }

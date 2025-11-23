@@ -9,7 +9,7 @@
     --error-red: #BC4749;
 
     --min-content-height: calc(100vh - 160px); /* -80px for the navbar and footer */
-    --border-radius: 15px;
+    --border-radius: 5px;
 }
 
 @font-face {

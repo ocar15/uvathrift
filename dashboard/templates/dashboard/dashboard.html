@@ -36,6 +36,16 @@
         </a>
     </div>
     <div class="dashboard-center">
+        <form method="GET" class="dashboard-search">
+            <input 
+                type="text" 
+                name="q" 
+                placeholder="Search for items or browse below..." 
+                value="{{ query|default:'' }}"
+                class="search-input"
+            >
+            <button type="submit" class="search-btn">Search</button>
+        </form>
         <div class="items-grid">
             {% for item in items %}
                 <div class="item-card">
