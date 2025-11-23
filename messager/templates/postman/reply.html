@@ -1,0 +1,95 @@
+{% extends 'postman/base_folder.html' %}
+{% load static %}
+{% load postman_tags %}
+{% load i18n %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'write.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'sidebar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'message_list.css' %}">
+{% endblock css %}
+
+{% block navbar-right %}
+    <a href="{% url 'postman:inbox' %}">
+        <button class="nav-btn">Back</button>
+    </a>
+{% endblock navbar-right %}
+
+{% block content %}
+<div class="layout">
+  <div class="page">
+    <div class="page-toolbar">
+      <a href="{% url 'postman:write' %}">
+        <button class="comp-btn">Compose</button>
+      </a>
+    </div>
+    {% include 'postman/sidebar.html' %}
+  </div>
+
+  <main class="message-page" id="mail-main">
+    <div class="compose-card">
+      <div class="compose-header">
+        <span class="compose-title">Reply</span>
+      </div>
+
+      {# POST back to the same reply URL (easiest) #}
+      <form method="post" action="" class="compose-form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="compose-box">
+          <!-- To row -->
+          <div class="compose-row">
+            <div class="compose-label">To</div>
+            <div class="compose-input-wrap">
+              <input
+                type="text"
+                name="{{ form.recipients.html_name }}"
+                id="{{ form.recipients.id_for_label }}"
+                value="{{ form.recipients.value|default_if_none:'' }}"
+                placeholder="Recipients"
+                class="compose-input"
+              />
+            </div>
+          </div>
+
+          <!-- Subject row -->
+          <div class="compose-row">
+            <div class="compose-label">Subject</div>
+            <div class="compose-input-wrap">
+              <input
+                type="text"
+                name="{{ form.subject.html_name }}"
+                id="{{ form.subject.id_for_label }}"
+                value="{{ form.subject.value|default_if_none:'' }}"
+                placeholder="Subject"
+                class="compose-input"
+              />
+            </div>
+          </div>
+
+          <!-- Body row -->
+          <div class="compose-row body-row">
+            <div class="compose-label"></div>
+            <div class="compose-input-wrap">
+              <textarea
+                name="{{ form.body.html_name }}"
+                id="{{ form.body.id_for_label }}"
+                placeholder="Write your reply..."
+                class="compose-body"
+              >{{ form.body.value|default_if_none:'' }}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer row -->
+        <div class="compose-footer">
+          <button type="submit" class="send-btn">
+            {% trans "Send" %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>
+{% endblock content %}
