@@ -37,6 +37,11 @@
     <p>current mode: {{ mode }}</p>
   
     <h2>Latest Listings</h2>
+    <div id="items-grid" class="items-grid">
+        {% include "partials/item_cards.html" with items=items %}
+    </div>
+    
+    <div id="load-more-trigger" style="height: 1px;"></div>
   
     <div class="items-grid">
         {% for item in items %}
@@ -61,6 +66,43 @@
         {% endfor %}
     </div>
   </main>
-  
+  <script>
+    let nextPage = 2; 
+    let loading = false;
+    let hasNext = {{ has_next|yesno:"true,false" }};
+
+    const trigger = document.getElementById("load-more-trigger");
+    const grid = document.getElementById("items-grid");
+
+    async function loadMore() {
+        if (!hasNext || loading) return;
+        loading = true;
+
+        try {
+            const response = await fetch(`/items/page/${nextPage}/`);
+            if (!response.ok) {
+                console.error("Failed to load more items");
+                loading = false;
+                return;
+            }
+            const data = await response.json();
+            grid.insertAdjacentHTML("beforeend", data.html);
+            hasNext = data.has_next;
+            nextPage = data.next_page;
+        } catch (e) {
+            console.error(e);
+        } finally {
+            loading = false;
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            loadMore();
+        }
+    });
+
+    observer.observe(trigger);
+</script>
 {% endblock content %}
 

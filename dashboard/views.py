@@ -7,6 +7,9 @@ from allauth.socialaccount.models import *
 from .models import Item
 from .forms import ItemForm
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 
 def super_user_required(func):
@@ -32,6 +35,38 @@ def dashboard(request):
      'user': request.user,
      'items': items,
      })
+
+@login_required(login_url="login")
+def dashboard(request):
+    #First page of items
+    items = Item.objects.order_by("-created_at")
+    paginator = Paginator(items, 10)  #10 items per "page"
+    page_obj = paginator.get_page(1)
+
+    return render(request, "dashboard.html", {
+        "mode": "admin" if request.user.is_staff else "user",
+        "items": page_obj.object_list,
+        "has_next": page_obj.has_next(),
+    })
+
+@login_required(login_url="login")
+def items_page(request, page):
+    items = Item.objects.order_by("-created_at")
+    paginator = Paginator(items, 10)
+
+    page_obj = paginator.get_page(page)
+
+    html = render_to_string(
+        "partials/item_cards.html",  
+        {"items": page_obj.object_list},
+        request=request,
+    )
+
+    return JsonResponse({
+        "html": html,
+        "has_next": page_obj.has_next(),
+        "next_page": page + 1,
+    })
 
 @login_required(login_url="account_login")
 def create_item(request):
