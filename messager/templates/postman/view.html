@@ -69,12 +69,79 @@
 
         {% if forloop.last %}
         <!-- Actions only on the latest message -->
-        <footer class="msg-actions">
-          <a href="{% url 'postman:reply' message.id %}"
-             class="msg-btn msg-btn-primary">
-            {% trans "Reply" %}
-          </a>
-        </footer>
+        <div class="msg-header">
+
+        <!--  Reply  -->
+        <div class="msg-actions-left">
+            <a href="{% url 'postman:reply' message.pk %}?next={{ next_url|urlencode }}"
+                class="msg-btn msg-btn-primary">
+                Reply
+            </a>
+        </div>
+        <!--  Archived  -->
+        <div class="msg-actions-right">
+            {# --- If current user is the sender --- #}
+            {% if user == message.sender %}
+                {% if message.sender_archived %}
+                {# Already archived for sender: show tag + “Move back” #}
+                <span class="msg-tag msg-tag-archived">Archived</span>
+
+                <form action="{% url 'unarchive_messages' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                    Move to Inbox
+                    </button>
+                </form>
+                {% else %}
+                {# Not archived yet: show Archive button #}
+                <form action="{% url 'postman:archive' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                    Archive
+                    </button>
+                </form>
+                {% endif %}
+
+            {# --- If current user is the recipient --- #}
+            {% elif user == message.recipient %}
+                {% if message.recipient_archived %}
+                <span class="msg-tag msg-tag-archived">Archived</span>
+
+                <form action="{% url 'unarchive_messages' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                    Move to Inbox
+                    </button>
+                </form>
+                {% else %}
+                <form action="{% url 'postman:archive' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                    Archive
+                    </button>
+                </form>
+                {% endif %}
+            {% endif %}
+
+            {# ---- Delete button (always available) ---- #}
+            <form action="{% url 'postman:delete' %}" method="post" class="inline-form">
+                {% csrf_token %}
+                <input type="hidden" name="pks" value="{{ message.pk }}">
+                <input type="hidden" name="next" value="{{ next_url }}">
+                <button type="submit" class="msg-btn msg-btn-danger">
+                Delete
+                </button>
+            </form>
+        </div>
+        </div>
         {% endif %}
       </article>
     {% endfor %}
