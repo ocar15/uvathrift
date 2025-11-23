@@ -1,12 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
-<h2>Post a New Item</h2>
+{% block css %}
+    <link rel="stylesheet" type='text/css' href="{%static 'dashboard/dashboard.css'%}">
+{% endblock %}
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="nav-btn admin-btn">Post</button>
-</form>
+{% block navbar-right %}
+    <a href="{% url 'dashboard'%}">
+        <button class="nav-btn">Back</button>
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="item-form-page">
+    <div class="item-form-container">
+        <form method="POST" class="item-form" id="create-item-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
+        <button type="submit" form="create-item-form" class="post-btn">Post</button>
+    </div>
+</div>
 {% endblock %}

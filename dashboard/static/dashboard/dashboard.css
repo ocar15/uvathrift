@@ -151,3 +151,64 @@ a.item-user-profile {
 .create-listing-lnk {
     align-self: flex-end;
 }
+
+.item-form-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item-form-container {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    width: 500px;
+    background: white;
+    margin-bottom: 15px;
+}
+
+.post-btn {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: medium;
+}
+
+form.item-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-textarea {
+    padding: 8px;
+    font-size: medium;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: 'Outfit', Helvetica, sans-serif;
+    min-width: 450px;
+}
+
+.form-input {
+    padding: 8px;
+    font-size: medium;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Outfit', Helvetica, sans-serif;
+}
+
+.file-upload {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px;
+    font-family: 'Outfit', Helvetica, sans-serif;
+    font-size: medium;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+form.item-form label {
+    display: none;
+}
