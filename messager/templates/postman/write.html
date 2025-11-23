@@ -44,7 +44,7 @@
               type="text"
               name="{{ form.recipients.html_name }}"
               id="{{ form.recipients.id_for_label }}"
-              value="{{ form.recipients.value|default_if_none:'' }}"
+              value="{% if request.GET.to %}{{ request.GET.to }}{% else %}{{ form.recipients.value|default_if_none:'' }}{% endif %}"
               placeholder="Recipients"
               class="compose-input"
             />
