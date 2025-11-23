@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rluu$u$@^cu^_=@t!8fqsu@3lvo=068^h_kyt)yjbv)(024tzg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '*'
@@ -113,6 +113,7 @@ AWS_S3_REGION_NAME = 'us-east-2'
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
 MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 STATIC_URL = '/static/'
@@ -123,7 +124,7 @@ if not DEBUG:
     STORAGES = {
     # Media file management
     "default": {
-        "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage"
     },
 
     # CSS and JS file management

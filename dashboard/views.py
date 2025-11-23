@@ -4,7 +4,9 @@ from django.contrib.auth.decorators import *
 from django.contrib.auth.models import User
 from django.contrib.auth import logout as user_logout
 from allauth.socialaccount.models import *
-
+from .models import Item
+from .forms import ItemForm
+from django.shortcuts import render, redirect
 
 
 def super_user_required(func):
@@ -22,8 +24,43 @@ def logout(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard/dashboard.html', {'mode': get_mode(request)})
+    mode = "admin" if request.user.is_staff else "user" 
+    items = Item.objects.all().order_by("-created_at")
+    
+    return render(request, 'dashboard/dashboard.html', {
+     'mode': get_mode(request),
+     'user': request.user,
+     'items': items,
+     })
 
+@login_required(login_url="account_login")
+def create_item(request):
+    if request.method == "POST":
+        form = ItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            item = form.save(commit=False)
+            item.seller = request.user
+            item.save()
+            return redirect("dashboard")
+    else:
+        form = ItemForm()
+
+    return render(request, "dashboard/item_form.html", {"form": form})
+
+
+@login_required(login_url="account_login")
+def delete_item(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+
+    #only seller or staff can delete
+    if request.user != item.seller and not request.user.is_staff:
+        return redirect("dashboard")
+
+    if request.method == "POST":
+        item.delete()
+        return redirect("dashboard")
+
+    return render(request, "dashboard/item_confirm_delete.html", {"item": item})
 
 def items_list(request):
      return HttpResponse("")
