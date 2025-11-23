@@ -78,14 +78,28 @@
                 Reply
             </a>
         </div>
-        <!--  Archived  -->
+
         <div class="msg-actions-right">
-            {# --- If current user is the sender --- #}
+          <!-- Tags -->
+          <div class="msg-header-actions">
+            <!-- Archived Tag -->
+            {% if user == message.sender and message.sender_archived %}
+              <span class="msg-tag msg-tag-archived">Archived</span>
+            {% elif user == message.recipient and message.recipient_archived %}
+              <span class="msg-tag msg-tag-archived">Archived</span>
+            {% endif %}
+            <!-- Deleted Tag -->
+            {# Deleted for this user? #}
+            {% if user == message.sender and message.sender_deleted_at %}
+              <span class="msg-tag msg-tag-deleted">Deleted</span>
+            {% elif user == message.recipient and message.recipient_deleted_at %}
+              <span class="msg-tag msg-tag-deleted">Deleted</span>
+            {% endif %}
+          </div>
+            <!--  Archived  -->
+            <!-- If current user is the sender -->
             {% if user == message.sender %}
                 {% if message.sender_archived %}
-                {# Already archived for sender: show tag + “Move back” #}
-                <span class="msg-tag msg-tag-archived">Archived</span>
-
                 <form action="{% url 'unarchive_messages' %}" method="post" class="inline-form">
                     {% csrf_token %}
                     <input type="hidden" name="pks" value="{{ message.pk }}">
@@ -106,11 +120,9 @@
                 </form>
                 {% endif %}
 
-            {# --- If current user is the recipient --- #}
+            <!-- If current user is the recipient -->
             {% elif user == message.recipient %}
                 {% if message.recipient_archived %}
-                <span class="msg-tag msg-tag-archived">Archived</span>
-
                 <form action="{% url 'unarchive_messages' %}" method="post" class="inline-form">
                     {% csrf_token %}
                     <input type="hidden" name="pks" value="{{ message.pk }}">
@@ -131,15 +143,41 @@
                 {% endif %}
             {% endif %}
 
-            {# ---- Delete button (always available) ---- #}
-            <form action="{% url 'postman:delete' %}" method="post" class="inline-form">
-                {% csrf_token %}
-                <input type="hidden" name="pks" value="{{ message.pk }}">
-                <input type="hidden" name="next" value="{{ next_url }}">
-                <button type="submit" class="msg-btn msg-btn-danger">
-                Delete
-                </button>
-            </form>
+            <!-- Delete / Restore -->
+            <!-- Sender Restore -->
+            {% if user == message.sender and message.sender_deleted_at %}
+                <form action="{% url 'undelete_messages' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                        Restore
+                    </button>
+                </form>
+
+            <!-- Recipient Restore -->
+            {% elif user == message.recipient and message.recipient_deleted_at %}
+                <form action="{% url 'undelete_messages' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                        Restore
+                    </button>
+                </form>
+            
+            <!-- Normal Delete -->
+            {% else %}
+                {# Not deleted yet -> normal Delete using Postman’s DeleteView #}
+                <form action="{% url 'postman:delete' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-danger">
+                        Delete
+                    </button>
+                </form>
+            {% endif %}
         </div>
         </div>
         {% endif %}
