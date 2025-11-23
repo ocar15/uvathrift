@@ -2,8 +2,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path("", views.inbox, name="inbox"),
-    path("", views.sent, name="sent"),
-    path("", views.view, name="view"),
-    path("", views.write, name="write"),
+    path("messages/unarchive/", views.unarchive_messages, name="unarchive_messages"),
+    path("messages/undelete/", views.undelete_messages, name="undelete_messages"),
+
 ]
