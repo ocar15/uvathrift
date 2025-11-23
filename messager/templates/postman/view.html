@@ -10,9 +10,7 @@
 {% endblock css %}
 
 {% block navbar-right %}
-  <a href="{% url 'postman:inbox' %}">
-    <button class="nav-btn">Back</button>
-  </a>
+    <button class="nav-btn" onclick="window.history.back()">Back</button>
 {% endblock navbar-right %}
 
 {% block content %}
@@ -27,7 +25,7 @@
     {% include 'postman/sidebar.html' %}
   </div>
     <!-- RIGHT: message view -->
-  <main class="message-view">
+  <main class="message-view thread-view">
     {% for message in pm_messages %}
       <article class="msg-card {% if not forloop.last %}msg-card-older{% endif %}">
         {% if forloop.first %}
