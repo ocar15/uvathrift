@@ -227,3 +227,10 @@ ul.errorlist li {
     background-color: rgb(240, 186, 186);
     border-radius: 12px;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}

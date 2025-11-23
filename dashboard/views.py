@@ -7,6 +7,7 @@ from allauth.socialaccount.models import *
 from .models import Item
 from .forms import ItemForm
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 
 
 def super_user_required(func):
@@ -25,7 +26,11 @@ def logout(request):
 @login_required
 def dashboard(request):
     mode = "admin" if request.user.is_staff else "user" 
-    items = Item.objects.all().order_by("-created_at")
+    item_list = Item.objects.all().order_by("-created_at")
+
+    paginator = Paginator(item_list, 4)
+    page_number = request.GET.get('page')
+    items = paginator.get_page(page_number)
     
     return render(request, 'dashboard/dashboard.html', {
      'mode': get_mode(request),
