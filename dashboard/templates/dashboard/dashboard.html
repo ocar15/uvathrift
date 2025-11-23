@@ -31,9 +31,12 @@
 {% block content %}
 <div class="dashboard-page">
     <div class="dashboard-left">
-        <a href="{% url 'item_create' %}" class="create-listing-lnk">
-            <button class="create-listing-btn">Create new listing +</button>
-        </a>
+        <div class="new-post-div">
+            <a href="{% url 'item_create' %}" class="create-listing-lnk">
+                <button class="create-listing-btn">Create new listing +</button>
+            </a>
+            <p>Click to create a new listing and start selling or donating. We value you're use of the app and hope that you enjoy your experience on <span>uva</span>.<span>thrift</span>.</p>
+        </div>
     </div>
     <div class="dashboard-center">
         <form method="GET" class="dashboard-search">
@@ -101,7 +104,12 @@
 
     </div>
     <div class="dashboard-right">
-
+        <div class="info-box">
+            <h4>Welcome to your Dashboard, {{ user.profile.nickname }}!</h4>
+            <p>Here you can manage your listings, navigate to the messages page, and explore new items.</p>
+            <p>Use the search bar to find specific items or browse through the latest listings below.</p>
+            <p>Happy thrifting!</p>
+        </div>
     </div>
 </div>
 {% endblock content %}

@@ -139,6 +139,19 @@ a.item-user-profile {
     align-items: flex-end;
 }
 
+.new-post-div {
+    position: sticky;
+    top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+}
+
 .create-listing-btn {
     color: white;
     padding: 10px 15px;
@@ -146,11 +159,11 @@ a.item-user-profile {
     border-radius: 5px;
     cursor: pointer;
     font-size: medium;
-    align-self: flex-end;
+    /* align-self: flex-end; */
 }
 
 .create-listing-lnk {
-    align-self: flex-end;
+    /* align-self: flex-end; */
 }
 
 .item-form-page {
@@ -250,4 +263,14 @@ form.dashboard-search {
     border-radius: 4px;
     font-family: 'Outfit', Helvetica, sans-serif;
     min-width: 400px;
+}
+
+.info-box {
+    position: sticky;
+    top: 60px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0px 15px 10px 15px;
+    background: white;
+    margin-bottom: 20px;
 }
