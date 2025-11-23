@@ -1,0 +1,16 @@
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" type='text/css' href="{% static 'users/student_email.css' %}">
+</head>
+
+<div class="student-email-form-page">
+    <h3 class="email-form-header">Verification form</h3>
+    <p>Enter a valid <span>@virginia.edu</span> email below.</p>
+    <form class="verification-form" method="post">
+        {% csrf_token %}
+        {{ form.student_email }}
+        <button type="submit">Send verification email</button>
+    </form>
+</div>

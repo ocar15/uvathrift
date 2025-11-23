@@ -14,14 +14,14 @@
 
 @font-face {
     font-family: 'Righteous';
-    src: url("../fonts/Righteous-Regular.ttf") format('truetype');
+    src: url("https://uva-thrift.s3.us-east-2.amazonaws.com/fonts/Righteous-Regular.ttf") format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Outfit';
-    src: url("../fonts/Outfit-VariableFont_wght.ttf");
+    src: url("https://uva-thrift.s3.us-east-2.amazonaws.com/fonts/Outfit-VariableFont_wght.ttf");
     font-weight: normal;
     font-style: normal;
 }

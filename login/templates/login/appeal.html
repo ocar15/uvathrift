@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'login/appeal.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="appeals-page">
+    <div class="appeals-card">
+        <h2 class="admin-title" style='text-align: center;'>Appeal Account Suspension</h2>
+
+        <!-- Appeal Form -->
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="appealText">Enter Appeal Below:</label>
+                <textarea id="appealText" name="appeal" rows="10" required></textarea>
+            </div>
+            <button type="submit" name="action" value="submitAppeal" class="card-btn edit">Submit Appeal</button>
+        </form>
+
+        <!-- Logout Form -->
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="card-btn suspend">Logout</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

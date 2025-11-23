@@ -17,7 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
 urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("", include("dashboard.urls"))
     path('mod/', include('moderation.urls')),
     path("", include('login.urls')),
     path("dashboard/", include('dashboard.urls')),

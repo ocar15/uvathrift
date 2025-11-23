@@ -3,7 +3,7 @@
 {% load socialaccount %}
 
 {% block css %}
-    <link rel="stylesheet" type='text/css' href="{%static 'css/base.css'%}">
+    <!-- <link rel="stylesheet" type='text/css' href="{%static 'css/base.css'%}"> -->
     <link rel="stylesheet" type='text/css' href="{%static 'dashboard/login.css'%}">
     <link rel="stylesheet" type='text/css' href="{%static 'dashboard/dashboard.css'%}">
 {% endblock %}
@@ -11,6 +11,9 @@
 {% block navbar-right %}
     <a href="{% url 'postman:inbox'%}">
         <button class="nav-btn">Messages</button>
+    </a>
+    <a href="{% url 'item_create' %}">
+        <button class="nav-btn admin-btn">Make New Post</button>
     </a>
     {% if mode == 'admin' %}
     <a href="{% url 'admin_only' %}">
@@ -21,9 +24,43 @@
     <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">
         <img class='nav-pfp' src="{{ user.profile.image.url }}">
         <span style="margin-left: 10px; margin-right: 5px;">{{ user.profile.nickname }}</span>
-        <span style='color: red;'>({{ mode }})</span></a>
+        <span style='color: red;'>({{ mode }})</span>
+        {% if user.profile.student_email_verified %}
+            <img class="verified-badge-icon" id="verification-badge" src="{% static 'users/images/verified_badge.png' %}" />
+        {% endif %}
+    </a>
 {% endblock %}
 
 {% block content %}
 <p>current mode: {{mode}}</p>
+<main>
+    <p>current mode: {{ mode }}</p>
+  
+    <h2>Latest Listings</h2>
+  
+    <div class="items-grid">
+        {% for item in items %}
+            <div class="item-card">
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">
+                {% endif %}
+                <h3>{{ item.title }}</h3>
+                <p><strong>${{ item.price }}</strong></p>
+                <p>{{ item.description }}</p>
+                <p class="seller">Seller: {{ item.seller.username }}</p>
+    
+                {% if user == item.seller or user.is_staff %}
+                    <form method="POST" action="{% url 'item_delete' item.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-btn">Delete</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No items yet — be the first to list something!</p>
+        {% endfor %}
+    </div>
+  </main>
+  
 {% endblock content %}
+

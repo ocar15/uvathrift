@@ -1,0 +1,24 @@
+.nav-btn{
+    width: auto;
+    margin: 0px;
+}
+/* compose button */
+.comp-btn {
+    height: 60px;
+    font-size: 30px;
+}
+
+.page-toolbar { 
+    padding: 16px 20px;  
+}
+
+/* sidebar */
+.layout { 
+    display: grid; grid-template-columns: 200px 1fr; gap: 8px; 
+}
+
+.page { 
+    padding: 16px;
+    height: 75vh;
+}
+

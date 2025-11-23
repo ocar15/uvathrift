@@ -16,7 +16,7 @@ class SuspendedMiddleware:
                 profile.save()
             
             if profile.is_suspended():
-                exclusions = [reverse('suspended'), reverse('logout')]
+                exclusions = [reverse('suspended'), reverse('logout'), reverse('appeal')]
                 if request.path not in exclusions:
                     return redirect('suspended')
                 

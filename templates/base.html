@@ -7,6 +7,9 @@
     <title>{% block title %}UVA Thrift{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block css %}{% endblock %}
+    {% block extra_global_css %}
+    <link rel="stylesheet" href="{% static 'css/badge.css' %}">
+    {% endblock %}
 </head>
 <body>
     <header>

@@ -14,14 +14,14 @@
 
 @font-face {
     font-family: 'Righteous';
-    src: url("../fonts/Righteous-Regular.ttf") format('truetype');
+    src: url("static/fonts/Righteous-Regular.ttf") format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Outfit';
-    src: url("../fonts/Outfit-VariableFont_wght.ttf");
+    src: url("static/fonts/Outfit-VariableFont_wght.ttf");
     font-weight: normal;
     font-style: normal;
 }
