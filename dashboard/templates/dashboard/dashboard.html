@@ -33,29 +33,53 @@
 
 {% block content %}
 <div class="dashboard-page">
-    <h2>Latest Listings</h2>
-    <div class="items-grid">
-        {% for item in items %}
-            <div class="item-card">
-                {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">
-                {% endif %}
-                <h3>{{ item.title }}</h3>
-                <p><strong>${{ item.price }}</strong></p>
-                <p>{{ item.description }}</p>
-                <p class="seller">Seller: {{ item.seller.username }}</p>
-    
-                {% if user == item.seller or user.is_staff %}
-                    <form method="POST" action="{% url 'item_delete' item.pk %}">
-                        {% csrf_token %}
-                        <button type="submit" class="nav-btn">Delete</button>
-                    </form>
-                {% endif %}
-            </div>
-        {% empty %}
-            <p>No items yet — be the first to list something!</p>
-        {% endfor %}
-    </div>  
+    <div class="dashboard-left">
+
+    </div>
+    <div class="dashboard-center">
+        <div class="items-grid">
+            {% for item in items %}
+                <div class="item-card">
+                    <div class="user-div">
+                        <a href="{% url 'user_profile' item.seller.username %}" class="item-user-profile">
+                            <img class="nav-pfp" src="{{ item.seller.profile.image.url }}">
+                            <span class="item-seller-name">{{ item.seller.profile.nickname }}</span>
+                            {% if item.seller.profile.student_email_verified %}
+                            <img class="verified-badge-icon" id="verification-badge" src="{% static 'users/images/verified_badge.png' %}" />
+                            {% endif %}
+                        </a>
+                        {% if user == item.seller or user.is_staff %}
+                            <form method="POST" action="{% url 'item_delete' item.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+                        {% endif %}
+                        <button class="item-message-btn">
+                            Message Seller
+                        </button>
+                    </div>
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">
+                    {% endif %}
+                    <div class="content-div">
+                        <div class="item-text">
+                            <div class="item-and-price">
+                                <h5>{{ item.title }}</h5>
+                                <p><strong>${{ item.price }}</strong></p>
+                            </div>
+                            <p class="item-description">{{ item.description }}</p>
+                        </div>
+                    </div>
+        
+                </div>
+            {% empty %}
+                <p>No items yet — be the first to list something!</p>
+            {% endfor %}
+        </div>  
+    </div>
+    <div class="dashboard-right">
+
+    </div>
 </div>
 {% endblock content %}
 
