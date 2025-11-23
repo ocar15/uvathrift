@@ -22,7 +22,7 @@ def dashboard(request):
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("dashboard.urls"))
+    path("", include("dashboard.urls")),
     path('mod/', include('moderation.urls')),
     path("", include('login.urls')),
     path("dashboard/", include('dashboard.urls')),
