@@ -12,9 +12,6 @@
     <a href="{% url 'postman:inbox'%}">
         <button class="nav-btn">Messages</button>
     </a>
-    <a href="{% url 'item_create' %}">
-        <button class="nav-btn admin-btn">Make New Post</button>
-    </a>
     {% if mode == 'admin' %}
     <a href="{% url 'admin_only' %}">
         <button class='nav-btn admin-btn'>Admin Panel</button>
@@ -32,35 +29,88 @@
 {% endblock %}
 
 {% block content %}
-<p>current mode: {{mode}}</p>
-<main>
-    <p>current mode: {{ mode }}</p>
-  
-    <h2>Latest Listings</h2>
-  
-    <div class="items-grid">
-        {% for item in items %}
-            <div class="item-card">
-                {% if item.image %}
-                    <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">
+<div class="dashboard-page">
+    <div class="dashboard-left">
+        <div class="new-post-div">
+            <a href="{% url 'item_create' %}" class="create-listing-lnk">
+                <button class="create-listing-btn">Create new listing +</button>
+            </a>
+            <p>Click to create a new listing and start selling or donating. We value you're use of the app and hope that you enjoy your experience on <span>uva</span>.<span>thrift</span>.</p>
+        </div>
+    </div>
+    <div class="dashboard-center">
+        <form method="GET" class="dashboard-search">
+            <input 
+                type="text" 
+                name="q" 
+                placeholder="Search for items or browse below..." 
+                value="{{ query|default:'' }}"
+                class="search-input"
+            >
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+        <div class="items-grid">
+            {% for item in items %}
+                <div class="item-card">
+                    <div class="user-div">
+                        <a href="{% url 'user_profile' item.seller.username %}" class="item-user-profile">
+                            <img class="nav-pfp" src="{{ item.seller.profile.image.url }}">
+                            <span class="item-seller-name">{{ item.seller.profile.nickname }}</span>
+                            {% if item.seller.profile.student_email_verified %}
+                            <img class="verified-badge-icon" id="verification-badge" src="{% static 'users/images/verified_badge.png' %}" />
+                            {% endif %}
+                        </a>
+                        {% if user == item.seller or user.is_staff %}
+                            <form method="POST" action="{% url 'item_delete' item.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+                        {% endif %}
+                        <button class="item-message-btn">
+                            Message Seller
+                        </button>
+                    </div>
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">
+                    {% endif %}
+                    <div class="content-div">
+                        <div class="item-text">
+                            <div class="item-and-price">
+                                <h5>{{ item.title }}</h5>
+                                <p><strong>${{ item.price }}</strong></p>
+                            </div>
+                            <p class="item-description">{{ item.description }}</p>
+                        </div>
+                    </div>
+        
+                </div>
+            {% empty %}
+                <p>No items yet — be the first to list something!</p>
+            {% endfor %}
+        </div>
+        {% if items.has_other_pages %}
+            <div class="pagination">
+                {% if items.has_previous %}
+                    <a class="page-btn" href="?page={{ items.previous_page_number }}&q={{ request.GET.q }}">← Previous</a>
                 {% endif %}
-                <h3>{{ item.title }}</h3>
-                <p><strong>${{ item.price }}</strong></p>
-                <p>{{ item.description }}</p>
-                <p class="seller">Seller: {{ item.seller.username }}</p>
-    
-                {% if user == item.seller or user.is_staff %}
-                    <form method="POST" action="{% url 'item_delete' item.pk %}">
-                        {% csrf_token %}
-                        <button type="submit" class="nav-btn">Delete</button>
-                    </form>
+                <span class="page-info">
+                    Page {{ items.number }} of {{ items.paginator.num_pages }}
+                </span>
+                {% if items.has_next %}
+                    <a class="page-btn" href="?page={{ items.next_page_number }}&q={{ request.GET.q }}">Next →</a>
                 {% endif %}
             </div>
-        {% empty %}
-            <p>No items yet — be the first to list something!</p>
-        {% endfor %}
+        {% endif %}
+
     </div>
-  </main>
-  
+    <div class="dashboard-right">
+        <div class="info-box">
+            <h4>Welcome to your Dashboard, {{ user.profile.nickname }}!</h4>
+            <p>Here you can manage your listings, message sellers, and explore new items.</p>
+            <p>Use the search bar to find specific items or browse through the latest listings below.</p>
+            <p>Happy thrifting!</p>
+        </div>
+    </div>
+</div>
 {% endblock content %}
 

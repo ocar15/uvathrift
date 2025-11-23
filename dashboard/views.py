@@ -7,6 +7,8 @@ from allauth.socialaccount.models import *
 from .models import Item
 from .forms import ItemForm
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
+from django.contrib.postgres.search import SearchVector
 
 
 def super_user_required(func):
@@ -25,7 +27,16 @@ def logout(request):
 @login_required
 def dashboard(request):
     mode = "admin" if request.user.is_staff else "user" 
-    items = Item.objects.all().order_by("-created_at")
+    item_list = Item.objects.all().order_by("-created_at")
+    query = request.GET.get('q')
+    if query:
+        item_list = item_list.annotate(
+            search=SearchVector('title', 'description'),
+        ).filter(search=query)
+
+    paginator = Paginator(item_list, 4)
+    page_number = request.GET.get('page')
+    items = paginator.get_page(page_number)
     
     return render(request, 'dashboard/dashboard.html', {
      'mode': get_mode(request),
