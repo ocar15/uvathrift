@@ -47,7 +47,11 @@
               value="{% if request.GET.to %}{{ request.GET.to }}{% else %}{{ form.recipients.value|default_if_none:'' }}{% endif %}"
               placeholder="Recipients"
               class="compose-input"
+              list="recipient-suggestions"
             />
+            <datalist id="recipient-suggestions">
+              <option value="testuser123"></option>
+            </datalist>
           </div>
         </div>
 
@@ -90,4 +94,23 @@
     </div>
   </main>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const datalist = document.getElementById("recipient-suggestions");
+  if (!datalist) return;
+
+  fetch("/users/api/usernames/")
+    .then(response => response.json())
+    .then(data => {
+      (data.usernames || []).forEach(username => {
+        const option = document.createElement("option");
+        option.value = username;
+        datalist.appendChild(option);
+      });
+    })
+    .catch(err => {
+      console.error("Error loading username suggestions:", err);
+    });
+});
+</script>
 {% endblock %}
