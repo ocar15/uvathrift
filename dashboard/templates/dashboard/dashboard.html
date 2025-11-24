@@ -71,6 +71,10 @@
                         <a class="item-message-btn"
                         href="{% url 'postman:write' %}?to={{ item.seller.username }}&item={{ item.id }}&title={{ item.title|urlencode }}">
                             Message Seller
+                        <a href="{% url 'postman:write' %}?to={{ item.seller.username }}&item={{ item.id }}">
+                            <button class="item-message-btn">
+                                Message Seller
+                            </button>
                         </a>
                     </div>
                     {% if item.image %}
