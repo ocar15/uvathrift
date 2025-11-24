@@ -19,6 +19,10 @@ from .forms import StudentEmailForm
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
+# List of users
+from django.http import JsonResponse
+from django.contrib.auth.models import User
+
 
 def get_mode(request):
     return 'admin' if request.user.is_superuser else 'user'
@@ -159,3 +163,11 @@ def verify_student_email(request, token):
     request.user.profile.save()
     messages.success(request, "Your student email has been verified.")
     return redirect("my_profile")
+
+@login_required
+def username_list(request):
+    usernames = list(
+        User.objects.values_list("username", flat=True)
+        .exclude(pk=request.user.pk) 
+    )
+    return JsonResponse({"usernames": usernames})
