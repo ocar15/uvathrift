@@ -1,0 +1,281 @@
+body {
+    margin: 0;
+}
+
+.nav-btn{
+    width: auto;
+    margin: 0px;
+}
+
+.nav-pfp{
+    width: 50px;
+    border-radius: 50%;
+}
+
+.admin-btn{
+    background-color: red;
+}
+
+.username-display{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: large;
+    padding: 12px 25px 12px 10px;
+}
+
+.dashboard-page {
+    padding: 20px 40px;
+    display: flex;
+}
+
+.dashboard-center {
+    flex: 3;
+    /* border: 1px solid #ccc; */
+}
+
+.items-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.item-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 30px 12px 30px;
+    width: 450px;
+    background: white;
+}
+
+.item-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 300px;
+    height: auto;
+    max-height: 300px;
+    border-radius: 6px;
+}
+
+.user-div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+a.item-user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.delete-btn {
+    background-color: rgb(220, 169, 163);
+    border: 1px solid var(--error-red);
+    color: var(--error-red);
+    padding: 5px 10px;
+    font-size: small;
+}
+
+.content-div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.item-text {
+    flex: 3;
+}
+
+.item-message-btn {
+    background-color: #67705c;
+    color: var(--white);
+    border: 1px solid var(--background-dark);
+    border-radius: var(--border-radius);
+    font-size: small;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px 10px;
+}
+
+.item-and-price {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: 250px;
+}
+
+.item-and-price h5 {
+    max-width: 200px;
+    align-items: flex-start;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.item-description {
+    margin-top: 10px;
+    max-width: 450px;
+    align-items: flex-start;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.dashboard-right {
+    flex: 2;
+}
+
+.dashboard-left {
+    flex: 2;
+    /* border: 1px solid #ccc; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.new-post-div {
+    position: sticky;
+    top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+}
+
+.create-listing-btn {
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: medium;
+    /* align-self: flex-end; */
+}
+
+.create-listing-lnk {
+    /* align-self: flex-end; */
+}
+
+.item-form-page {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item-form-container {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    width: 500px;
+    background: white;
+    margin-bottom: 15px;
+}
+
+.item-form-container > h4 {
+    margin-top: 0;
+}
+
+.post-btn {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: medium;
+}
+
+form.item-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-textarea {
+    padding: 8px;
+    font-size: medium;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: 'Outfit', Helvetica, sans-serif;
+    min-width: 450px;
+}
+
+.form-input {
+    padding: 8px;
+    font-size: medium;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Outfit', Helvetica, sans-serif;
+}
+
+.file-upload {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px;
+    font-family: 'Outfit', Helvetica, sans-serif;
+    font-size: medium;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+form.item-form label {
+    display: none;
+}
+
+
+ul.errorlist {
+    color: red;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.errorlist li {
+    margin: 0;
+    padding: 10px;
+    background-color: rgb(240, 186, 186);
+    border-radius: 12px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+form.dashboard-search {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.search-input {
+    padding: 8px;
+    font-size: medium;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Outfit', Helvetica, sans-serif;
+    min-width: 400px;
+}
+
+.info-box {
+    position: sticky;
+    top: 60px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0px 15px 10px 15px;
+    background: white;
+    margin-bottom: 20px;
+}
