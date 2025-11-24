@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load socialaccount %}
+{% load postman_tags %}
+{% load i18n %}
 
 {% block css %}
     <!-- <link rel="stylesheet" type='text/css' href="{%static 'css/base.css'%}"> -->
@@ -66,9 +68,10 @@
                                 <button type="submit" class="delete-btn">Delete</button>
                             </form>
                         {% endif %}
-                        <button class="item-message-btn">
+                        <a class="item-message-btn"
+                                href="{% url 'postman:write' %}?to={{ item.seller.username }}&item={{ item.id }}">
                             Message Seller
-                        </button>
+                        </a>
                     </div>
                     {% if item.image %}
                         <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">

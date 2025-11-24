@@ -10,4 +10,5 @@ urlpatterns = [
     path('profile/<str:username>/', views.user_profile, name='user_profile'),
     path('verify-student/', views.request_student_verification, name='request_student_verification'),
     path('verify-student/<str:token>/', views.verify_student_email, name='verify_student_email'),
+    path("api/usernames/", views.username_list, name="username_list"),
 ]

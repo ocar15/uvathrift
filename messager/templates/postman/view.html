@@ -71,10 +71,17 @@
 
         <!--  Reply  -->
         <div class="msg-actions-left">
-            <a href="{% url 'postman:reply' message.pk %}?next={{ next_url|urlencode }}"
-                class="msg-btn msg-btn-primary">
-                Reply
+          {% if message.recipient == request.user %}
+          {# You received this, so real reply is allowed #}
+            <a href="{% url 'postman:reply' message.pk %}?to={{ message.sender.username }}"
+              <button class="msg-btn msg-btn-primary">Reply</button>
             </a>
+          {% else %}
+            {# You sent this, so use write with recipient prefilled #}
+            <a href="{% url 'postman:write' %}?to={{ message.recipient.username }}">
+              <button class="msg-btn msg-btn-primary">Reply</button>
+            </a>
+          {% endif %}
         </div>
 
         <div class="msg-actions-right">
