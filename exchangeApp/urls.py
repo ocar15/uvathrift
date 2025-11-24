@@ -17,11 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
 urlpatterns = [
+    path("admin/", admin.site.urls),
     path('mod/', include('moderation.urls')),
     path("", include('login.urls')),
     path("dashboard/", include('dashboard.urls')),
     path("users/", include("users.urls")),
     path('accounts/', include('allauth.urls')),
-    path("messages/", include("postman.urls", namespace="postman")),
+    path("messages/", include("postman.urls", namespace="postman")), 
+    path("messages/", include("messager.urls")),
+
 ]

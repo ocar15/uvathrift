@@ -19,5 +19,6 @@
 
 .page { 
     padding: 16px;
-    height: 75vh;
+    min-height: 75vh;
+    height: auto;
 }

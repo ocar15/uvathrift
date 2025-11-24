@@ -1,0 +1,186 @@
+{% extends "postman/base_folder.html" %}
+{% load static %}
+{% load postman_tags %}
+{% load i18n %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'view.css' %}">
+  <link rel="stylesheet" href="{% static 'sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'message_list.css' %}">
+{% endblock css %}
+
+{% block navbar-right %}
+    <button class="nav-btn" onclick="window.history.back()">Back</button>
+{% endblock navbar-right %}
+
+{% block content %}
+<div class="layout">
+  <!-- LEFT: sidebar -->
+  <div class="page">
+    <div class = "page-toolbar">
+      <a href = "{% url 'postman:write' %}">
+      <button class = "comp-btn">Compose</button>
+      </a>
+    </div>
+    {% include 'postman/sidebar.html' %}
+  </div>
+    <!-- RIGHT: message view -->
+  <main class="message-view thread-view">
+    {% for message in pm_messages %}
+      <article class="msg-card {% if not forloop.last %}msg-card-older{% endif %}">
+        {% if forloop.first %}
+          <!-- subject -->
+          <header class="msg-header">
+            <h1 class="msg-subject">{{ message.subject }}</h1>
+            <div class="msg-header-meta">
+              <span class="msg-date">
+                {{ message.sent_at|date:"D, M j, g:i A" }}
+              </span>
+            </div>
+          </header>
+        {% endif %}
+
+        <!-- From / To row -->
+        <section class="msg-from-row">
+          <div class="msg-avatar">
+            {{ message.sender.username|slice:":1"|upper }}
+          </div>
+          <div class="msg-from-main">
+            <div class="from-top-line">
+              <span class="from-name">
+                {{ message.sender|or_me:user }}
+              </span>
+              <span class="from-to">
+                to {{ message.recipient|or_me:user }}
+              </span>
+            </div>
+            <div class="from-sub-line">
+              {{ message.sent_at|date:"M j, Y, g:i A" }}
+            </div>
+          </div>
+        </section>
+
+        <!-- Body -->
+        <section class="msg-body">
+          {{ message.body|linebreaksbr }}
+        </section>
+
+        {% if forloop.last %}
+        <!-- Actions only on the latest message -->
+        <div class="msg-header">
+
+        <!--  Reply  -->
+        <div class="msg-actions-left">
+            <a href="{% url 'postman:reply' message.pk %}?next={{ next_url|urlencode }}"
+                class="msg-btn msg-btn-primary">
+                Reply
+            </a>
+        </div>
+
+        <div class="msg-actions-right">
+          <!-- Tags -->
+          <div class="msg-header-actions">
+            <!-- Archived Tag -->
+            {% if user == message.sender and message.sender_archived %}
+              <span class="msg-tag msg-tag-archived">Archived</span>
+            {% elif user == message.recipient and message.recipient_archived %}
+              <span class="msg-tag msg-tag-archived">Archived</span>
+            {% endif %}
+            <!-- Deleted Tag -->
+            {# Deleted for this user? #}
+            {% if user == message.sender and message.sender_deleted_at %}
+              <span class="msg-tag msg-tag-deleted">Deleted</span>
+            {% elif user == message.recipient and message.recipient_deleted_at %}
+              <span class="msg-tag msg-tag-deleted">Deleted</span>
+            {% endif %}
+          </div>
+            <!--  Archived  -->
+            <!-- If current user is the sender -->
+            {% if user == message.sender %}
+                {% if message.sender_archived %}
+                <form action="{% url 'unarchive_messages' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                    Move to Inbox
+                    </button>
+                </form>
+                {% else %}
+                {# Not archived yet: show Archive button #}
+                <form action="{% url 'postman:archive' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                    Archive
+                    </button>
+                </form>
+                {% endif %}
+
+            <!-- If current user is the recipient -->
+            {% elif user == message.recipient %}
+                {% if message.recipient_archived %}
+                <form action="{% url 'unarchive_messages' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                    Move to Inbox
+                    </button>
+                </form>
+                {% else %}
+                <form action="{% url 'postman:archive' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                    Archive
+                    </button>
+                </form>
+                {% endif %}
+            {% endif %}
+
+            <!-- Delete / Restore -->
+            <!-- Sender Restore -->
+            {% if user == message.sender and message.sender_deleted_at %}
+                <form action="{% url 'undelete_messages' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                        Restore
+                    </button>
+                </form>
+
+            <!-- Recipient Restore -->
+            {% elif user == message.recipient and message.recipient_deleted_at %}
+                <form action="{% url 'undelete_messages' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-secondary">
+                        Restore
+                    </button>
+                </form>
+            
+            <!-- Normal Delete -->
+            {% else %}
+                {# Not deleted yet -> normal Delete using Postman’s DeleteView #}
+                <form action="{% url 'postman:delete' %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="pks" value="{{ message.pk }}">
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    <button type="submit" class="msg-btn msg-btn-danger">
+                        Delete
+                    </button>
+                </form>
+            {% endif %}
+        </div>
+        </div>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </main>
+</div>
+{% endblock content %}

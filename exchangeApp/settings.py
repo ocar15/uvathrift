@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import dj_database_url
 
 load_dotenv()
 
@@ -99,10 +100,9 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('PSQL_URI')
+    )
 }
 
 # AWS
@@ -113,6 +113,7 @@ AWS_S3_REGION_NAME = 'us-east-2'
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
 MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 STATIC_URL = '/static/'
@@ -123,7 +124,7 @@ if not DEBUG:
     STORAGES = {
     # Media file management
     "default": {
-        "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage"
     },
 
     # CSS and JS file management

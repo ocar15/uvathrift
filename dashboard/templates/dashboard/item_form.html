@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type='text/css' href="{%static 'dashboard/dashboard.css'%}">
+{% endblock %}
+
+{% block navbar-right %}
+    <a href="{% url 'dashboard'%}">
+        <button class="nav-btn">Back</button>
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="item-form-page">
+
+    <div class="item-form-container">
+        <h4>New listing</h4>
+        <p>Fill out the form below to create a new item listing. To create a donation listing simply set the price field to $0.</p>
+        <p>Images are recommended but <span>not required</span>.</p>
+    </div>
+
+    <div class="item-form-container">
+        <form method="POST" class="item-form" id="create-item-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
+        <button type="submit" form="create-item-form" class="post-btn">Post</button>
+    </div>
+</div>
+{% endblock %}

@@ -1,54 +1,37 @@
-{% extends 'base.html' %}
+{% extends 'dashboard/dashboard.html' %}
 {% load static %}
-{% load socialaccount %}
 
 {% block css %}
-    <!-- <link rel="stylesheet" type='text/css' href="{%static 'css/base.css'%}"> -->
-    <link rel="stylesheet" type='text/css' href="{%static 'dashboard/login.css'%}">
-    <link rel="stylesheet" type='text/css' href="{%static 'dashboard/dashboard.css'%}">
-{% endblock %}
-
-{% block navbar-right %}
-    <a href="{% url 'postman:inbox'%}">
-        <button class="nav-btn">Messages</button>
-    </a>
-    {% if mode == 'admin' %}
-    <a href="{% url 'admin_only' %}">
-        <button class='nav-btn admin-btn'>Admin Panel</button>
-    </a> 
-    {% endif %}
-    <a href="{% url 'logout' %}"> <button class='nav-btn'>Logout</button> </a>
-    <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">
-        <img class='nav-pfp' src="{{ user.profile.image.url }}">
-        <span style="margin-left: 10px; margin-right: 5px;">{{ user.profile.nickname }}</span>
-        <span style='color: red;'>({{ mode }})</span>
-        {% if user.profile.student_email_verified %}
-            <img class="verified-badge-icon" id="verification-badge" src="{% static 'users/images/verified_badge.png' %}" />
-        {% endif %}
-    </a>
+    <link rel="stylesheet" type='text/css' href="{%static 'users/profile.css'%}">
+    <link rel="stylesheet" type='text/css' href="{%static 'users/view_profile.css'%}">
 {% endblock %}
 
 {% block content %}
-<div class="dashboard-page">
-    <div class="dashboard-left">
-        <div class="new-post-div">
-            <a href="{% url 'item_create' %}" class="create-listing-lnk">
-                <button class="create-listing-btn">Create new listing +</button>
-            </a>
-            <p>Click to create a new listing and start selling or donating. We value you're use of the app and hope that you enjoy your experience on <span>uva</span>.<span>thrift</span>.</p>
+<div class="profile-page">
+    <div class="profile-block">
+        <div class="profile-block-left">
+            <img class="profile-picture" src={{ user_profile.profile.image.url }} />
+        </div>
+        <div class="profile-block-right">
+            <h3 style="margin-bottom: 10px;">
+                {{ user_profile.username }}
+                {% if user_profile.profile.student_email_verified %}
+                    <img class="verified-badge-icon" src="{% static 'users/images/verified_badge.png' %}" />
+                {% endif %}
+            </h3>
+            <h4>
+                {% if user_profile.username != user_profile.profile.nickname%}
+                {{ user_profile.profile.nickname }}
+                {% else %}
+                <span style="color: grey;">(No nickname set)</span>
+                {% endif %}
+            </h4>
         </div>
     </div>
-    <div class="dashboard-center">
-        <form method="GET" class="dashboard-search">
-            <input 
-                type="text" 
-                name="q" 
-                placeholder="Search for items or browse below..." 
-                value="{{ query|default:'' }}"
-                class="search-input"
-            >
-            <button type="submit" class="search-btn">Search</button>
-        </form>
+</div>
+</div>
+<h4>Current Listings</h4>
+
         <div class="items-grid">
             {% for item in items %}
                 <div class="item-card">
@@ -85,7 +68,7 @@
         
                 </div>
             {% empty %}
-                <p>No items yet — be the first to list something!</p>
+                <p>This user does not have any items yet!</p>
             {% endfor %}
         </div>
         {% if items.has_other_pages %}
@@ -103,14 +86,4 @@
         {% endif %}
 
     </div>
-    <div class="dashboard-right">
-        <div class="info-box">
-            <h4>Welcome to your Dashboard, {{ user.profile.nickname }}!</h4>
-            <p>Here you can manage your listings, message sellers, and explore new items.</p>
-            <p>Use the search bar to find specific items or browse through the latest listings below.</p>
-            <p>Happy thrifting!</p>
-        </div>
-    </div>
-</div>
-{% endblock content %}
-
+{% endblock %}
