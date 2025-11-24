@@ -1,0 +1,89 @@
+{% extends 'dashboard/dashboard.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type='text/css' href="{%static 'users/profile.css'%}">
+    <link rel="stylesheet" type='text/css' href="{%static 'users/view_profile.css'%}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+    <div class="profile-block">
+        <div class="profile-block-left">
+            <img class="profile-picture" src={{ user_profile.profile.image.url }} />
+        </div>
+        <div class="profile-block-right">
+            <h3 style="margin-bottom: 10px;">
+                {{ user_profile.username }}
+                {% if user_profile.profile.student_email_verified %}
+                    <img class="verified-badge-icon" src="{% static 'users/images/verified_badge.png' %}" />
+                {% endif %}
+            </h3>
+            <h4>
+                {% if user_profile.username != user_profile.profile.nickname%}
+                {{ user_profile.profile.nickname }}
+                {% else %}
+                <span style="color: grey;">(No nickname set)</span>
+                {% endif %}
+            </h4>
+        </div>
+    </div>
+</div>
+</div>
+<h4>Current Listings</h4>
+
+        <div class="items-grid">
+            {% for item in items %}
+                <div class="item-card">
+                    <div class="user-div">
+                        <a href="{% url 'user_profile' item.seller.username %}" class="item-user-profile">
+                            <img class="nav-pfp" src="{{ item.seller.profile.image.url }}">
+                            <span class="item-seller-name">{{ item.seller.profile.nickname }}</span>
+                            {% if item.seller.profile.student_email_verified %}
+                            <img class="verified-badge-icon" id="verification-badge" src="{% static 'users/images/verified_badge.png' %}" />
+                            {% endif %}
+                        </a>
+                        {% if user == item.seller or user.is_staff %}
+                            <form method="POST" action="{% url 'item_delete' item.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+                        {% endif %}
+                        <button class="item-message-btn">
+                            Message Seller
+                        </button>
+                    </div>
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">
+                    {% endif %}
+                    <div class="content-div">
+                        <div class="item-text">
+                            <div class="item-and-price">
+                                <h5>{{ item.title }}</h5>
+                                <p><strong>${{ item.price }}</strong></p>
+                            </div>
+                            <p class="item-description">{{ item.description }}</p>
+                        </div>
+                    </div>
+        
+                </div>
+            {% empty %}
+                <p>This user does not have any items yet!</p>
+            {% endfor %}
+        </div>
+        {% if items.has_other_pages %}
+            <div class="pagination">
+                {% if items.has_previous %}
+                    <a class="page-btn" href="?page={{ items.previous_page_number }}&q={{ request.GET.q }}">← Previous</a>
+                {% endif %}
+                <span class="page-info">
+                    Page {{ items.number }} of {{ items.paginator.num_pages }}
+                </span>
+                {% if items.has_next %}
+                    <a class="page-btn" href="?page={{ items.next_page_number }}&q={{ request.GET.q }}">Next →</a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+    </div>
+{% endblock %}
