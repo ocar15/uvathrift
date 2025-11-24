@@ -63,7 +63,7 @@
               type="text"
               name="{{ form.subject.html_name }}"
               id="{{ form.subject.id_for_label }}"
-              value="{{ form.subject.value|default_if_none:'' }}"
+              value="{% if request.GET.title %}{{ request.GET.title }}{% else %}{{ form.subject.value|default_if_none:'' }}{% endif %}"
               placeholder="Subject"
               class="compose-input"
             />
