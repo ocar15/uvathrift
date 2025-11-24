@@ -22,6 +22,10 @@ from django.template.loader import render_to_string
 # List of users
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+#Profile Page
+from dashboard.models import Item
+from django.core.paginator import Paginator
+
 
 
 def get_mode(request):
@@ -61,7 +65,19 @@ def user_profile(request, username):
         u = User.objects.get(username=username)
     except User.DoesNotExist:
         return HttpResponse("<h1>User not found</h1>", status=404)
-    return HttpResponse(f"<h1>Profile: {u.username}</h1>")
+    print(username)
+    item_list = Item.objects.filter(seller=u).order_by("-created_at")
+    print(item_list)
+    paginator = Paginator(item_list, 4)
+    page_number = request.GET.get('page')
+    items = paginator.get_page(page_number)
+    
+    return render(request, 'users/view_profile.html', {
+     'mode': get_mode(request),
+     'user': request.user,
+     'user_profile': u,
+     'items': items,
+     })
 
 @login_required
 def edit_profile(request):
