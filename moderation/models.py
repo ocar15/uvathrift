@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from dashboard.models import Item
 
 # Create your models here.
 class Appeals(models.Model):
@@ -12,3 +13,7 @@ class Appeals(models.Model):
     def __str__(self):
         return f"Appeal from {self.user.username} status: {self.status}"
 
+class Reports(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    reported_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    report_description = models.TextField()

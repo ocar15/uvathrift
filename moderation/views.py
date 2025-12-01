@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import *
 from django.contrib.auth.models import User
 from .models import *
+from dashboard.models import Item
 from django.contrib.auth import logout as user_logout
 from allauth.socialaccount.models import *
 from datetime import datetime
@@ -173,6 +174,19 @@ def view_appeal(request):
 
 @super_user_required
 def manage_posts(request):
+    reports = Reports.objects.all()
+    report_info = []
+    for report in reports:
+        report_info.append({
+            "item": report.item,
+            "user": report.item.seller,
+            "reporter": report.reported_by,
+            "description": report.report_description,
+        })
+    return render(request, "moderation/manage_posts.html", {'mode': get_mode(request), 'report_info': report_info})
+
+@super_user_required
+def view_report(request):
     return redirect("admin_only")
 
 
