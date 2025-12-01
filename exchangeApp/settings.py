@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'login',
     'dashboard',
     'moderation',
-    'messaging',
     'messager',
     'django.contrib.sites',
     'allauth',
