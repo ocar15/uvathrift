@@ -74,7 +74,7 @@ def edit_user(request):
 
 
         elif action == 'save':            
-            cur_user.username = request.POST.get("username", cur_user.username)
+            cur_user.profile.nickname = request.POST.get("username", cur_user.profile.nickname)
             cur_user.email = request.POST.get("email", cur_user.email)
             cur_user.is_superuser = bool(request.POST.get("is_superuser"))
             cur_user.is_staff = bool(request.POST.get("is_superuser"))
