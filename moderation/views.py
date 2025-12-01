@@ -37,20 +37,22 @@ def admin_only(request):
 
 @super_user_required
 def manage_users(request):
+    query = request.GET.get('q', '').strip().lower()
     users = User.objects.all()
     user_info = []
     for u in users:
         try:
-            social = SocialAccount.objects.get(user=u)
+            social = SocialAccount.objects.filter(user=u).first()
             user_data = social.extra_data
         except SocialAccount.DoesNotExist:
             user_data = {}
 
 
-        user_info.append({
-            "user": u,
-            "data": user_data
-        })
+        if (query in u.username.lower() or query in u.profile.nickname.lower() or query in u.email.lower()):
+            user_info.append({
+                "user": u,
+                "data": user_data
+            })
     return render(request, 'moderation/manage_users.html', {'users': users, 'mode': get_mode(request), 'user_data': user_info})
 
 

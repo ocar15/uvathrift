@@ -42,6 +42,16 @@
 {% block content %}
     <h1 class="admin-title">Manage Users</h1>
 
+    <form method="get" class="admin-search-container">
+        <input
+            type="text"
+            name="q"
+            value="{{ request.GET.q }}"
+            placeholder="Search users..."
+            class="admin-search-input"
+        >
+        <button type="submit" class="admin-btn admin-search-btn">Search</button>
+    </form>
 
     <div class="user-grid">
         {% for u in user_data %}
@@ -52,7 +62,7 @@
                 {% if u.data.picture %}
                     <img src="{{ u.data.picture }}" class="user-avatar-img">
                 {% else %}
-                    <div class="user-avatar">{{ u.user.username|first|upper }}</div>
+                    <div class="user-avatar">{{ u.user.profile.nickname|first|upper }}</div>
                 {% endif %}
 
 
