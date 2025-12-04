@@ -72,6 +72,12 @@
                         href="{% url 'postman:write' %}?to={{ item.seller.username }}&item={{ item.id }}&title={{ item.title|urlencode }}">
                             Message Seller
                         </a>
+                        {% if user != item.seller %}
+                        <form method='POST' action = "{% url 'report_post' item.pk %}">
+                            {% csrf_token %}
+                        <button type='submit' name='reportBtn' class='item-message-btn' style="background-color: #ae5a00;">Report Post</a>
+                        </form>
+                        {% endif %}
                     </div>
                     {% if item.image %}
                         <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">

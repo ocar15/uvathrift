@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'moderation/administrator.css' %}">
+<link rel='stylesheet' href="{%static 'dashboard/dashboard.css'%}">
+{% endblock %}
+
+{% block header %}
+<nav class="navbar">
+    <div class="navbar-left">
+        <a href="{% url 'dashboard' %}">
+            <h3>UVA Thrift <span style="color: red; font-weight: bold;">Admin</span></h3>
+        </a>
+    </div>
+    <div class="navbar-right">
+        <a class="username-display" style="color: black;" href="{% url 'my_profile' %}">
+            {{ user }} <span style="color: red;">({{ mode }})</span>
+        </a>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1 class="admin-title">Viewing Report For "{{ item.title }}"</h1>
+
+<div class='items-grid'>
+    <div class='item-card'>
+{% if item.image %}
+        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">
+        {% endif %}
+        <div class="content-div">
+            <div class="item-text">
+                <div class="item-and-price">
+                    <h5>{{ item.title }}</h5>
+                    <p><strong>${{ item.price }}</strong></p>
+                </div>
+                <p class="item-description">{{ item.description }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="appeal-container">
+    {%for report in reports%}
+    <main>Report {{forloop.counter}} by<span style='font-weight: bold'> {{report.reported_by}}</span>: {{ report.report_description }}</main>
+    {% endfor %}
+
+    <form method="post" action="{% url 'view_report' item.pk %}" class="form-actions">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{ user_data.user.id }}">
+
+        <button type="submit" name="action" value="removePost" class="card-btn suspend">Remove Post</button>
+        <button type="submit" name="action" value="ignore" class="card-btn edit">Ignore</button>
+        <button type="submit" name="action" value="cancel" class="card-btn edit">Cancel</button>
+
+    </form>
+</div>
+{% endblock %}

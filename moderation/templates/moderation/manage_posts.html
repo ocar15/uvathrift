@@ -45,32 +45,19 @@
 
     <div class="user-grid">
         {% for report in report_info %}
-        {% comment %} <div class="user-card">
+        <div class="user-card">
             <div class="user-header">
-                {% if u.data.picture %}
-                <img src="{{ u.data.picture }}" class="user-avatar-img">
-                {% else %}
-                    <div class="user-avatar">{{ u.user.username|first|upper }}</div>
-                    {% endif %}
-                    
-                    
                     <div class="user-info">
-                        <p class="user-name">{{ u.user.username }}</p>
-                    <p class="user-email">{{ u.user.email }}</p>
+                    <h4>Post: {{ report.item.title }}</h4>
+                    <h5> By: {{ report.item.seller }}</h5>
+                    <p class="user-name">Reports: {{ report.report_count }}</p>
+                </div>
                 </div>
                 
                 
-                {% if u.user.is_superuser %}
-                    <span class="user-role admin">Admin</span>
-                {% else %}
-                    <span class="user-role user">User</span>
-                    {% endif %}
-                </div> {% endcomment %}
-                
-                
-                <form method="post" action="{% url 'view_report' %}">
+                <form method="post" action="{% url 'view_report' report.item.pk %}">
                     {% csrf_token %}
-                    <input type="hidden" name="user_id" value="{{ report.reported_by.user.id }}">
+                    <input type="hidden" name="user_id" value="{{ report.reporter.user.id }}">
                     
                     
                     <div class="user-actions">

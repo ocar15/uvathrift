@@ -9,6 +9,7 @@ from .forms import ItemForm
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.contrib.postgres.search import SearchVector
+from moderation.models import Reports
 
 
 def super_user_required(func):
@@ -72,6 +73,19 @@ def delete_item(request, pk):
         return redirect("dashboard")
 
     return render(request, "dashboard/item_confirm_delete.html", {"item": item})
+
+@login_required(login_url='account_login')
+def report_post(request, pk):
+    action = request.POST.get('action')
+    item = get_object_or_404(Item, pk=pk)
+    user = request.user
+
+    if action:
+        if action == "submitReport":
+            desc = request.POST.get("report")
+            Reports.objects.create(item=item, reported_by=user, report_description=desc)
+            return redirect("dashboard")
+    return render(request, 'dashboard/report_post.html', {'mode': get_mode(request), 'item': item})
 
 def items_list(request):
      return HttpResponse("")

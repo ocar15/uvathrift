@@ -8,6 +8,7 @@ from django.contrib.auth import logout as user_logout
 from allauth.socialaccount.models import *
 from datetime import datetime
 from django.utils import timezone
+from django.db.models import Count
 
 
 
@@ -175,19 +176,34 @@ def view_appeal(request):
 @super_user_required
 def manage_posts(request):
     reports = Reports.objects.all()
+    reports = Reports.objects.values('item').annotate(report_count=Count('id'))
     report_info = []
     for report in reports:
+        item = Item.objects.get(pk=report['item'])
         report_info.append({
-            "item": report.item,
-            "user": report.item.seller,
-            "reporter": report.reported_by,
-            "description": report.report_description,
+            "item": item,
+            "report_count": report['report_count'],
         })
     return render(request, "moderation/manage_posts.html", {'mode': get_mode(request), 'report_info': report_info})
 
 @super_user_required
-def view_report(request):
-    return redirect("admin_only")
+def view_report(request, pk):
+    action = request.POST.get("action")
+    item = get_object_or_404(Item, pk=pk)
+    reports = Reports.objects.filter(item=item)
+
+    if action:
+        if action == "ignore":
+            Reports.objects.filter(item=item).delete()
+            return redirect("manage_posts")
+        elif action == "removePost":
+            Reports.objects.filter(item=item).delete()
+            item.delete()
+            return redirect("manage_posts")
+        elif action == "cancel":
+            return redirect("manage_posts")
+
+    return render(request, 'moderation/view_report.html', {'mode': get_mode(request), 'reports': reports, "item": item})
 
 
 @super_user_required
