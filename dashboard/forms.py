@@ -28,6 +28,7 @@ class ItemForm(forms.ModelForm):
                 "placeholder": "Price",
                 "class": "form-input",
                 "step": "0.01",
+                "min": "0",
             }),
             "image": forms.ClearableFileInput(attrs={
                 "class": "file-upload",
