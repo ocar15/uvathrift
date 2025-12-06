@@ -22,3 +22,14 @@ class Item(models.Model):
 
     def __str__(self):
         return f"{self.title} (${self.price})"
+
+class SavedItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="saved_items")
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="saved_by")
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'item')
+    
+    def __str__(self):
+        return f"{self.user.username} saved {self.item.title}"
