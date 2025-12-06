@@ -74,9 +74,11 @@
                                 <button type="submit" class="delete-btn">Delete</button>
                             </form>
                         {% endif %}
-                        <a class="item-message-btn"
+                        <a class="item-message-lnk"
                         href="{% url 'postman:write' %}?to={{ item.seller.username }}&item={{ item.id }}&title={{ item.title|urlencode }}">
+                        <button class="item-message-btn">
                             Message Seller
+                        </button>
                         </a>
                         {% if user != item.seller %}
                         <form method='POST' action = "{% url 'report_post' item.pk %}">
