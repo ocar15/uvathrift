@@ -304,10 +304,21 @@ form.dashboard-search {
 
 .indent {
     margin-left: 20px;
+    margin-top: 10px;
 }
 
 .sort-label {
     font-size: 14px;
     margin-right: 10px;
     font-family: 'Outfit', Helvetica, sans-serif;
+}
+
+.verified-users-only {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.welcome-box {
+    top: 273px
 }

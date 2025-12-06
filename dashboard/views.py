@@ -31,6 +31,8 @@ def dashboard(request):
     item_list = Item.objects.all()
 
     sort = request.GET.get('sort', 'newest')
+    verified = request.GET.get('verified', False)
+    condition_filter = request.GET.get('condition', None)
     query = request.GET.get('q')
 
     if query:
@@ -38,6 +40,11 @@ def dashboard(request):
             search=SearchVector('title', 'description'),
         ).filter(search=query)
 
+    if verified:
+        item_list = item_list.filter(seller__profile__student_email_verified=True)
+    
+    if condition_filter:
+        item_list = item_list.filter(condition=condition_filter)
 
     if sort == 'newest':
         item_list = item_list.order_by('-created_at')
@@ -57,10 +64,12 @@ def dashboard(request):
     items = paginator.get_page(page_number)
     
     return render(request, 'dashboard/dashboard.html', {
-     'mode': get_mode(request),
-     'user': request.user,
-     'items': items,
-     'sort': sort,
+        'mode': get_mode(request),
+        'user': request.user,
+        'items': items,
+        'sort': sort,
+        'condition': condition_filter,
+        'verified': verified,
      })
 
 @login_required(login_url="account_login")
