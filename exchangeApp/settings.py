@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-rluu$u$@^cu^_=@t!8fqsu@3lvo=068^h_kyt)yjbv)(024tzg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '*'
@@ -132,10 +132,10 @@ if not DEBUG:
     }
     }
     # Forward Things to HTTPS
-    SECURE_SSL_REDIRECT = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
-    SECURE_HSTS_PRELOAD = False
+    # SECURE_SSL_REDIRECT = True
+    # SECURE_HSTS_SECONDS = 31536000
+    # SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    # SECURE_HSTS_PRELOAD = False
 
 # Email verification settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

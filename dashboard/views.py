@@ -28,12 +28,29 @@ def logout(request):
 @login_required
 def dashboard(request):
     mode = "admin" if request.user.is_staff else "user" 
-    item_list = Item.objects.all().order_by("-created_at")
+    item_list = Item.objects.all()
+
+    sort = request.GET.get('sort', 'newest')
     query = request.GET.get('q')
+
     if query:
         item_list = item_list.annotate(
             search=SearchVector('title', 'description'),
         ).filter(search=query)
+
+
+    if sort == 'newest':
+        item_list = item_list.order_by('-created_at')
+    elif sort == 'oldest':
+        item_list = item_list.order_by('created_at')
+    elif sort == 'price_asc':
+        item_list = item_list.order_by('price')
+    elif sort == 'price_desc':
+        item_list = item_list.order_by('-price')
+    elif sort == 'condition_asc':
+        item_list = item_list.order_by('condition')
+    elif sort == 'condition_desc':
+        item_list = item_list.order_by('-condition')
 
     paginator = Paginator(item_list, 4)
     page_number = request.GET.get('page')
@@ -43,6 +60,7 @@ def dashboard(request):
      'mode': get_mode(request),
      'user': request.user,
      'items': items,
+     'sort': sort,
      })
 
 @login_required(login_url="account_login")

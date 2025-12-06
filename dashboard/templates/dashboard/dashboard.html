@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="dashboard-center">
-        <form method="GET" class="dashboard-search">
+        <form method="GET" id="search-form" class="dashboard-search">
             <input 
                 type="text" 
                 name="q" 
@@ -107,18 +107,33 @@
                     Page {{ items.number }} of {{ items.paginator.num_pages }}
                 </span>
                 {% if items.has_next %}
-                    <a class="page-btn" href="?page={{ items.next_page_number }}&q={{ request.GET.q }}">Next →</a>
+                    <a class="page-btn" href="?page={{ items.next_page_number }}&q={{ request.GET.q }}&sort={{ request.GET.sort }}">Next →</a>
                 {% endif %}
             </div>
         {% endif %}
 
     </div>
     <div class="dashboard-right">
-        <div class="info-box">
+        <!-- <div class="info-box">
             <h4>Welcome to your Dashboard, {{ user.profile.nickname }}!</h4>
             <p>Here you can manage your listings, message sellers, and explore new items.</p>
             <p>Use the search bar to find specific items or browse through the latest listings below.</p>
             <p>Happy thrifting!</p>
+        </div> -->
+        <div class="info-box">
+            <h4>Filtering and sorting</h4>
+            <p>Use the options below to sort the listings according to your preferences.</p>
+            <div class="indent">
+                <label for="sort" class="sort-label">Sort by</label>
+                <select name="sort" form="search-form" class="form-select" id="sort">
+                    <option value="newest" {% if sort == "newest" %}selected{% endif %}>Newest first</option>
+                    <option value="oldest" {% if sort == "oldest" %}selected{% endif %}>Oldest first</option>
+                    <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>Price ascending</option>
+                    <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>Price descending</option>
+                    <option value="condition_asc" {% if sort == "condition_asc" %}selected{% endif %}>Condition: Worst → Best</option>
+                    <option value="condition_desc" {% if sort == "condition_desc" %}selected{% endif %}>Condition: Best → Worst</option>
+                </select>
+            </div>
         </div>
     </div>
 </div>
