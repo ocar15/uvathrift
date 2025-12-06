@@ -4,14 +4,14 @@ from .models import Item
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ["title", "description", "price", "image", "condition"]
+        fields = ["title", "description", "price", "condition", "image"]
 
         labels = {
             "title": "",
             "description": "",
             "price": "",
             "image": "",
-            "condition": "Condition"
+            "condition": "Condition",
         }
 
         widgets = {

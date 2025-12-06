@@ -228,6 +228,16 @@ form.item-form {
     cursor: pointer;
 }
 
+.file-upload::-webkit-file-upload-button {
+    background-color: var(--background-dark);
+    color: var(--white);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Outfit', Helvetica, sans-serif;
+}
+
 .form-select {
     padding: 5px 3px 5px 8px;
     font-size: medium;
@@ -249,7 +259,7 @@ form.item-form {
 }
 
 form.item-form label {
-    display: none;
+    
 }
 
 
