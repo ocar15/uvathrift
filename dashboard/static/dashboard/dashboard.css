@@ -228,6 +228,26 @@ form.item-form {
     cursor: pointer;
 }
 
+.form-select {
+    padding: 5px 3px 5px 8px;
+    font-size: medium;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Outfit', Helvetica, sans-serif;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.item-condition {
+    color: var(--secondary-green);
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 5px;
+    border: 1px solid var(--secondary-green);
+    padding: 3px 5px;
+    border-radius: var(--border-radius);
+}
+
 form.item-form label {
     display: none;
 }

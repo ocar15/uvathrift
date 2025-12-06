@@ -4,13 +4,14 @@ from .models import Item
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ["title", "description", "price", "image"]
+        fields = ["title", "description", "price", "image", "condition"]
 
         labels = {
             "title": "",
             "description": "",
             "price": "",
             "image": "",
+            "condition": "Condition"
         }
 
         widgets = {
@@ -30,5 +31,8 @@ class ItemForm(forms.ModelForm):
             }),
             "image": forms.ClearableFileInput(attrs={
                 "class": "file-upload",
+            }),
+            "condition": forms.Select(attrs={
+                "class": "form-select",
             }),
         }

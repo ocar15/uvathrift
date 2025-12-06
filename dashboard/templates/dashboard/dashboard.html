@@ -87,6 +87,7 @@
                             <div class="item-and-price">
                                 <h5>{{ item.title }}</h5>
                                 <p><strong>${{ item.price }}</strong></p>
+                                <p><strong class="item-condition">{{ item.get_condition_display }}</strong></p>
                             </div>
                             <p class="item-description">{{ item.description }}</p>
                         </div>
@@ -94,7 +95,7 @@
         
                 </div>
             {% empty %}
-                <p>No items yet — be the first to list something!</p>
+                <p>No items yet... be the first to list something!</p>
             {% endfor %}
         </div>
         {% if items.has_other_pages %}
