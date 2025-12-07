@@ -11,4 +11,5 @@ urlpatterns = [
     path("post/new/", views.create_item, name="item_create"),
     path("post/<int:pk>/delete/", views.delete_item, name="item_delete"),
     path("report-post/<int:pk>/", views.report_post, name='report_post'),
+    path("toggle-save-item/<int:pk>/", views.toggle_save_item, name="toggle_save_item"),
 ]

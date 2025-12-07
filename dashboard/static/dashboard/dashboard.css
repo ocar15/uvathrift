@@ -332,3 +332,26 @@ form.dashboard-search {
 .welcome-box {
     top: 273px
 }
+
+.save-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.save-btn:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.bookmark-img {
+    width: 24px;
+    height: 24px;
+}
+
+.save-item-form {
+    margin-left: auto;
+    display: flex;
+    align-items: flex-end;
+}

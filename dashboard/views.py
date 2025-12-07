@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import *
 from django.contrib.auth.models import User
 from django.contrib.auth import logout as user_logout
 from allauth.socialaccount.models import *
-from .models import Item
+from .models import Item, SavedItem
 from .forms import ItemForm
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
@@ -29,6 +29,9 @@ def logout(request):
 def dashboard(request):
     mode = "admin" if request.user.is_staff else "user" 
     item_list = Item.objects.all()
+
+    for item in item_list:
+        item.is_saved = item.is_saved_by(request.user)
 
     sort = request.GET.get('sort', 'newest')
     verified = request.GET.get('verified', False)
@@ -113,6 +116,16 @@ def report_post(request, pk):
             Reports.objects.create(item=item, reported_by=user, report_description=desc)
             return redirect("dashboard")
     return render(request, 'dashboard/report_post.html', {'mode': get_mode(request), 'item': item})
+
+@login_required(login_url="account_login")
+def toggle_save_item(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+    saved_item, created = SavedItem.objects.get_or_create(user=request.user, item=item)
+
+    if not created: # this looks funny but it's right! this part does the toggling
+        saved_item.delete()
+    
+    return redirect(request.META.get('HTTP_REFERER', 'dashboard'))
 
 def items_list(request):
      return HttpResponse("")

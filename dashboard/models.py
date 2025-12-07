@@ -22,6 +22,9 @@ class Item(models.Model):
 
     def __str__(self):
         return f"{self.title} (${self.price})"
+    
+    def is_saved_by(self, user):
+        return self.saved_by.filter(user=user).exists()
 
 class SavedItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="saved_items")

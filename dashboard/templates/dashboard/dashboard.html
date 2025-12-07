@@ -98,6 +98,18 @@
                                 <p><strong class="item-condition">{{ item.get_condition_display }}</strong></p>
                             </div>
                             <p class="item-description">{{ item.description }}</p>
+                            <form method="POST" action="{% url 'toggle_save_item' item.pk %}" class="save-item-form">
+                                {% csrf_token %}
+                                {% if item.is_saved %}
+                                    <button type="submit" class="save-btn saved">
+                                        <img class="bookmark-img" src="{%static 'dashboard/images/add-bookmark-filled.png' %}"/>
+                                    </button>
+                                {% else %}
+                                    <button type="submit" class="save-btn">
+                                        <img class="bookmark-img" src="{%static 'dashboard/images/add-bookmark.png' %}"/>
+                                    </button>
+                                {% endif %}
+                            </form>
                         </div>
                     </div>
         
