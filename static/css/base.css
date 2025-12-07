@@ -166,8 +166,8 @@ main {
   right: 16px;
   max-width: 320px;
   width: calc(100% - 32px);
-  background: rgba(20, 20, 20, 0.96);
-  color: #fff;
+  background: rgba(213, 213, 213, 0.96);
+  color: #000;
   border-radius: 16px;
   padding: 10px 14px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
