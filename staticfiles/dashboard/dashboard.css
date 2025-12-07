@@ -228,6 +228,16 @@ form.item-form {
     cursor: pointer;
 }
 
+.file-upload::-webkit-file-upload-button {
+    background-color: var(--background-dark);
+    color: var(--white);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Outfit', Helvetica, sans-serif;
+}
+
 .form-select {
     padding: 5px 3px 5px 8px;
     font-size: medium;
@@ -249,7 +259,7 @@ form.item-form {
 }
 
 form.item-form label {
-    display: none;
+    
 }
 
 
@@ -321,4 +331,33 @@ form.dashboard-search {
 
 .welcome-box {
     top: 273px
+}
+
+.save-btn-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.save-btn {
+    background-color: transparent;
+    background-image: url("https://uva-thrift.s3.amazonaws.com/dashboard/images/add-bookmark.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.save-btn.saved {
+    background-image: url("https://uva-thrift.s3.amazonaws.com/dashboard/images/add-bookmark-filled.png");
+}
+
+.save-btn:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.bookmark-img {
+    width: 24px;
+    height: 24px;
 }

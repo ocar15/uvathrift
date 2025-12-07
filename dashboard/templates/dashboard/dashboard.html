@@ -15,6 +15,9 @@
 {% endblock %}
 
 {% block navbar-right %}
+    <a href="{% url 'saved_items'%}">
+        <button class="nav-btn">Saved Items</button>
+    </a>
     <a href="{% url 'postman:inbox'%}">
         <button class="nav-btn">Messages</button>
     </a>
@@ -105,14 +108,13 @@
                             <div class="save-btn-container">
                                 <button 
                                     class="save-btn {% if item.is_saved %}saved{% endif %}"
-                                    data-item-id="{{ item.pk }}"
+                                    data-url="{% url 'toggle_save_item' item.pk %}"
                                     {% if item.is_saved %}data-saved="true"{% else %}data-saved="false"{% endif %}
                                 >
                                 </button>
                             </div>
                         </div>
                     </div>
-        
                 </div>
             {% empty %}
                 <p>No items yet... be the first to list something!</p>

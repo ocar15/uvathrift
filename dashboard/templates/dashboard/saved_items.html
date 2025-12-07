@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <!-- <link rel="stylesheet" type='text/css' href="{%static 'css/base.css'%}"> -->
+    <link rel="stylesheet" type='text/css' href="{%static 'dashboard/login.css'%}">
+    <link rel="stylesheet" type='text/css' href="{%static 'dashboard/dashboard.css'%}">
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'dashboard/js/save_item.js' %}"></script>
+{% endblock %}
+
+{% block navbar-right %}
+    <a href="{% url 'dashboard'%}">
+        <button class="nav-btn">Back</button>
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-page">
+    <div class="dashboard-left">
+        <div class="new-post-div">
+            <h4>Welcome to your <span>saved items</span>, {{ user.profile.nickname }}!</h4>
+            <p>Check out the listings you've saved for later and message sellers directly from here.</p>
+            <p>Unsave items by clicking the save button again. Changes will be saved automatically and updated on the next reload of the page.</p>
+        </div>
+    </div>
+    <div class="dashboard-center">
+        <div class="items-grid">
+            {% for item in items %}
+                <div class="item-card">
+                    <div class="user-div">
+                        <a href="{% url 'user_profile' item.seller.username %}" class="item-user-profile">
+                            <img class="nav-pfp" src="{{ item.seller.profile.image.url }}">
+                            <span class="item-seller-name">{{ item.seller.profile.nickname }}</span>
+                            {% if item.seller.profile.student_email_verified %}
+                            <img class="verified-badge-icon" id="verification-badge" src="{% static 'users/images/verified_badge.png' %}" />
+                            {% endif %}
+                        </a>
+                        {% if user == item.seller or user.is_staff %}
+                            <form method="POST" action="{% url 'item_delete' item.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+                        {% endif %}
+                        <a class="item-message-lnk"
+                        href="{% url 'postman:write' %}?to={{ item.seller.username }}&item={{ item.id }}&title={{ item.title|urlencode }}">
+                        <button class="item-message-btn">
+                            Message Seller
+                        </button>
+                        </a>
+                        {% if user != item.seller %}
+                        <form method='POST' action = "{% url 'report_post' item.pk %}">
+                            {% csrf_token %}
+                        <button type='submit' name='reportBtn' class='item-message-btn' style="background-color: #ae5a00;">Report Post</a>
+                        </form>
+                        {% endif %}
+                    </div>
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">
+                    {% endif %}
+                    <div class="content-div">
+                        <div class="item-text">
+                            <div class="item-and-price">
+                                <h5>{{ item.title }}</h5>
+                                <p><strong>${{ item.price }}</strong></p>
+                                <p><strong class="item-condition">{{ item.get_condition_display }}</strong></p>
+                            </div>
+                            <p class="item-description">{{ item.description }}</p>
+                            <div class="save-btn-container">
+                                <button 
+                                    class="save-btn {% if item.is_saved %}saved{% endif %}"
+                                    data-url="{% url 'toggle_save_item' item.pk %}"
+                                    {% if item.is_saved %}data-saved="true"{% else %}data-saved="false"{% endif %}
+                                >
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No saved items yet... start saving your favorite listings!</p>
+            {% endfor %}
+        </div>
+        {% if items.has_other_pages %}
+            <div class="pagination">
+                {% if items.has_previous %}
+                    <a class="page-btn" href="?page={{ items.previous_page_number }}">← Previous</a>
+                {% endif %}
+                <span class="page-info">
+                    Page {{ items.number }} of {{ items.paginator.num_pages }}
+                </span>
+                {% if items.has_next %}
+                    <a class="page-btn" href="?page={{ items.next_page_number }}">Next →</a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+    </div>
+    <div class="dashboard-right">
+        <div class="info-box">
+            <h4>You currently have <span>{{ items.paginator.count }}</span> saved items.</h4>
+            <p>Items appear here in the order you've saved them.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

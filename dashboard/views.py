@@ -127,6 +127,27 @@ def toggle_save_item(request, pk):
     
     return JsonResponse({'saved': created})
 
+@login_required(login_url="account_login")
+def saved_items(request):
+    saved_items_qs = SavedItem.objects.filter(user=request.user).select_related('item').order_by('-saved_at')
+    items = [saved_item.item for saved_item in saved_items_qs]
+
+    for item in items:
+        item.is_saved = item.is_saved_by(request.user)
+
+    paginator = Paginator(items, 4)
+    page_number = request.GET.get('page')
+    items = paginator.get_page(page_number)
+
+    for item in items:
+        item.is_saved = item.is_saved_by(request.user)
+
+    return render(request, 'dashboard/saved_items.html', {
+        'mode': get_mode(request),
+        'user': request.user,
+        'items': items,
+    })
+
 def items_list(request):
      return HttpResponse("")
 

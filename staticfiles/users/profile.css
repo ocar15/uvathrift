@@ -41,6 +41,7 @@ button{
     width: 80%;
     text-align: center;
     background-color: #f9f9f9;
+    border-radius: var(--border-radius);
 }
 
 .verification-req-btn {
