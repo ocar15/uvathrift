@@ -30,7 +30,7 @@
       <div class="compose-header">
         <span class="compose-title">New Message</span>
       </div>
-
+        
       <form method="post" action="{% url 'postman:write' %}" class="compose-form">
         {% csrf_token %}
         {{ form.non_field_errors }}
@@ -90,6 +90,18 @@
             {% trans "Send" %}
           </button>
         </div>
+        
+        {% if messages %}
+        <div class="message-alert-container">
+          {% for msg in messages %}
+            {% if forloop.last %}
+              <div class="message-alert {{ msg.tags }}">
+                {{ msg }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
       </form>
     </div>
   </main>

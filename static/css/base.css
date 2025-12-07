@@ -165,3 +165,56 @@ main {
     color: var(--background-dark);
 }
 
+.msg-toast {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  max-width: 320px;
+  width: calc(100% - 32px);
+  background: rgba(213, 213, 213, 0.96);
+  color: #000;
+  border-radius: 16px;
+  padding: 10px 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 9999;
+}
+
+.msg-toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.msg-toast.hidden {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.msg-toast-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.msg-toast-body {
+  font-size: 13px;
+  margin-bottom: 6px;
+  opacity: 0.9;
+}
+
+.msg-toast-link {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4da3ff;
+  text-decoration: none;
+}
+
+.msg-toast-link:hover {
+  text-decoration: underline;
+}
+
