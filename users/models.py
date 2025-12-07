@@ -9,8 +9,9 @@ from imagekit.processors import ResizeToFill
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     is_suspended = models.BooleanField(default=False)
-    nickname = models.CharField("nickname", max_length=50, blank=True)
     suspended_until = models.DateTimeField(null=True, blank=True)
+    nickname = models.CharField("nickname", max_length=50, blank=True)
+    bio = models.CharField("bio", max_length=300, blank=True)
     image = ProcessedImageField(upload_to='profile_pics',
                                 default='profile_pics/default.jpg',
                                 processors=[ResizeToFill(200, 200)],
