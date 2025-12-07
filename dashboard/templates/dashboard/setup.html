@@ -1,0 +1,30 @@
+{% extends 'dashboard/dashboard.html' %}
+{% load static %}
+
+{% block css %}
+    <!-- <link rel="stylesheet" type='text/css' href="{%static 'css/base.css'%}"> -->
+    <link rel="stylesheet" type='text/css' href="{%static 'dashboard/login.css'%}">
+    <link rel="stylesheet" type='text/css' href="{%static 'dashboard/dashboard.css'%}">
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <div class="setup-background"></div>
+    <div class="setup-block">
+        <h3 style="margin-bottom: 10px;">Welcome to uva.thrift!</h3>
+        <h4>To get started, please fill out your profile information below.</h4>
+        <form method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data" class="profile-block">
+            {% csrf_token %}
+            <input type='hidden' name='action' value='save'>
+            <input type='hidden' name='user_id' value="{{ user.id }}">
+            <h4 style="margin-bottom: 10px;">{{ user.username }}</h4>
+            <div class="setup-fields">
+                <p><span style='font-weight: bold;'>Photo: </span><input type="file" id="photoUpload" name="profile_photo"/></p>
+                <p><span style='font-weight: bold;'>Nickname: </span><input type="text" placeholder="{{ user.profile.nickname }}" name="nickname"></p>
+                <p><span style='font-weight: bold;'>Email: </span><input type="text" placeholder="{% if user.email %}{{ user.email }}{% else %}n/a{% endif %}" name="email"/></p>
+                <p><span style='font-weight: bold;'>Bio: </span><input type="text" placeholder="bio" name="bio"/></p>
+            </div>
+            <button type="submit" style="margin: 0px auto;">Submit</button>
+        </form>
+    </div>
+{% endblock %}

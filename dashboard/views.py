@@ -66,14 +66,16 @@ def dashboard(request):
     for item in items:
         item.is_saved = item.is_saved_by(request.user)
     
+    if request.user.profile.new_user:
+        return render(request, "dashboard/setup.html")
+    
     return render(request, 'dashboard/dashboard.html', {
         'mode': get_mode(request),
         'user': request.user,
         'items': items,
         'sort': sort,
         'condition': condition_filter,
-        'verified': verified,
-        'setup': request.user.profile.new_user
+        'verified': verified
      })
 
 @login_required(login_url="account_login")
