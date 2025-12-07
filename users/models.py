@@ -8,6 +8,7 @@ from imagekit.processors import ResizeToFill
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    new_user = models.BooleanField(default=True)
     is_suspended = models.BooleanField(default=False)
     suspended_until = models.DateTimeField(null=True, blank=True)
     nickname = models.CharField("nickname", max_length=50, blank=True)

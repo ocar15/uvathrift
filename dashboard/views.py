@@ -73,6 +73,7 @@ def dashboard(request):
         'sort': sort,
         'condition': condition_filter,
         'verified': verified,
+        'setup': request.user.profile.new_user
      })
 
 @login_required(login_url="account_login")

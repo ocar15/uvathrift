@@ -34,7 +34,5 @@ def add_default_google_info(sender, instance, created, **kwargs):
     user.username = name
     user.profile.nickname = name
 
-    print("set nickname in signals")
-
     user.save()
     user.profile.save()
