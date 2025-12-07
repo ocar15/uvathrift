@@ -165,6 +165,15 @@ main {
     color: var(--background-dark);
 }
 
+body #msg-toast {
+    position: fixed !important;
+    top: 16px !important;
+    right: 16px !important;
+    left: auto !important;
+    bottom: auto !important;
+    z-index: 9999 !important;
+}
+
 .msg-toast {
   position: fixed;
   top: 16px;

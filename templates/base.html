@@ -48,8 +48,9 @@
         </div>
         {% endblock footer %}
     </footer>
-
-        <div id="msg-toast" class="msg-toast hidden">
+    {% block js %}
+    {% endblock %}
+    <div id="msg-toast" class="msg-toast hidden">
       <div class="msg-toast-title">
         New message from <span id="msg-toast-sender"></span>
       </div>
@@ -122,7 +123,5 @@
         setTimeout(checkLatestUnread, 3000);
       })();
     </script>
-    {% block js %}
-    {% endblock %}
 </body>
 </html>
