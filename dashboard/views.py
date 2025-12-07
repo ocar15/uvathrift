@@ -1,5 +1,5 @@
 from django.shortcuts import *
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import *
 from django.contrib.auth.models import User
 from django.contrib.auth import logout as user_logout
@@ -29,9 +29,6 @@ def logout(request):
 def dashboard(request):
     mode = "admin" if request.user.is_staff else "user" 
     item_list = Item.objects.all()
-
-    for item in item_list:
-        item.is_saved = item.is_saved_by(request.user)
 
     sort = request.GET.get('sort', 'newest')
     verified = request.GET.get('verified', False)
@@ -65,6 +62,9 @@ def dashboard(request):
     paginator = Paginator(item_list, 4)
     page_number = request.GET.get('page')
     items = paginator.get_page(page_number)
+
+    for item in items:
+        item.is_saved = item.is_saved_by(request.user)
     
     return render(request, 'dashboard/dashboard.html', {
         'mode': get_mode(request),
@@ -125,7 +125,7 @@ def toggle_save_item(request, pk):
     if not created: # this looks funny but it's right! this part does the toggling
         saved_item.delete()
     
-    return redirect(request.META.get('HTTP_REFERER', 'dashboard'))
+    return JsonResponse({'saved': created})
 
 def items_list(request):
      return HttpResponse("")

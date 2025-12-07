@@ -10,6 +10,10 @@
     <link rel="stylesheet" type='text/css' href="{%static 'dashboard/dashboard.css'%}">
 {% endblock %}
 
+{% block js %}
+    <script src="{% static 'dashboard/js/save_item.js' %}"></script>
+{% endblock %}
+
 {% block navbar-right %}
     <a href="{% url 'postman:inbox'%}">
         <button class="nav-btn">Messages</button>
@@ -98,18 +102,14 @@
                                 <p><strong class="item-condition">{{ item.get_condition_display }}</strong></p>
                             </div>
                             <p class="item-description">{{ item.description }}</p>
-                            <form method="POST" action="{% url 'toggle_save_item' item.pk %}" class="save-item-form">
-                                {% csrf_token %}
-                                {% if item.is_saved %}
-                                    <button type="submit" class="save-btn saved">
-                                        <img class="bookmark-img" src="{%static 'dashboard/images/add-bookmark-filled.png' %}"/>
-                                    </button>
-                                {% else %}
-                                    <button type="submit" class="save-btn">
-                                        <img class="bookmark-img" src="{%static 'dashboard/images/add-bookmark.png' %}"/>
-                                    </button>
-                                {% endif %}
-                            </form>
+                            <div class="save-btn-container">
+                                <button 
+                                    class="save-btn {% if item.is_saved %}saved{% endif %}"
+                                    data-item-id="{{ item.pk }}"
+                                    {% if item.is_saved %}data-saved="true"{% else %}data-saved="false"{% endif %}
+                                >
+                                </button>
+                            </div>
                         </div>
                     </div>
         
