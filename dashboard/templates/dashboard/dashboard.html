@@ -10,7 +10,14 @@
     <link rel="stylesheet" type='text/css' href="{%static 'dashboard/dashboard.css'%}">
 {% endblock %}
 
+{% block js %}
+    <script src="{% static 'dashboard/js/save_item.js' %}"></script>
+{% endblock %}
+
 {% block navbar-right %}
+    <a href="{% url 'saved_items'%}">
+        <button class="nav-btn">Saved Items</button>
+    </a>
     <a href="{% url 'postman:inbox'%}">
         <button class="nav-btn">Messages</button>
     </a>
@@ -39,9 +46,15 @@
             </a>
             <p>Click to create a new listing and start selling or donating. We value you're use of the app and hope that you enjoy your experience on <span>uva</span>.<span>thrift</span>.</p>
         </div>
+        <div class="info-box welcome-box">
+            <h4>Welcome to your Dashboard, {{ user.profile.nickname }}!</h4>
+            <p>Here you can search for listings, message sellers, and explore new items.</p>
+            <p>Use the search bar to find specific items or browse through the latest listings below.</p>
+            <p>Happy thrifting!</p>
+        </div>
     </div>
     <div class="dashboard-center">
-        <form method="GET" class="dashboard-search">
+        <form method="GET" id="search-form" class="dashboard-search">
             <input 
                 type="text" 
                 name="q" 
@@ -68,14 +81,18 @@
                                 <button type="submit" class="delete-btn">Delete</button>
                             </form>
                         {% endif %}
-                        <a class="item-message-btn"
+                        <a class="item-message-lnk"
                         href="{% url 'postman:write' %}?to={{ item.seller.username }}&item={{ item.id }}&title={{ item.title|urlencode }}">
+                        <button class="item-message-btn">
                             Message Seller
-                        <a href="{% url 'postman:write' %}?to={{ item.seller.username }}&item={{ item.id }}">
-                            <button class="item-message-btn">
-                                Message Seller
-                            </button>
+                        </button>
                         </a>
+                        {% if user != item.seller %}
+                        <form method='POST' action = "{% url 'report_post' item.pk %}">
+                            {% csrf_token %}
+                        <button type='submit' name='reportBtn' class='item-message-btn' style="background-color: #ae5a00;">Report Post</a>
+                        </form>
+                        {% endif %}
                     </div>
                     {% if item.image %}
                         <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">
@@ -85,26 +102,34 @@
                             <div class="item-and-price">
                                 <h5>{{ item.title }}</h5>
                                 <p><strong>${{ item.price }}</strong></p>
+                                <p><strong class="item-condition">{{ item.get_condition_display }}</strong></p>
                             </div>
                             <p class="item-description">{{ item.description }}</p>
+                            <div class="save-btn-container">
+                                <button 
+                                    class="save-btn {% if item.is_saved %}saved{% endif %}"
+                                    data-url="{% url 'toggle_save_item' item.pk %}"
+                                    {% if item.is_saved %}data-saved="true"{% else %}data-saved="false"{% endif %}
+                                >
+                                </button>
+                            </div>
                         </div>
                     </div>
-        
                 </div>
             {% empty %}
-                <p>No items yet — be the first to list something!</p>
+                <p>No items yet... be the first to list something!</p>
             {% endfor %}
         </div>
         {% if items.has_other_pages %}
             <div class="pagination">
                 {% if items.has_previous %}
-                    <a class="page-btn" href="?page={{ items.previous_page_number }}&q={{ request.GET.q }}">← Previous</a>
+                    <a class="page-btn" href="?page={{ items.previous_page_number }}&q={{ request.GET.q }}&sort={{ request.GET.sort }}&condition={{ request.GET.condition }}&verified={{ request.GET.verified }}">← Previous</a>
                 {% endif %}
                 <span class="page-info">
                     Page {{ items.number }} of {{ items.paginator.num_pages }}
                 </span>
                 {% if items.has_next %}
-                    <a class="page-btn" href="?page={{ items.next_page_number }}&q={{ request.GET.q }}">Next →</a>
+                    <a class="page-btn" href="?page={{ items.next_page_number }}&q={{ request.GET.q }}&sort={{ request.GET.sort }}&condition={{ request.GET.condition }}&verified={{ request.GET.verified }}">Next →</a>
                 {% endif %}
             </div>
         {% endif %}
@@ -112,10 +137,34 @@
     </div>
     <div class="dashboard-right">
         <div class="info-box">
-            <h4>Welcome to your Dashboard, {{ user.profile.nickname }}!</h4>
-            <p>Here you can manage your listings, message sellers, and explore new items.</p>
-            <p>Use the search bar to find specific items or browse through the latest listings below.</p>
-            <p>Happy thrifting!</p>
+            <h4>Filtering and sorting</h4>
+            <p>Use the options below to sort and filter the listings according to your preferences.</p>
+            <div class="indent">
+                <label for="sort" class="sort-label">Sort by</label>
+                <select name="sort" form="search-form" class="form-select" id="sort">
+                    <option value="newest" {% if sort == "newest" %}selected{% endif %}>Newest first</option>
+                    <option value="oldest" {% if sort == "oldest" %}selected{% endif %}>Oldest first</option>
+                    <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>Price ascending</option>
+                    <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>Price descending</option>
+                    <option value="condition_asc" {% if sort == "condition_asc" %}selected{% endif %}>Condition: Worst → Best</option>
+                    <option value="condition_desc" {% if sort == "condition_desc" %}selected{% endif %}>Condition: Best → Worst</option>
+                </select>
+            </div>
+            <div class="indent">
+                <label for="filter-condition" class="sort-label">Filter by condition</label>
+                <select name="condition" form="search-form" class="form-select" id="filter-condition">
+                    <option value="" {% if not condition %}selected{% endif %}>All conditions</option>
+                    <option value="1" {% if condition == "1" %}selected{% endif %}>New</option>
+                    <option value="2" {% if condition == "2" %}selected{% endif %}>Like New</option>
+                    <option value="3" {% if condition == "3" %}selected{% endif %}>Good</option>
+                    <option value="4" {% if condition == "4" %}selected{% endif %}>Fair</option>
+                    <option value="5" {% if condition == "5" %}selected{% endif %}>Poor</option>
+                </select>
+            </div>
+            <div class="indent">
+                <label for="verified-users-only" class="sort-label">Show verified users only</label>
+                <input type="checkbox" name="verified" form="search-form" id="verified-users-only" class="verified-users-only" {% if verified %}checked{% endif %}>
+            </div>
         </div>
     </div>
 </div>

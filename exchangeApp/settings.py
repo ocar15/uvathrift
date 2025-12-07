@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'login',
     'dashboard',
     'moderation',
-    'messaging',
     'messager',
     'django.contrib.sites',
     'allauth',
@@ -131,7 +130,12 @@ if not DEBUG:
     "staticfiles": {
         "BACKEND": "storages.backends.s3boto3.S3StaticStorage"
     }
-}
+    }
+    # Forward Things to HTTPS
+    # SECURE_SSL_REDIRECT = True
+    # SECURE_HSTS_SECONDS = 31536000
+    # SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    # SECURE_HSTS_PRELOAD = False
 
 # Email verification settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

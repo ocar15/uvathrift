@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block css %}
+<link rel='stylesheet' href="{% static 'dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'login/appeal.css' %}">
+{% endblock %}
+
+{% block navbar-right %}
+    <a href="{% url 'postman:inbox'%}">
+        <button class="nav-btn">Messages</button>
+    </a>
+    {% if mode == 'admin' %}
+    <a href="{% url 'admin_only' %}">
+        <button class='nav-btn admin-btn'>Admin Panel</button>
+    </a> 
+    {% endif %}
+    <a href="{% url 'logout' %}"> <button class='nav-btn'>Logout</button> </a>
+    <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">
+        <img class='nav-pfp' src="{{ user.profile.image.url }}">
+        <span style="margin-left: 10px; margin-right: 5px;">{{ user.profile.nickname }}</span>
+        <span style='color: red;'>({{ mode }})</span>
+        {% if user.profile.student_email_verified %}
+            <img class="verified-badge-icon" id="verification-badge" src="{% static 'users/images/verified_badge.png' %}" />
+        {% endif %}
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="appeals-page">
+    <div class="appeals-card">
+        <h2 class="admin-title" style='text-align: center;'>Report Post</h2>
+        <h4> Reporting <span>{{item.title}}</span> sold by <span>{{item.seller}}</span> </h4>
+        <form method="post" action="{% url 'report_post' item.pk %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="reportText">Enter Reason for Report Below:</label>
+                <textarea id="reportText" name="report" rows="10" required></textarea>
+            </div>
+            <br>
+            <button type="submit" name="action" value="submitReport" class="card-btn edit">Submit Report</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

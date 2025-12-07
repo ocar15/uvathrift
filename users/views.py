@@ -95,8 +95,10 @@ def edit_profile(request):
             return render(request, 'users/edit_profile.html', {'user': cur_user, 'mode': get_mode(request)})
 
         elif action == 'save':
-            if(request.POST.get("nickname", cur_user.username)):       
+            if(request.POST.get("nickname", cur_user.profile.nickname)):       
                 cur_user.profile.nickname = request.POST.get("nickname", cur_user.profile.nickname)
+            if(request.POST.get("bio", cur_user.profile.bio)):       
+                cur_user.profile.bio = request.POST.get("bio", cur_user.profile.bio)
             if(request.POST.get("email", cur_user.email)):
                 cur_user.email = request.POST.get("email", cur_user.email)
             # save photo if user has Profile class

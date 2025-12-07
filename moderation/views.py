@@ -3,10 +3,12 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import *
 from django.contrib.auth.models import User
 from .models import *
+from dashboard.models import Item
 from django.contrib.auth import logout as user_logout
 from allauth.socialaccount.models import *
 from datetime import datetime
 from django.utils import timezone
+from django.db.models import Count
 
 
 
@@ -37,20 +39,22 @@ def admin_only(request):
 
 @super_user_required
 def manage_users(request):
+    query = request.GET.get('q', '').strip().lower()
     users = User.objects.all()
     user_info = []
     for u in users:
         try:
-            social = SocialAccount.objects.get(user=u)
+            social = SocialAccount.objects.filter(user=u).first()
             user_data = social.extra_data
         except SocialAccount.DoesNotExist:
             user_data = {}
 
 
-        user_info.append({
-            "user": u,
-            "data": user_data
-        })
+        if (query in u.username.lower() or query in u.profile.nickname.lower() or query in u.email.lower()):
+            user_info.append({
+                "user": u,
+                "data": user_data
+            })
     return render(request, 'moderation/manage_users.html', {'users': users, 'mode': get_mode(request), 'user_data': user_info})
 
 
@@ -74,7 +78,7 @@ def edit_user(request):
 
 
         elif action == 'save':            
-            cur_user.username = request.POST.get("username", cur_user.username)
+            cur_user.profile.nickname = request.POST.get("username", cur_user.profile.nickname)
             cur_user.email = request.POST.get("email", cur_user.email)
             cur_user.is_superuser = bool(request.POST.get("is_superuser"))
             cur_user.is_staff = bool(request.POST.get("is_superuser"))
@@ -171,7 +175,35 @@ def view_appeal(request):
 
 @super_user_required
 def manage_posts(request):
-    return redirect("admin_only")
+    reports = Reports.objects.all()
+    reports = Reports.objects.values('item').annotate(report_count=Count('id'))
+    report_info = []
+    for report in reports:
+        item = Item.objects.get(pk=report['item'])
+        report_info.append({
+            "item": item,
+            "report_count": report['report_count'],
+        })
+    return render(request, "moderation/manage_posts.html", {'mode': get_mode(request), 'report_info': report_info})
+
+@super_user_required
+def view_report(request, pk):
+    action = request.POST.get("action")
+    item = get_object_or_404(Item, pk=pk)
+    reports = Reports.objects.filter(item=item)
+
+    if action:
+        if action == "ignore":
+            Reports.objects.filter(item=item).delete()
+            return redirect("manage_posts")
+        elif action == "removePost":
+            Reports.objects.filter(item=item).delete()
+            item.delete()
+            return redirect("manage_posts")
+        elif action == "cancel":
+            return redirect("manage_posts")
+
+    return render(request, 'moderation/view_report.html', {'mode': get_mode(request), 'reports': reports, "item": item})
 
 
 @super_user_required

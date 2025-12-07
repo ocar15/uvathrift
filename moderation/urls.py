@@ -8,5 +8,5 @@ urlpatterns = [
     path('view-appeal/', views.view_appeal, name='view_appeal'),
     path('edit-user/', views.edit_user, name='edit_user'),
     path('manage-posts/', views.manage_posts, name='manage_posts'),
-    path('analytics', views.analytics, name='analytics')
+    path('view-report/<int:pk>', views.view_report, name='view_report')
 ]
