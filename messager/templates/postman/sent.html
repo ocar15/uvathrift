@@ -10,9 +10,18 @@
 {% endblock css %}
 
 {% block navbar-right %}
-    <a href="{% url 'dashboard'%}">
-        <button class="nav-btn">Back</button>
+    <!-- Top toolbar with bulk actions -->
+    <a href="{% url 'dashboard' %}">
+        <button class="nav-btn">Home</button>
     </a>
+
+    <button id="pm-archive-top-btn" class="nav-btn">
+        Archive
+    </button>
+
+    <button id="pm-delete-top-btn" class="nav-btn">
+        Delete
+    </button>
 {% endblock %}
 
 {% block content %}

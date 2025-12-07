@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+{% load static %}
+{% load postman_tags %}
+{% load i18n %}
 <html lang="en">
 <head>
     {% load static %}
@@ -47,5 +50,78 @@
     </footer>
     {% block js %}
     {% endblock %}
+    <div id="msg-toast" class="msg-toast hidden">
+      <div class="msg-toast-title">
+        New message from <span id="msg-toast-sender"></span>
+      </div>
+      <div class="msg-toast-body" id="msg-toast-body"></div>
+      <a href="{% url 'postman:inbox' %}" class="msg-toast-link">
+        Open Messages
+      </a>
+    </div>
+
+    <script>
+      (function () {
+        let lastSeenMessageId = null;
+        let initialized = false;
+
+        const toast = document.getElementById("msg-toast");
+        const senderSpan = document.getElementById("msg-toast-sender");
+        const bodyDiv = document.getElementById("msg-toast-body");
+
+        function showToast(sender, preview) {
+          if (!toast) return;
+          senderSpan.textContent = sender || "someone";
+          bodyDiv.textContent = preview || "";
+
+          toast.classList.remove("hidden");
+          toast.classList.add("visible");
+
+          // Auto-hide after 5 seconds
+          setTimeout(() => {
+            toast.classList.remove("visible");
+            toast.classList.add("hidden");
+          }, 5000);
+        }
+
+        async function checkLatestUnread() {
+          try {
+            const resp = await fetch("{% url 'latest-unread-api' %}", {
+              headers: { "X-Requested-With": "XMLHttpRequest" },
+              credentials: "same-origin"
+            });
+            if (!resp.ok) return;
+
+            const data = await resp.json();
+            if (!data.latest) {
+              return;
+            }
+
+            const latest = data.latest;
+            const currentId = latest.id;
+
+            if (!initialized) {
+              // First run, record what's there so we don't spam old messages
+              lastSeenMessageId = currentId;
+              initialized = true;
+              return;
+            }
+
+            // Only pop when there is a *newer* unread message
+            if (currentId !== lastSeenMessageId) {
+              lastSeenMessageId = currentId;
+              // Use subject if present; else use body preview
+              showToast(latest.sender, latest.subject || latest.body_preview);
+            }
+          } catch (err) {
+            console.error("Error checking latest unread message:", err);
+          }
+        }
+
+        // Check every 10 seconds + a first check after 3s
+        setInterval(checkLatestUnread, 10000);
+        setTimeout(checkLatestUnread, 3000);
+      })();
+    </script>
 </body>
 </html>

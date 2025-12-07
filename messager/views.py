@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from postman.models import Message
 
 @login_required
@@ -60,3 +60,29 @@ def undelete_messages(request):
 
     next_url = request.POST.get("next") or reverse("postman:inbox")
     return redirect(next_url)
+
+@login_required
+def latest_unread_message_api(request):
+    qs = Message.objects.filter(
+        recipient=request.user,
+        read_at__isnull=True
+    ).select_related('sender').order_by('-sent_at')
+
+    unread_count = qs.count()
+    if unread_count == 0:
+        return JsonResponse({"unread": 0})
+
+    latest = qs.first()
+    sender_name = latest.sender.get_username()
+    subject = latest.subject or ""
+    body_preview = (latest.body or "")[:80]
+
+    return JsonResponse({
+        "unread": unread_count,
+        "latest": {
+            "id": latest.id,
+            "sender": sender_name,
+            "subject": subject,
+            "body_preview": body_preview,
+        }
+    })
