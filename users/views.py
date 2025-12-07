@@ -105,6 +105,7 @@ def edit_profile(request):
             if(request.FILES.get('profile_photo')):
                 cur_user.profile.image = request.FILES.get('profile_photo')
                 print('image: ', cur_user.profile.image)
+            cur_user.profile.new_user = False
             cur_user.profile.save()
             cur_user.save()
             return redirect("my_profile")
