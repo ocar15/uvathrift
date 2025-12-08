@@ -27,12 +27,11 @@
                         <img class="verified-badge-icon" src="{% static 'users/images/verified_badge.png' %}" />
                     {% endif %}
                 </h3>
-                <h4><input type="text" placeholder="{{ user.profile.nickname }}" name="nickname"></h4>
-                <p><span style='font-weight: bold;'>Email: </span><input type="text" placeholder="{% if user.email %}{{ user.email }}{% else %}n/a{% endif %}" name="email"/></p>
-                <p><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>
+                <h4><input class="form-input" type="text" placeholder="{{ user.profile.nickname }}" name="nickname"></h4>
+                <p><input class="form-input" type="text" placeholder="{% if user.email %}{{ user.email }}{% else %}Email{% endif %}" name="email"/></p>
             </div>
         </div>
-        <p class="bio"><textarea placeholder="bio" rows="4" cols="50" name="bio">Enter your bio here</textarea></p>
+        <p class="bio"><textarea class="form-textarea" placeholder="{% if user.profile.bio %}{{ user.profile.bio }}{% else %}Enter your bio here{% endif %}" rows="4" cols="50" name="bio"></textarea></p>
         <button type="submit" style="margin: 0px auto;">Submit</button>
         <a href="{% url 'delete_profile' %}" style="margin: 20px auto;"><span style='font-weight: normal; color: red;'>Delete Account</span></a>
     </form>

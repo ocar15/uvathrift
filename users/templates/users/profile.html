@@ -28,11 +28,11 @@
                     <span style="color: grey;">(No nickname set)</span>
                     {% endif %}
                 </h4>
-                <p><span style='font-weight: bold;'>Email: </span>{% if user.email %}{{ user.email }}{% else %}n/a{% endif %}</p>
-                <p><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>
+                <p>{% if user.email %}{{ user.email }}{% else %}(No email set){% endif %}</p>
             </div>
         </div>
         <p class="bio">{{ user.profile.bio }}</p>
+        <p style="margin-bottom: 30px; text-align: center;"><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>
         <form method="post" action="{% url 'edit_profile' %}" style="margin: 0px auto;">
             {% csrf_token %}
             <input type="hidden" name="user_id" value="{{ user.id }}">

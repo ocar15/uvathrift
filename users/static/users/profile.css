@@ -40,7 +40,6 @@ button {
 }
 
 .profile-picture{
-    height: 100%;
     border-radius: 50%;
 }
 
@@ -51,6 +50,54 @@ button {
 
 .bio {
     margin: 15px auto 30px;
+}
+
+.form-textarea {
+    padding: 8px;
+    font-size: medium;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: 'Outfit', Helvetica, sans-serif;
+    min-width: 450px;
+}
+
+.form-input {
+    padding: 8px;
+    font-size: medium;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Outfit', Helvetica, sans-serif;
+}
+
+.file-upload {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px;
+    font-family: 'Outfit', Helvetica, sans-serif;
+    font-size: medium;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+.file-upload::-webkit-file-upload-button {
+    background-color: var(--background-dark);
+    color: var(--white);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Outfit', Helvetica, sans-serif;
+}
+
+.form-select {
+    padding: 5px 3px 5px 8px;
+    font-size: medium;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Outfit', Helvetica, sans-serif;
+    background-color: #fff;
+    cursor: pointer;
 }
 
 .verify-student-email {
