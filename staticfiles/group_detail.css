@@ -83,20 +83,15 @@
     font-family: inherit;
 }
 
-.send-message-form button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 0 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
+.card-btn.edit {
+   background: var(--background-dark);
 }
+ 
 
-.send-message-form button:hover {
-    background-color: #0056b3;
+.card-btn.edit:hover {
+    background: #2563eb;
 }
 
 .btn-delete, .btn-leave{
-    background-color: red;
+    background: red;
 }

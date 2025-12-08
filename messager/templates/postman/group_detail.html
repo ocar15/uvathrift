@@ -15,16 +15,10 @@
     </a>
     <a href="{% url 'group_list' %}"><button class="nav-btn">Back</button></a>
     {% if request.user == group.created_by %}
-    <form method="post" action="{% url 'delete_group' group.id %}">
-        {% csrf_token %}
-        <button type="submit" class="btn-delete">Delete Group</button>
-    </form>
+        <a href="{% url 'delete_group' group.id %}"><button class="btn-delete">Delete Group</button></a>
 {% endif %}
 {% if request.user != group.created_by and request.user in group.members.all %}
-    <form method="post" action="{% url 'leave_group' group.id %}">
-        {% csrf_token %}
-        <button type="submit" class="btn-leave">Leave Group</button>
-    </form>
+        <a href="{% url 'leave_group' group.id %}"><button class="btn-leave">Leave Group</button></a>
 {% endif %}
 
 
@@ -51,7 +45,7 @@
     <form class="send-message-form" method="post" action="{% url 'send_group_message' group.id %}">
         {% csrf_token %}
         <textarea name="body" placeholder="Type your message..." required></textarea>
-        <button type="submit">Send</button>
+        <button type="submit" class="card-btn edit">Send</button>
     </form>
 </div>
 {%endblock%}
