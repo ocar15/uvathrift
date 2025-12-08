@@ -3,7 +3,7 @@
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'moderation/administrator.css' %}">
-<link rel='stylesheet' href="{%static 'dashboard/dashboard.css'%}">
+<link rel="stylesheet" href="{% static 'dashboard/dashboard.css' %}">
 {% endblock %}
 
 {% block navbar-left %}
@@ -32,39 +32,28 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="admin-title">Viewing Report For "{{ item.title }}"</h1>
+<h1 class="admin-title">Viewing Report For "{{ msg.subject }}"</h1>
 
 <div class='items-grid'>
     <div class='item-card'>
-{% if item.image %}
-        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">
-        {% endif %}
         <div class="content-div">
             <div class="item-text">
-                <div class="item-and-price">
-                    <h5>{{ item.title }}</h5>
-                    <p><strong>${{ item.price }}</strong></p>
-                </div>
-                <p class="item-description">{{ item.description }}</p>
+                <h5> From: {{ msg.sender.username }}</h5>
+                <h5 >To: {{ msg.recipient.username }}</h5>
+                <h4>Message Body:</h4>
+                <p class="item-description">{{ msg.body }}</p>
             </div>
         </div>
     </div>
 </div>
 
-
 <div class="appeal-container">
-    {%for report in reports%}
-    <main>Report {{forloop.counter}} by<span style='font-weight: bold'> {{report.reported_by}}</span>: {{ report.report_description }}</main>
-    {% endfor %}
-
-    <form method="post" action="{% url 'view_report' item.pk %}" class="form-actions">
+    <form method="post" action="{% url 'view_report_msg' msg.pk %}" class="form-actions">
         {% csrf_token %}
-        <input type="hidden" name="user_id" value="{{ user_data.user.id }}">
-
-        <button type="submit" name="action" value="removePost" class="card-btn suspend">Remove Post</button>
+        
+        <button type="submit" name="action" value="removeMsg" class="card-btn suspend">Remove Message</button>
         <button type="submit" name="action" value="ignore" class="card-btn edit">Ignore</button>
-        <button type="submit" name="action" value="cancel" class="card-btn edit">Cancel</button>
-
+        <button type='submit' name="action" value="cancel" class="card-btn edit">Cancel</a>
     </form>
 </div>
 {% endblock %}

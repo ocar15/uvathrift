@@ -8,5 +8,7 @@ urlpatterns = [
     path('view-appeal/', views.view_appeal, name='view_appeal'),
     path('edit-user/', views.edit_user, name='edit_user'),
     path('manage-posts/', views.manage_posts, name='manage_posts'),
-    path('view-report/<int:pk>', views.view_report, name='view_report')
+    path('view-report/<int:pk>', views.view_report, name='view_report'),
+    path('manage-messages/', views.manage_messages, name='manage_messages'),
+    path('view-report-msg/<int:pk>', views.view_report_msg, name="view_report_msg")
 ]

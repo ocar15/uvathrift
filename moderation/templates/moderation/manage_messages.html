@@ -40,50 +40,35 @@
 
 
 {% block content %}
-    <h1 class="admin-title">Manage Appeals</h1>
+    <h1 class="admin-title">Manage Reported Messages</h1>
 
 
     <div class="user-grid">
-        {% for u in user_data %}
+        {% for report in report_info %}
         <div class="user-card">
-            
-            
             <div class="user-header">
-                {% if u.data.picture %}
-                <img src="{{ u.data.picture }}" class="user-avatar-img">
-                {% else %}
-                    <div class="user-avatar">{{ u.user.username|first|upper }}</div>
-                    {% endif %}
-                    
-                    
                     <div class="user-info">
-                        <p class="user-name">{{ u.user.username }}</p>
-                    <p class="user-email">{{ u.user.email }}</p>
+                    <h4>Subject: {{ report.subject }}</h4>
+                    <h5> From: {{ report.sender.username }}</h5>
+                    <p class="user-name">To: {{ report.recipient.username }}</p>
+                </div>
                 </div>
                 
                 
-                {% if u.user.is_superuser %}
-                    <span class="user-role admin">Admin</span>
-                {% else %}
-                    <span class="user-role user">User</span>
-                    {% endif %}
-                </div>
-                
-                
-                <form method="post" action="{% url 'view_appeal' %}">
+                <form method="post" action="{% url 'view_report_msg' report.pk %}">
                     {% csrf_token %}
-                    <input type="hidden" name="user_id" value="{{ u.user.id }}">
+                    <input type="hidden" name="user_id" value="{{ report.reporter.user.id }}">
                     
                     
                     <div class="user-actions">
-                        <button type="submit" name="action" value="viewAppeal" class="card-btn edit">View Appeal</button>
+                        <button type="submit" name="action" value="viewReport" class="card-btn edit">View Report</button>
                     </div>
                 </form>
                 
                 
             </div>
             {%empty%}
-            <main style='text-align: center;'>No Current Pending Appeals</main>
+            <main style='text-align: center;'>No Current Pending Reports</main>
         {% endfor %}
     </div>
 {% endblock %}

@@ -11,7 +11,7 @@
     <div class="navbar-left">
         <a class="home-link" href="{% url 'admin_only' %}">
             <img class="logo" src="{% static 'images/thrift.uva.jpg' %}" alt="UVA Thrift Logo" />
-            <h2>
+            <h2 style="margin: 0;">
                 <span>uva</span>.<span>thrift</span>
                 <span style="color: red; font-weight: bold; margin-left: 5px;">Admin</span>
             </h2>
@@ -59,15 +59,23 @@
 
 
             <div class="user-header">
-                {% if u.data.picture %}
-                    <img src="{{ u.data.picture }}" class="user-avatar-img">
+                {% if u.data %}
+                {% if u.data.image %}
+                    <img src="{{ u.data.image.url }}" class="user-avatar-img">
+                {%else%}
+                    <div class="user-avatar">{{ u.data.nickname|first|upper }}</div>
+                {%endif%}
                 {% else %}
-                    <div class="user-avatar">{{ u.user.profile.nickname|first|upper }}</div>
+                    <div class="user-avatar">{{ u.user.username|first|upper }}</div>
                 {% endif %}
 
 
                 <div class="user-info">
-                    <p class="user-name">{{ u.user.profile.nickname }}</p>
+                    {% if u.data and u.data.nickname %}
+                        <p class="user-name">{{ u.data.nickname }}</p>
+                    {%else%}
+                        <p class="user-name">{{ u.user.get_full_name|default:u.user.username }}</p>
+                    {%endif%}
                     <p class="user-email">{{ u.user.email }}</p>
                 </div>
 

@@ -9,8 +9,9 @@
             <div class="navbar-left">
                 <a class="home-link" href="{% url 'admin_only' %}">
                     <img class="logo" src="{% static 'images/thrift.uva.jpg' %}" alt="UVA Thrift Logo" />
-                    <h2>
-                        <span>uva</span>.<span>thrift</span><span style='color: red; font-weight: bold; margin-left: 5px;'>Admin</span>
+                    <h2 style="margin: 0;">
+                        <span>uva</span>.<span>thrift</span>
+                        <span style='color: red; font-weight: bold; margin-left: 5px;'>Admin</span>
                     </h2>
                 </a>
             </div>
@@ -35,5 +36,6 @@
 <a href="{% url 'manage_users' %}" class='admin-btn'>Manage Users</a>
 <a href="{% url 'manage_posts' %}" class='admin-btn'>Manage Posts</a>
 <a href="{% url 'manage_appeals' %}" class='admin-btn'>Manage Appeals</a>
+<a href="{% url 'manage_messages' %}" class='admin-btn'>Manage Messages</a>
 </div>
 {% endblock %}

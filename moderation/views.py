@@ -9,6 +9,8 @@ from allauth.socialaccount.models import *
 from datetime import datetime
 from django.utils import timezone
 from django.db.models import Count
+from users.models import Profile
+from postman.models import Message
 
 
 
@@ -43,14 +45,13 @@ def manage_users(request):
     users = User.objects.all()
     user_info = []
     for u in users:
-        try:
-            social = SocialAccount.objects.filter(user=u).first()
-            user_data = social.extra_data
-        except SocialAccount.DoesNotExist:
-            user_data = {}
+        # try:
+        user_data = Profile.objects.filter(user=u).first()
+        if not user_data:
+            continue
 
 
-        if (query in u.username.lower() or query in u.profile.nickname.lower() or query in u.email.lower()):
+        if (query in u.profile.nickname.lower() or query in u.email.lower()):
             user_info.append({
                 "user": u,
                 "data": user_data
@@ -205,7 +206,30 @@ def view_report(request, pk):
 
     return render(request, 'moderation/view_report.html', {'mode': get_mode(request), 'reports': reports, "item": item})
 
+@super_user_required
+def manage_messages(request):
+    flagged_msg = Message.objects.filter(moderation_status='p').order_by('-sent_at')
+    report_info = {"report_info": flagged_msg, 'mode': get_mode(request)}
+    return render(request, "moderation/manage_messages.html", report_info)
 
 @super_user_required
-def analytics(request):
-    return redirect("admin_only")
+def view_report_msg(request, pk):
+    action = request.POST.get("action")
+    msg = get_object_or_404(Message, pk=pk)
+
+    if msg.moderation_status != 'p':
+        return redirect('manage_messages')
+    
+    if action:
+        if action == "ignore":
+            msg.moderation_status = 'a'
+            msg.moderation_reason = "Ignored"
+            msg.save()
+            return redirect('manage_messages')
+        elif action == "removeMsg":
+            msg.moderation_status = 'r'
+            msg.save()
+            return redirect("manage_messages")
+        elif action == "cancel":
+            return redirect('manage_messages')
+    return render(request, "moderation/view_flagged.html", {'mode': get_mode(request), 'msg': msg, "reports": [{"reported_by": msg.recipient.username, "report_description": msg.moderation_reason}]})

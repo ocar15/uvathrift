@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import Http404, JsonResponse
@@ -86,3 +86,16 @@ def latest_unread_message_api(request):
             "body_preview": body_preview,
         }
     })
+
+@login_required
+def report_message(request, pk):
+    msg = get_object_or_404(Message, pk=pk)
+
+    if msg.recipient != request.user:
+        return redirect("postman:inbox")
+    
+    msg.moderation_status = 'p'
+    msg.moderation_reason = "Reported by User"
+    msg.save()
+
+    return redirect("postman:inbox")

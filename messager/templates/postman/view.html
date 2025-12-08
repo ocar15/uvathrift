@@ -182,6 +182,17 @@
                         Delete
                     </button>
                 </form>
+                <form action="{% url 'report_message' message.pk %}" method="post" class="inline-form">
+                  {% csrf_token %}
+                  <button type="submit" class="msg-btn" style="background-color: orange;">
+                    Report
+                  </button>
+</form>
+{% if message.moderation_status == 'p' %}
+    <span class="msg-tag msg-tag-warning">Reported</span>
+{% endif %}
+
+
             {% endif %}
         </div>
         </div>
