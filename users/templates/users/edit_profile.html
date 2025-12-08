@@ -32,7 +32,7 @@
                 <p><span style='font-weight: bold;'>Date Joined: </span>{{user.socialaccount_set.all.0.date_joined}}</p>
             </div>
         </div>
-        <p class="bio"><input type="text" placeholder="bio" name="bio"/></p>
+        <p class="bio"><textarea placeholder="bio" rows="4" cols="50" name="bio">Enter your bio here</textarea></p>
         <button type="submit" style="margin: 0px auto;">Submit</button>
         <a href="{% url 'delete_profile' %}" style="margin: 20px auto;"><span style='font-weight: normal; color: red;'>Delete Account</span></a>
     </form>
