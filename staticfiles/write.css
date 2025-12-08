@@ -190,3 +190,34 @@
     min-height: 350px;   /* control how tall the body is */
     resize: vertical;    /* allow user to stretch if they want */
 }
+
+.message-alert-container {
+  width: 100%;
+  margin: 10px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.message-alert {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  width: 80%;
+  text-align: center;
+}
+
+/* Postman / Django messages with tag "success" */
+.message-alert.success,
+.message-alert.info {
+  background-color: #d1f7d6;
+  border: 1px solid #4CAF50;
+  color: #256029;
+}
+
+/* Messages with tag "error" or "warning" */
+.message-alert.error,
+.message-alert.warning {
+  background-color: #ffd6d6;
+  border: 1px solid #E53935;
+  color: #8a1f1f;
+}

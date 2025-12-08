@@ -4,6 +4,9 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.http import Http404, JsonResponse
 from postman.models import Message
+from .forms import CreateGroupForm
+from .models import GroupChat, GroupChatMessage
+from django.contrib.auth.models import User
 
 @login_required
 def unarchive_messages(request):
@@ -99,3 +102,75 @@ def report_message(request, pk):
     msg.save()
 
     return redirect("postman:inbox")
+
+@login_required
+def group_list(request):
+    groups = GroupChat.objects.filter(members=request.user)
+    return render(request, 'postman/group_list.html', {"groups": groups})
+
+
+@login_required
+def create_group(request):
+    members = User.objects.exclude(id=request.user.id)
+    if request.method == "POST":
+        form = CreateGroupForm(request.POST)
+        form.fields['members'].queryset = members
+        
+        if form.is_valid():
+            group = form.save(commit=False)
+            group.created_by = request.user
+            group.save()
+            form.save_m2m()
+            group.members.add(request.user)
+            return redirect("group_list")
+        else:
+            print("ERROR", form.errors)
+    else:
+        form = CreateGroupForm()
+        form.fields['members'].queryset = members
+
+    return render(request, 'postman/create_group.html', {'form': form})
+
+@login_required
+def send_group_message(request, group_id):
+    group = GroupChat.objects.get(id=group_id)
+
+    if request.method == "POST":
+        body = request.POST.get("body")
+        if body:
+            GroupChatMessage.objects.create(group = group, sender = request.user, body=body)
+        return redirect('group_detail', group_id=group.id)
+    return render(request, 'postman/send_message.html', {"group": group})
+
+@login_required
+def group_detail(request, group_id):
+    group = GroupChat.objects.get(id=group_id)
+    messages = group.messages.order_by('sent_at')
+
+    return render(request, "postman/group_detail.html", {"group": group, "messages": messages})
+
+@login_required
+def delete_group(request, group_id):
+    group = get_object_or_404(GroupChat, id=group_id)
+
+    if request.user != group.created_by:
+        return redirect("group_list")
+    
+    if request.method == "POST":
+        group.delete()
+        return redirect("group_list")
+    
+    return render(request, 'postman/confirm_delete.html', {"group": group})
+
+@login_required
+def leave_group(request, group_id):
+    group = get_object_or_404(GroupChat, id=group_id)
+
+    if request.user == group.created_by:
+        return redirect('group_detail', group_id=group.id)
+    
+    if request.method == "POST":
+        group.members.remove(request.user)
+        return redirect("group_list")
+    
+    return render(request, 'postman/confirm_leave.html', {'group': group})

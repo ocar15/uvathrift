@@ -1,0 +1,40 @@
+{% extends "postman/base_folder.html" %}
+{% load static %}
+{% load postman_tags %}
+{% load i18n %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'group_list.css' %}">
+  <link rel="stylesheet" href="{% static 'sidebar.css' %}">
+{% endblock css %}
+
+{% block navbar-right %}
+    <!-- Top toolbar with bulk actions -->
+    <a href="{% url 'dashboard' %}">
+        <button class="nav-btn">Home</button>
+    </a>
+    <a href="{% url 'postman:inbox' %}"><button class="nav-btn">Back</button></a>
+{% endblock %}
+
+
+
+
+{% block content %}
+<div class="group-list-container">
+    <h1>Your Groups</h1>
+    <a href="{% url 'create_group' %}" class="card-btn edit">+ Create New Group</a>
+    {% if groups %}
+    <div class="group-cards" style='margin-top: 5%;'>
+        {% for group in groups %}
+        <div class="group-card">
+            <h3>{{ group.name }}</h3>
+            <p>Members: {{ group.members.count }}</p>
+            <a href="{% url 'group_detail' group.id %}" class="btn view-btn">View</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>You are not in any groups yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

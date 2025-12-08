@@ -8,6 +8,7 @@
     {% url 'postman:archives' as archives_url %}
     {% url 'postman:trash'    as trash_url %}
     {% url 'postman:write'    as compose_url %}
+    {% url 'group_list' as group_list_url%}
 
     <a href="{{ inbox_url }}" class="item {% if request.path == inbox_url %}active{% endif %}">
       <span class="icon">📥</span>
@@ -27,6 +28,9 @@
 
     <a href="{{ trash_url }}" class="item {% if request.path == trash_url %}active{% endif %}">
       <span class="icon">🗑️</span><span>Trash</span>
+    </a>
+    <a href="{% url 'group_list' %}" class="item {% if request.path == group_list_url %}active{% endif %}">
+      <span class="icon">🗪</span><span>Group Chats</span>
     </a>
   </nav>
 </aside>
