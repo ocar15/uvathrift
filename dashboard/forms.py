@@ -4,7 +4,7 @@ from .models import Item
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ["title", "description", "price", "condition", "image"]
+        fields = ["title", "description", "price", "condition", "listed", "image"]
 
         labels = {
             "title": "",
@@ -12,6 +12,7 @@ class ItemForm(forms.ModelForm):
             "price": "",
             "image": "",
             "condition": "Condition",
+            "listed": "Public"
         }
 
         widgets = {
@@ -36,4 +37,5 @@ class ItemForm(forms.ModelForm):
             "condition": forms.Select(attrs={
                 "class": "form-select",
             }),
+            "listed": forms.CheckboxInput()
         }

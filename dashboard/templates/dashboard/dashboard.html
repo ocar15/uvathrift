@@ -90,8 +90,11 @@
                         {% if user != item.seller %}
                         <form method='POST' action = "{% url 'report_post' item.pk %}">
                             {% csrf_token %}
-                        <button type='submit' name='reportBtn' class='item-message-btn' style="background-color: #ae5a00;">Report Post</a>
+                            <button type='submit' name='reportBtn' class='item-message-btn' style="background-color: #ae5a00;">Report Post</a>
                         </form>
+                        {% endif %}
+                        {% if item.listed == False %}
+                            <button type='submit' name='reportBtn' class='item-message-btn' style="background-color: #49217e;">Private</a>
                         {% endif %}
                     </div>
                     {% if item.image %}

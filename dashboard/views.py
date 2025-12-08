@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.contrib.postgres.search import SearchVector
 from moderation.models import Reports
+from django.db.models import Q
 
 
 def super_user_required(func):
@@ -39,6 +40,8 @@ def dashboard(request):
         item_list = item_list.annotate(
             search=SearchVector('title', 'description'),
         ).filter(search=query)
+
+    item_list = item_list.filter(Q(listed=True) | Q(seller=request.user))
 
     if verified:
         item_list = item_list.filter(seller__profile__student_email_verified=True)

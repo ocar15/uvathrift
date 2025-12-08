@@ -52,6 +52,9 @@
                         <button class="item-message-btn">
                             Message Seller
                         </button>
+                        {% if item.listed == False %}
+                            <button type='submit' name='reportBtn' class='item-message-btn' style="background-color: #49217e;">Private</a>
+                        {% endif %}
                     </div>
                     {% if item.image %}
                         <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-img">

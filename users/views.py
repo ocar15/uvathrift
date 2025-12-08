@@ -67,6 +67,8 @@ def user_profile(request, username):
         return HttpResponse("<h1>User not found</h1>", status=404)
     print(username)
     item_list = Item.objects.filter(seller=u).order_by("-created_at")
+    if(request.user != u):
+        item_list = item_list.filter(listed=True)
     print(item_list)
     paginator = Paginator(item_list, 4)
     page_number = request.GET.get('page')
