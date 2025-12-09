@@ -55,6 +55,14 @@
           </div>
         </div>
 
+        {% if form.recipients.errors %}
+          <div class="message-alert-container">
+            <div class="message-alert error">
+              No user with that username exists. Please check the spelling.
+            </div>
+          </div>
+        {% endif %}
+
         <!-- Subject row -->
         <div class="compose-row">
           <div class="compose-label">Subject</div>
