@@ -1,0 +1,47 @@
+{% extends "postman/base_folder.html" %}
+{% load static %}
+{% load postman_tags %}
+{% load i18n %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'create_group.css' %}">
+  <link rel="stylesheet" href="{% static 'sidebar.css' %}">
+{% endblock css %}
+
+{% block navbar-right %}
+    <!-- Top toolbar with bulk actions -->
+    <a href="{% url 'dashboard' %}">
+        <button class="nav-btn">Home</button>
+    </a>
+    <a href="{% url 'group_list' %}"><button class="nav-btn">Back</button></a>
+{% endblock %}
+
+
+{%block content%}
+<div class="create-group-container">
+    <h1>Create New Group</h1>
+    <form method="post" class="create-group-form">
+    {% csrf_token %}
+
+    <div class="form-field">
+        {{ form.name.label_tag }}
+        {{ form.name }}
+    </div>
+
+    <div class="form-field">
+        <label>Members</label>
+        <div class="checkbox-group">
+            {% for checkbox in form.members %}
+                <label class="checkbox-item">
+                    {{ checkbox.tag }}
+                    {{ checkbox.choice_label }}
+                </label>
+            {% endfor %}
+        </div>
+    </div>
+
+    <button type="submit" class="card-btn edit">Create Group</button>
+</form>
+
+</div>
+{%endblock%}

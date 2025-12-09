@@ -1,0 +1,26 @@
+{% extends "postman/base_folder.html" %}
+{% load static %}
+{% load postman_tags %}
+{% load i18n %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'create_group.css' %}">
+  <link rel="stylesheet" href="{% static 'sidebar.css' %}">
+{% endblock css %}
+
+{% block navbar-right %}
+    <!-- Top toolbar with bulk actions -->
+    <a href="{% url 'dashboard' %}">
+        <button class="nav-btn">Home</button>
+    </a>
+    <a href="{% url 'group_list' %}"><button class="nav-btn">Back</button></a>
+{% endblock %}
+
+{%block content%}
+<h2>Are you sure you want to leave "{{ group.name }}"?</h2>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, Leave</button>
+    <a href="{% url 'group_list' %}">Cancel</a>
+</form>
+{%endblock%}

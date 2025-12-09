@@ -1,0 +1,51 @@
+{% extends "postman/base_folder.html" %}
+{% load static %}
+{% load postman_tags %}
+{% load i18n %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'group_detail.css' %}">
+  <link rel="stylesheet" href="{% static 'sidebar.css' %}">
+{% endblock css %}
+
+{% block navbar-right %}
+    <!-- Top toolbar with bulk actions -->
+    <a href="{% url 'dashboard' %}">
+        <button class="nav-btn">Home</button>
+    </a>
+    <a href="{% url 'group_list' %}"><button class="nav-btn">Back</button></a>
+    {% if request.user == group.created_by %}
+        <a href="{% url 'delete_group' group.id %}"><button class="btn-delete">Delete Group</button></a>
+{% endif %}
+{% if request.user != group.created_by and request.user in group.members.all %}
+        <a href="{% url 'leave_group' group.id %}"><button class="btn-leave">Leave Group</button></a>
+{% endif %}
+
+
+{% endblock %}
+
+
+
+{%block content%}
+<div class="group-detail-container">
+    <h1 class="group-title">{{ group.name }} GroupChat</h1>
+
+    <div class="messages-container">
+        {% for m in messages %}
+        <div class="message {% if m.sender == request.user %}mine{% else %}theirs{% endif %}">
+            <span class="sender">{{ m.sender.username }}</span>
+            <p class="message-body">{{ m.body }}</p>
+            <span class="timestamp">{{ m.sent_at|date:"M d, H:i" }}</span>
+        </div>
+        {% empty %}
+        <p class="no-messages">No messages yet.</p>
+        {% endfor %}
+    </div>
+
+    <form class="send-message-form" method="post" action="{% url 'send_group_message' group.id %}">
+        {% csrf_token %}
+        <textarea name="body" placeholder="Type your message..." required></textarea>
+        <button type="submit" class="card-btn edit">Send</button>
+    </form>
+</div>
+{%endblock%}
