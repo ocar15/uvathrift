@@ -171,15 +171,15 @@
 .compose-body {
     width: 100%;
     box-sizing: border-box;
-    border: none;              /* no inner borders */
-    background: transparent;   /* so they blend into the box bg */
+    border: none;
+    background: transparent;
     outline: none;
     font-size: 14px;
     font-family: inherit;
     padding: 4px 0;
 }
 
-/* Placeholder style (Gmail-ish) */
+/* Placeholder style*/
 .compose-input::placeholder,
 .compose-body::placeholder {
     color: #9aa0a6;
@@ -187,7 +187,7 @@
 
 /* Big body area */
 .compose-body {
-    min-height: 350px;   /* control how tall the body is */
+    min-height: 350px;
     resize: vertical;    /* allow user to stretch if they want */
 }
 

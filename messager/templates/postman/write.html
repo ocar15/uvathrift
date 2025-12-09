@@ -7,6 +7,7 @@
     <link rel="stylesheet" type='text/css' href="{%static 'write.css'%}"> 
     <link rel="stylesheet" type='text/css' href="{% static 'sidebar.css' %}">
     <link rel="stylesheet" type='text/css' href="{%static 'message_list.css'%}"> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
 {% endblock css %}
 
 {% block navbar-right %}
@@ -44,15 +45,10 @@
             <input
               type="text"
               name="{{ form.recipients.html_name }}"
-              id="{{ form.recipients.id_for_label }}"
-              value="{% if request.GET.to %}{{ request.GET.to }}{% else %}{{ form.recipients.value|default_if_none:'' }}{% endif %}"
+              id="recipients-input"
               placeholder="Recipients"
               class="compose-input"
-              list="recipient-suggestions"
             />
-            <datalist id="recipient-suggestions">
-              <option value="testuser123"></option>
-            </datalist>
           </div>
         </div>
 
@@ -109,6 +105,8 @@
     </div>
   </main>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script src="{% static 'js/name_dropdown.js' %}"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const datalist = document.getElementById("recipient-suggestions");
