@@ -11,9 +11,9 @@
 
 {% block navbar-right %}
     <!-- Top toolbar with bulk actions -->
-    <span id="pm-delete-top-btn" class="nav-btn">
-        Deleted 
-    </span>
+    <button id="pm-delete-top-btn" class="nav-btn">
+        Undelete Selected 
+    </button>
 
     <button id="pm-archive-top-btn" class="nav-btn">
         Archive Selected
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (deleteBtn) {
     deleteBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      submitWithAction("{% url 'postman:delete' %}");
+      submitWithAction("{% url 'undelete_messages' %}");
     });
   }
 });

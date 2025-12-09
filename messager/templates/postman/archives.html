@@ -11,10 +11,9 @@
 
 {% block navbar-right %}
     <!-- Top toolbar with bulk actions -->
-    <!-- Top toolbar with bulk actions -->
-    <span id="pm-archive-top-btn" class="nav-btn">
-        Archived
-    </span>
+    <button id="pm-archive-top-btn" class="nav-btn">
+        Unarchived Selected
+    </button>
 
     <button id="pm-delete-top-btn" class="nav-btn">
         Delete Selected
@@ -80,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (archiveBtn) {
     archiveBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      submitWithAction("{% url 'postman:archive' %}");
+      submitWithAction("{% url 'unarchive_messages' %}");
     });
   }
 
