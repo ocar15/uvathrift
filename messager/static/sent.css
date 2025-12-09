@@ -22,3 +22,8 @@
     min-height: 75vh;
     height: auto;
 }
+
+#pm-archive-top-btn,
+#pm-delete-top-btn {
+  display: none;    /* Hidden until checkboxes selected */
+}

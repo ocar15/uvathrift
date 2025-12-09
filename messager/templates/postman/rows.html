@@ -15,7 +15,7 @@
 
       {# From/To column #}
       <span class="party">
-        {% if folder_name == 'sent' %}
+        {% if user == m.sender %}
           {{ m.recipient|or_me:user }}
         {% else %}
           {{ m.sender|or_me:user }}

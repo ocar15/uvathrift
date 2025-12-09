@@ -7,6 +7,7 @@
     <link rel="stylesheet" type='text/css' href="{%static 'write.css'%}"> 
     <link rel="stylesheet" type='text/css' href="{% static 'sidebar.css' %}">
     <link rel="stylesheet" type='text/css' href="{%static 'message_list.css'%}"> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
 {% endblock css %}
 
 {% block navbar-right %}
@@ -16,6 +17,7 @@
 {% endblock %}
 
 {% block content %}
+{% url 'postman:write' as write_url %}
 <div class = "layout">
   <div class = "page">
     <div class = "page-toolbar">
@@ -25,13 +27,13 @@
     </div>
     {% include 'postman/sidebar.html' %}
   </div>
-      <main class="message-page" id="mail-main">
+  <main class="message-page" id="mail-main">
     <div class="compose-card">
       <div class="compose-header">
         <span class="compose-title">New Message</span>
       </div>
         
-      <form method="post" action="{% url 'postman:write' %}" class="compose-form">
+      <form method="post" action="{{ write_url }}?next={{ write_url|add:'?sent=1'|urlencode }}" class="compose-form">
         {% csrf_token %}
         {{ form.non_field_errors }}
 
@@ -43,15 +45,10 @@
             <input
               type="text"
               name="{{ form.recipients.html_name }}"
-              id="{{ form.recipients.id_for_label }}"
-              value="{% if request.GET.to %}{{ request.GET.to }}{% else %}{{ form.recipients.value|default_if_none:'' }}{% endif %}"
+              id="recipients-input"
               placeholder="Recipients"
               class="compose-input"
-              list="recipient-suggestions"
             />
-            <datalist id="recipient-suggestions">
-              <option value="testuser123"></option>
-            </datalist>
           </div>
         </div>
 
@@ -90,22 +87,26 @@
             {% trans "Send" %}
           </button>
         </div>
-        
-        {% if messages %}
-        <div class="message-alert-container">
-          {% for msg in messages %}
-            {% if forloop.last %}
-              <div class="message-alert {{ msg.tags }}">
-                {{ msg }}
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
+        {% if request.GET.sent %}
+          <div class="message-alert-container">
+            <div class="message-alert success">
+              Message sent!
+            </div>
+          </div>
+        {% endif %}
+        {% if form.recipients.errors %}
+          <div class="message-alert-container">
+            <div class="message-alert error">
+              No user with that username exists. Please check the spelling.
+            </div>
+          </div>
+        {% endif %}
       </form>
     </div>
   </main>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script src="{% static 'js/name_dropdown.js' %}"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const datalist = document.getElementById("recipient-suggestions");

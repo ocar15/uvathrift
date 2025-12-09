@@ -11,17 +11,17 @@
 
 {% block navbar-right %}
     <!-- Top toolbar with bulk actions -->
-    <span id="pm-delete-top-btn" class="nav-btn">
-        Deleted
-    </span>
-    
+    <button id="pm-archive-top-btn" class="nav-btn">
+        Archive Selected
+    </button>
+
+    <button id="pm-delete-top-btn" class="nav-btn">
+        Undelete Selected 
+    </button>
+
     <a href="{% url 'dashboard' %}">
         <button class="nav-btn">Home</button>
     </a>
-
-    <button id="pm-archive-top-btn" class="nav-btn">
-        Archive
-    </button>
 {% endblock %}
 
 {% block content %}
@@ -33,7 +33,7 @@
       </a>
     </div>
     {% include 'postman/sidebar.html' %}
-  </div>
+    </div>
   <form id="pm-rows-form" method="post" action="">
     {% csrf_token %}
     {% block pm_folder %}
@@ -46,10 +46,30 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("pm-rows-form");
+  const checkboxes = document.querySelectorAll("input[type='checkbox'][name='pks']");
   const archiveBtn = document.getElementById("pm-archive-top-btn");
   const deleteBtn = document.getElementById("pm-delete-top-btn");
 
   if (!form) return;
+
+    function updateToolbarVisibility() {
+    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+    if (anyChecked) {
+      archiveBtn.style.display = "inline-block";
+      deleteBtn.style.display = "inline-block";
+    } else {
+      archiveBtn.style.display = "none";
+      deleteBtn.style.display = "none";
+    }
+  }
+
+  // Add event listeners to each checkbox
+  checkboxes.forEach(cb => {
+    cb.addEventListener("change", updateToolbarVisibility);
+  });
+
+  // Run once in case
+  updateToolbarVisibility();
 
   function submitWithAction(url) {
     form.action = url;
@@ -66,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (deleteBtn) {
     deleteBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      submitWithAction("{% url 'postman:delete' %}");
+      submitWithAction("{% url 'undelete_messages' %}");
     });
   }
 });

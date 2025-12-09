@@ -90,14 +90,10 @@
             <!-- Archived Tag -->
             {% if user == message.sender and message.sender_archived %}
               <span class="msg-tag msg-tag-archived">Archived</span>
-            {% elif user == message.recipient and message.recipient_archived %}
-              <span class="msg-tag msg-tag-archived">Archived</span>
             {% endif %}
             <!-- Deleted Tag -->
             {# Deleted for this user? #}
             {% if user == message.sender and message.sender_deleted_at %}
-              <span class="msg-tag msg-tag-deleted">Deleted</span>
-            {% elif user == message.recipient and message.recipient_deleted_at %}
               <span class="msg-tag msg-tag-deleted">Deleted</span>
             {% endif %}
           </div>
