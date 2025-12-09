@@ -16,6 +16,7 @@
 {% endblock %}
 
 {% block content %}
+{% url 'postman:write' as write_url %}
 <div class = "layout">
   <div class = "page">
     <div class = "page-toolbar">
@@ -25,13 +26,13 @@
     </div>
     {% include 'postman/sidebar.html' %}
   </div>
-      <main class="message-page" id="mail-main">
+  <main class="message-page" id="mail-main">
     <div class="compose-card">
       <div class="compose-header">
         <span class="compose-title">New Message</span>
       </div>
         
-      <form method="post" action="{% url 'postman:write' %}" class="compose-form">
+      <form method="post" action="{{ write_url }}?next={{ write_url|add:'?sent=1'|urlencode }}" class="compose-form">
         {% csrf_token %}
         {{ form.non_field_errors }}
 
@@ -54,14 +55,6 @@
             </datalist>
           </div>
         </div>
-
-        {% if form.recipients.errors %}
-          <div class="message-alert-container">
-            <div class="message-alert error">
-              No user with that username exists. Please check the spelling.
-            </div>
-          </div>
-        {% endif %}
 
         <!-- Subject row -->
         <div class="compose-row">
@@ -98,18 +91,20 @@
             {% trans "Send" %}
           </button>
         </div>
-        
-        {% if messages %}
-        <div class="message-alert-container">
-          {% for msg in messages %}
-            {% if forloop.last %}
-              <div class="message-alert {{ msg.tags }}">
-                {{ msg }}
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
+        {% if request.GET.sent %}
+          <div class="message-alert-container">
+            <div class="message-alert success">
+              Message sent!
+            </div>
+          </div>
+        {% endif %}
+        {% if form.recipients.errors %}
+          <div class="message-alert-container">
+            <div class="message-alert error">
+              No user with that username exists. Please check the spelling.
+            </div>
+          </div>
+        {% endif %}
       </form>
     </div>
   </main>
