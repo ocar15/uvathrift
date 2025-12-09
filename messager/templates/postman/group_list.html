@@ -21,15 +21,25 @@
 
 {% block content %}
 <div class="group-list-container">
-    <h1>Your Groups</h1>
-    <a href="{% url 'create_group' %}" class="card-btn edit">+ Create New Group</a>
+    <h2>Welcome to your groups, <span>{{ user.username }}</span></h2>
+    <a href="{% url 'create_group' %}">
+        <button class="create-group-btn">
+            Create New Group +
+        </button>
+    </a>
     {% if groups %}
     <div class="group-cards" style='margin-top: 5%;'>
         {% for group in groups %}
         <div class="group-card">
-            <h3>{{ group.name }}</h3>
-            <p>Members: {{ group.members.count }}</p>
-            <a href="{% url 'group_detail' group.id %}" class="card-btn edit">View</a>
+            <div class="group-info">
+                <h4>{{ group.name }}</h4>
+                <p>{{ group.members.count }} members</p>
+            </div>
+            <a href="{% url 'group_detail' group.id %}">
+                <button>
+                    View
+                </button>
+            </a>
         </div>
         {% endfor %}
     </div>
