@@ -109,7 +109,7 @@ a.item-user-profile {
     display: flex;
     align-items: center;
     gap: 15px;
-    max-width: 250px;
+    max-width: 280px;
 }
 
 .item-and-price h5 {

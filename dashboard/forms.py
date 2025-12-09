@@ -19,11 +19,13 @@ class ItemForm(forms.ModelForm):
             "title": forms.TextInput(attrs={
                 "placeholder": "Title",
                 "class": "form-input",
+                "maxlength": "100",
             }),
             "description": forms.Textarea(attrs={
                 "placeholder": "Description",
                 "class": "form-textarea",
                 "rows": 4,
+                "maxlength": "500",
             }),
             "price": forms.NumberInput(attrs={
                 "placeholder": "Price",
