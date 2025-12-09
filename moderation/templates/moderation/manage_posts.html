@@ -48,8 +48,8 @@
         <div class="user-card">
             <div class="user-header">
                     <div class="user-info">
-                    <h4>Post: {{ report.item.title }}</h4>
-                    <h5> By: {{ report.item.seller }}</h5>
+                    <h4>Post: {{ report.item.title|truncatechars:15 }}</h4>
+                    <h5>By: {{ report.item.seller }}</h5>
                     <p class="user-name">Reports: {{ report.report_count }}</p>
                 </div>
                 </div>

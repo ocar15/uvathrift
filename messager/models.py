@@ -5,7 +5,7 @@ from postman.models import Message
 # Create your models here.
 
 class GroupChat(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=30)
     members = models.ManyToManyField(User, related_name='group_chats')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_groups')
     created_at = models.DateTimeField(auto_now_add=True)

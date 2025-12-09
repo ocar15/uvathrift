@@ -26,17 +26,19 @@
     <div class="form-field">
         {{ form.name.label_tag }}
         {{ form.name }}
+        {{ form.name.errors }}
     </div>
-
-    <div class="form-field">
+    
+    <div class="form-field" style="margin-top: 1%;">
         <label>Members</label>
         <div class="checkbox-group">
             {% for checkbox in form.members %}
-                <label class="checkbox-item">
-                    {{ checkbox.tag }}
-                    {{ checkbox.choice_label }}
-                </label>
+            <label class="checkbox-item">
+                {{ checkbox.tag }}
+                {{ checkbox.choice_label }}
+            </label>
             {% endfor %}
+            {{form.members.errors}}
         </div>
     </div>
 

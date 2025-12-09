@@ -13,7 +13,7 @@ class Item(models.Model):
     ]
 
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=50)
     description = models.TextField(blank=True)
     listed = models.BooleanField(default=True)
     price = models.DecimalField(max_digits=8, decimal_places=2)
