@@ -20,7 +20,9 @@
     <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">
         <img class='nav-pfp' src="{{ user.profile.image.url }}">
         <span style="margin-left: 10px; margin-right: 5px;">{{ user.profile.nickname }}</span>
+        {% if mode == 'admin' %}
         <span style='color: red;'>({{ mode }})</span>
+        {% endif %}
         {% if user.profile.student_email_verified %}
             <img class="verified-badge-icon" id="verification-badge" src="{% static 'users/images/verified_badge.png' %}" />
         {% endif %}
