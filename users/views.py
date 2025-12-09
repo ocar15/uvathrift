@@ -110,7 +110,10 @@ def edit_profile(request):
             cur_user.profile.new_user = False
             cur_user.profile.save()
             cur_user.save()
-            return redirect("my_profile")
+
+            if(request.POST.get("return") == "dashboard"):
+                return redirect("dashboard")
+            
     return redirect('my_profile')
 
 @login_required
