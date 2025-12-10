@@ -21,7 +21,7 @@
 
 {% block content %}
 <div class="group-list-container">
-    <h2>Welcome to your groups, <span>{{ user.username }}</span></h2>
+    <h2>Welcome to your groups, <span>{{ uuser.profile.nickname|default:user.profile.display_name|default:user.username }}</span></h2>
     <a href="{% url 'create_group' %}">
         <button class="create-group-btn">
             Create New Group +

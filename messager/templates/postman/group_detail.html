@@ -33,7 +33,7 @@
     <div class="messages-container">
         {% for m in messages %}
         <div class="message {% if m.sender == request.user %}mine{% else %}theirs{% endif %}">
-            <span class="sender">{{ m.sender.username }}</span>
+            <span class="sender">{{ m.sender.profile.nickname|default:m.sender.profile.display_name|default:m.sender.username }}</span>
             <p class="message-body">{{ m.body }}</p>
             <span class="timestamp">{{ m.sent_at|date:"M d, H:i" }}</span>
         </div>
