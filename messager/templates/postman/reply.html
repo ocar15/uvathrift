@@ -33,7 +33,7 @@
       </div>
 
       {# POST back to the same reply URL (easiest) #}
-      <form method="post" action="" class="compose-form">
+      <form method="post" action="?next={{ request.path|add:'?sent=1'|urlencode }}" class="compose-form">
         {% csrf_token %}
         {{ form.non_field_errors }}
 
@@ -88,6 +88,21 @@
             {% trans "Send" %}
           </button>
         </div>
+        {% if request.GET.sent %}
+          <div class="message-alert-container">
+            <div class="message-alert success">
+              Message sent!
+            </div>
+          </div>
+        {% endif %}
+
+        {% if form.recipients.errors %}
+          <div class="message-alert-container">
+            <div class="message-alert error">
+              No user with that username exists. Please check the spelling.
+            </div>
+          </div>
+        {% endif %}
       </form>
     </div>
   </main>
