@@ -13,19 +13,12 @@
             <img class="profile-picture" src={{ user_profile.image.url }} />
         </div>
         <div class="profile-block-right">
-            <h3 style="margin-bottom: 10px;">
+            <h3 style="margin-bottom: 10px; text-align:center;">
                 {{ user_profile.nickname|default:user_profile.display_name|default:user_profile.user.username }}
                 {% if user_profile.profile.student_email_verified %}
                     <img class="verified-badge-icon" src="{% static 'users/images/verified_badge.png' %}" />
                 {% endif %}
             </h3>
-            <h4>
-                {% if user_profile.username != user_profile.profile.nickname%}
-                {{ user_profile.profile.nickname }}
-                {% else %}
-                <span style="color: grey;">(No nickname set)</span>
-                {% endif %}
-            </h4>
         </div>
     </div>
 </div>
