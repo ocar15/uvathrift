@@ -17,7 +17,7 @@
                     <img id="profile-picture-button" class="profile-picture" src={{ user.profile.image.url }} />
                 </label>
                 <input type="file" accept="image/png, image/jpg" id="photoUpload" name="profile_photo" style="display:none;"/>
-                <p>Click above to upload a new<br /> profile picture.</p>
+                <p>Click to upload new profile photo</p>
             </div>
             <div class="profile-block-right">
                 <input type='hidden' name='action' value='save'>
@@ -28,8 +28,8 @@
                         <img class="verified-badge-icon" src="{% static 'users/images/verified_badge.png' %}" />
                     {% endif %}
                 </h3>
-                <h4><input class="form-input" type="text" maxLength="50" placeholder="{{ user.profile.nickname }}" name="nickname"></h4>
-                <p><input class="form-input" type="text" placeholder="{% if user.email %}{{ user.email }}{% else %}Email{% endif %}" name="email"/></p>
+                <h4><input class="form-input" type="text" maxLength="25" placeholder="{{ user.profile.nickname }}" name="nickname"></h4>
+                <p><input class="form-input" type="email" placeholder="{% if user.email %}{{ user.email }}{% else %}Email{% endif %}" name="email"/></p>
             </div>
         </div>
         <p class="bio"><textarea class="form-textarea" maxLength="300" placeholder="{% if user.profile.bio %}{{ user.profile.bio }}{% else %}Enter your bio here{% endif %}" rows="4" cols="50" name="bio"></textarea></p>
