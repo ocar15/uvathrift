@@ -29,7 +29,7 @@
     <a href="{% url 'logout' %}"> <button class='nav-btn'>Logout</button> </a>
     <a style='color: black;' class="username-display" href="{% url 'my_profile' %}">
         <img class='nav-pfp' src="{{ user.profile.image.url }}">
-        <span style="margin-left: 10px; margin-right: 5px;">{{ user.profile.nickname }}</span>
+        <span style="margin-left: 10px; margin-right: 5px;">{{ user.profile.nickname|default:user.profile.display_name|default:user.username }}</span>
         {% if mode == 'admin' %}
         <span style='color: red;'>({{ mode }})</span>
         {% endif %}

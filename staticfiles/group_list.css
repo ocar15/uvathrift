@@ -11,18 +11,12 @@ h1 {
 }
 
 .create-group-btn {
-    display: inline-block;
-    margin-bottom: 1.5rem;
-    padding: 0.5rem 1rem;
-    background-color: #007bff;
     color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: background 0.3s;
-}
-
-.create-group-btn:hover {
-    background-color: #0056b3;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: medium;
 }
 
 .group-cards {
@@ -36,10 +30,18 @@ h1 {
     background-color: #f5f5f5;
     border-radius: 8px;
     padding: 1rem;
+    padding-top: 0;
     width: 250px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     text-align: center;
     transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.group-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .group-card:hover {
@@ -82,11 +84,11 @@ h1 {
 }
 
 
-.card-btn.edit {
+/* .card-btn.edit {
     background: var(--background-dark);
 }
 
 
 .card-btn.edit:hover {
     background: #2563eb;
-}
+} */

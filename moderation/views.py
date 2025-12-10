@@ -92,7 +92,7 @@ def edit_user(request):
             if cur_user.profile.suspended_until:
                 time = timezone.localtime(cur_user.profile.suspended_until)
                 suspend = time.strftime("%Y-%m-%dT%H:%M")
-            return render(request, 'moderation/edit_suspension.html', {'user': cur_user, 'mode': get_mode(request), 'suspended_date': suspend})
+            return render(request, 'moderation/edit_suspension.html', {'cur_user': cur_user, 'mode': get_mode(request), 'suspended_date': suspend})
         elif action == 'suspend_save':
             suspended_until = request.POST.get('suspension_date')
             if suspended_until:

@@ -20,6 +20,7 @@ class Profile(models.Model):
                                 options={'quality': 60})
     student_email = models.EmailField(null=True, blank=True)
     student_email_verified = models.BooleanField(default=False)
+    display_name = models.CharField(max_length=255, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.nickname:

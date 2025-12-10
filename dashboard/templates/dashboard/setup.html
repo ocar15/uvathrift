@@ -18,7 +18,7 @@
             <input type='hidden' name='action' value='save'>
             <input type='hidden' name='user_id' value="{{ user.id }}">
             <input type='hidden' name='return' value='dashboard'>
-            <h4 style="margin-bottom: 10px;">{{ user.username }}</h4>
+            <h4 style="margin-bottom: 10px;">{{ user.profile.nickname|default:user.profile.display_name|default:user.username }}</h4>
             <div class="setup-fields">
                 <p><span style='font-weight: bold;'>Photo: </span><input class="form-input" type="file" id="photoUpload" name="profile_photo"/></p>
                 <p><span style='font-weight: bold;'>Nickname: </span><input class="form-input" type="text" placeholder="{{ user.profile.nickname }}" name="nickname"></p>

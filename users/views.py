@@ -25,6 +25,7 @@ from django.contrib.auth.models import User
 #Profile Page
 from dashboard.models import Item
 from django.core.paginator import Paginator
+from users.models import Profile
 
 
 
@@ -61,25 +62,44 @@ def my_profile(request):
     return render(request, 'users/profile.html', {'user_data': user_data, 'mode': get_mode(request)})
 
 def user_profile(request, username):
-    try:
-        u = User.objects.get(username=username)
-    except User.DoesNotExist:
-        return HttpResponse("<h1>User not found</h1>", status=404)
-    print(username)
-    item_list = Item.objects.filter(seller=u).order_by("-created_at")
-    if(request.user != u):
+
+    user_obj = get_object_or_404(User, username=username)
+    profile = getattr(user_obj, 'profile', None)
+
+    item_list = Item.objects.filter(seller=user_obj).order_by("-created_at")
+    if request.user != user_obj:
         item_list = item_list.filter(listed=True)
-    print(item_list)
+
     paginator = Paginator(item_list, 4)
     page_number = request.GET.get('page')
     items = paginator.get_page(page_number)
     
     return render(request, 'users/view_profile.html', {
-     'mode': get_mode(request),
-     'user': request.user,
-     'user_profile': u,
-     'items': items,
-     })
+        'mode': get_mode(request),
+        'user': request.user,
+        'user_profile': profile,
+        'items': items,
+    })
+
+
+    # try:
+    #     u = Profile.objects.get(display_name=username)
+    # except User.DoesNotExist:
+    #     return HttpResponse("<h1>User not found</h1>", status=404)
+    # item_list = Item.objects.filter(seller=u.user).order_by("-created_at")
+    # if(request.user != u):
+    #     item_list = item_list.filter(listed=True)
+    # print(item_list)
+    # paginator = Paginator(item_list, 4)
+    # page_number = request.GET.get('page')
+    # items = paginator.get_page(page_number)
+    
+    # return render(request, 'users/view_profile.html', {
+    #  'mode': get_mode(request),
+    #  'user': request.user,
+    #  'user_profile': u,
+    #  'items': items,
+    #  })
 
 @login_required
 def edit_profile(request):

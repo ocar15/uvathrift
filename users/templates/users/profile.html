@@ -16,7 +16,7 @@
             </div>
             <div class="profile-block-right">
                 <h3 style="margin-bottom: 10px;">
-                    {{ user.username }}
+                    {{ user.profile.display_name|default:user.username }}
                     {% if user.profile.student_email_verified %}
                         <img class="verified-badge-icon" src="{% static 'users/images/verified_badge.png' %}" />
                     {% endif %}
