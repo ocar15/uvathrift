@@ -48,6 +48,7 @@
               id="recipients-input"
               placeholder="Recipients"
               class="compose-input"
+              value="{% if request.GET.to %}{{ request.GET.to }}{% else %}{{ form.recipients.value|default_if_none:'' }}{% endif %}"
             />
           </div>
         </div>
